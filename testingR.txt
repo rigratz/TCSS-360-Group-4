@@ -1,1 +1,2 @@
 Adding file!
+Changing file from git!
