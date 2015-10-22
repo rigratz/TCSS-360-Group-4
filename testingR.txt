@@ -1,1 +1,11 @@
+<<<<<<< HEAD
 Adding file! Editing file.
+=======
+Adding file!
+<<<<<<< HEAD
+
+EDITING THIS —- TEMPEST
+=======
+Changing file from git!
+>>>>>>> e36329bd77b23428ef7785ae9a01ebe20ae01bd0
+>>>>>>> origin/master
