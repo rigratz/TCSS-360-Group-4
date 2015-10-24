@@ -30,3 +30,6 @@ if changes were made -> go back to BRANCHNAME and merge everything to the BRANCH
 git add -A <- add all
 git commit
 git push
+
+
+to delete the whole repository -> git rm -r -- fileName
