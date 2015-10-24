@@ -33,3 +33,11 @@ git push
 
 
 to delete the whole repository -> git rm -r -- fileName
+
+To merge the branch -> compare, review, create a pull request
+Its on the website, looks likea sync button
+-> Create a Pull request
+-> Leave a note
+!!!******* NEVER MERGE ANYTHING BY YOURSELF, SOMEONE IS HAVE TO MERGE IT FOR YOU ****!!!!!!
+
+-> Merge Pull Request
