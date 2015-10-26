@@ -1,5 +1,9 @@
 # TCSS-360-Group-4
-INstructions on how to use terminal.
+Before doing something, pull the repository.
+Before submitting, make a new branch with your new staff.
+Then ASK other members to approve it.
+
+Instructions on how to use terminal.
 I used Sublime Text for programming while doing this. very good text editor. download it.
 
 git clone https://github.com/rigratz/TCSS-360-Group-4.git
