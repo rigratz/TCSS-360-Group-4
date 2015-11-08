@@ -1,6 +1,8 @@
 /*
  * TCSS 360 Group 4
  * AuctionCentral
+ * 
+ * Still very much a work in progress, just wanted to get something up ther on Master right now.
  */
 import java.io.File;
 import java.io.FileNotFoundException;
