@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class AuctionCentral {
 
 	private static Scanner input;
-	private static Calendar auctionCalendar;
+	private static CalendarClass auctionCalendar;
 	private static List<User> appUsers;
 	
 	/**
@@ -31,7 +31,6 @@ public class AuctionCentral {
 			e.printStackTrace();
 		}
 		//initialMenu();
-
 	}
 
 	/**
@@ -107,7 +106,7 @@ public class AuctionCentral {
 	 * @throws FileNotFoundException if the file does not exist.
 	 */
 	private static void initialize() throws FileNotFoundException {
-		auctionCalendar = new Calendar();
+		auctionCalendar = new CalendarClass();
 		Scanner auctionScan = new Scanner(new File("auctions.txt"));
 		Scanner userScan = new Scanner(new File("users.txt"));
 		Scanner pr;
