@@ -20,6 +20,11 @@ public class Item {
 		setMyStartingBid(theStartingBid);
 	}
 	
+	public Item(String theName, Map<String, Double> theBids) {
+		setMyName(theName);
+		setMyBids(theBids);
+	}
+	
 	//for bidding on an Item
 	//THIS WILL REPLACE THE BIDDERS ORIGINAL BID because the bidder can only have one current bid on an item
 	//returns false if the bid is less than the starting bid of the item

@@ -6,8 +6,12 @@
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -16,23 +20,25 @@ import java.util.Scanner;
  */
 public class AuctionCentral {
 
-	private static Scanner input;
-	private static CalendarClass auctionCalendar;
-	private static List<User> appUsers;
+	private static Scanner myInput;
+	private static CalendarClass myAuctionCalendar;
+	private static List<Auction> myAuctions;
+	private static Map<String, String> myUsers;
 	
 	/**
 	 * main method.
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		input = new Scanner(System.in);
+		myInput = new Scanner(System.in);
 		try {
 			initialize();
 		} catch (FileNotFoundException e) {
 			System.err.println("No such file!");
 			e.printStackTrace();
 		}
-		//initialMenu();
+		initialMenu();
+		saveAndQuit();
 	}
 
 	/**
@@ -40,15 +46,33 @@ public class AuctionCentral {
 	 */
 	public static void initialMenu() {
 		System.out.println("\nWelcome to AuctionCentral!\n--------------------------");
-		System.out.println("\nPlease select your User type\n");
-		System.out.println("1. AuctionCentral Employee\n2. Non-Profit Organization\n3. Bidder");
-		int selection = input.nextInt();
-		switch (selection) {
-			case 1: employeeMenu(); break;
-			case 2: npoMenu(); break;
-			case 3: bidderMenu(); break;
-			default: System.out.println("Invalid selection!"); initialMenu(); break;
+		System.out.println("\nPlease type your user name:\n");
+
+		String selection = myInput.next();
+		if (myUsers.containsKey(selection)) {
+			switch (myUsers.get(selection)) {
+				case "employee": employeeMenu(); break;
+				case "npo": npoMenu(); break;
+				case "bidder": bidderMenu(); break;
+				default: System.out.println("Invalid selection!"); initialMenu(); break;
+			}
+		} else {
+			System.out.println("No such user exists. What kind of user are you?\n");
+			System.out.println("1. Employee\n2. Non-Profit Organization\n3. Bidder");
+			int select = myInput.nextInt();
+			switch (select) {
+				case 1: employeeMenu(); break;
+				case 2: npoMenu(); break;
+				case 3: bidderMenu(); break;
+				default: System.out.println("Invalid selection!"); initialMenu(); break;
+			}
 		}
+//		switch (selection) {
+//			case 1: employeeMenu(); break;
+//			case 2: npoMenu(); break;
+//			case 3: bidderMenu(); break;
+//			default: System.out.println("Invalid selection!"); initialMenu(); break;
+//		}
 	}
 	/**
 	 * This is the menu of employee actions.
@@ -57,7 +81,7 @@ public class AuctionCentral {
 		//appUser = new Employee();
 		System.out.println("\nHello, Employee! What would you like to do?");
 		System.out.println("\n1. View Monthly Calendar\n2. View Auction Details\n3. Log Out");
-		int selection = input.nextInt();
+		int selection = myInput.nextInt();
 		switch (selection) {
 			//case 1: appUser.viewCalendar(); break;
 			//case 2: appUser.viewAuction(); break;
@@ -74,7 +98,7 @@ public class AuctionCentral {
 		System.out.println("\n1. Schedule Auction\n2. Enter Auction Information");
 		System.out.println("3. Edit Auction Information\n4. Enter Item Information");
 		System.out.println("5. Edit Item Information\n6. Log Out");
-		int selection = input.nextInt();
+		int selection = myInput.nextInt();
 		switch (selection) {
 			//case 1: appUser.scheduleAuction(); break;
 			//case 2: appUser.enterAuctionInfo(); break;
@@ -93,7 +117,7 @@ public class AuctionCentral {
 		System.out.println("\nHello, Bidder! What would you like to do?");
 		System.out.println("\n1. Choose Auction\n2. Bid on Item in Auction");
 		System.out.println("3. Change Existing Bid\n4. Log Out");
-		int selection = input.nextInt();
+		int selection = myInput.nextInt();
 		switch (selection) {
 			//case 1: appUser.chooseAuction(); break;
 			//case 2: appUser.bid(); break;
@@ -108,7 +132,7 @@ public class AuctionCentral {
 	 * @throws FileNotFoundException if the file does not exist.
 	 */
 	private static void initialize() throws FileNotFoundException {
-		auctionCalendar = new CalendarClass();
+		myAuctionCalendar = new CalendarClass();
 		Scanner auctionScan = new Scanner(new File("auctions.txt"));
 		Scanner userScan = new Scanner(new File("users.txt"));
 		Scanner pr;
@@ -116,9 +140,13 @@ public class AuctionCentral {
 		
 		String auctionName = "";
 		String itemName = "";
-		List<String> auctions = new ArrayList<String>();
-		List<String> items = new ArrayList<String>();
-		List<Double> bids = new ArrayList<Double>();
+		String bidder = "";
+		double bid = 0;
+		
+		List<Auction> auctions = new ArrayList<Auction>();
+		List<Item> items = new ArrayList<Item>();
+		
+		Map<String, Double> tempBids = new HashMap<String, Double>();
 		
 		while (auctionScan.hasNextLine()) {
 			readLine = auctionScan.nextLine();
@@ -128,16 +156,21 @@ public class AuctionCentral {
 				while (pr.hasNext()) {
 					itemName = pr.next();
 					while (pr.hasNextDouble()) {
-						bids.add(pr.nextDouble());
+						bid = pr.nextDouble();
+						bidder = pr.next();
+						tempBids.put(bidder, bid);
 					}
-					items.add(itemName);
+					items.add(new Item(itemName, tempBids));
+					tempBids = new HashMap<String, Double>();
 				}
-				auctions.add(auctionName);
+				auctions.add(new Auction(auctionName, "date", items));
+				items = new ArrayList<Item>();
 			}
 			
 		}
-		System.out.println("" + auctions + items + bids);
+		myAuctions = auctions;
 		
+		myUsers = new HashMap<String, String>();
 		String name = "";
 		String userType = "";
 		while (userScan.hasNextLine()) {
@@ -150,8 +183,43 @@ public class AuctionCentral {
 //				case "bidder": appUsers.add(new Bidder(name)); break;
 //				default: break;
 //			}
-			System.out.println(name + " - " + userType);
+			myUsers.put(name, userType);
 		}
 		
+	}
+	public static void saveAndQuit() {
+		PrintStream output = null;
+		try {
+			output = new PrintStream(new File("auctions.txt"));
+		} catch (FileNotFoundException e) {
+			System.err.println("no file made");
+			e.printStackTrace();
+		}
+		
+		List<Item> tempItems;
+		Map<String, Double> tempBids;
+		
+		for (int i = 0; i < myAuctions.size(); i++) {
+			output.print(myAuctions.get(i).getMyName() + " ");
+			tempItems = myAuctions.get(i).getMyItems();
+			for (int j = 0; j < tempItems.size(); j++) {
+				output.print(tempItems.get(j).getMyName() + " ");
+				tempBids = tempItems.get(j).getMyBids();
+				for (String key : tempBids.keySet()) {
+					output.print(tempBids.get(key) + " " + key + " ");
+				}
+			}
+			output.println();
+		}
+		
+		try {
+			output = new PrintStream(new File("users.txt"));
+		} catch (FileNotFoundException e) {
+			System.err.println("no file made");
+			e.printStackTrace();
+		}
+		for (String key : myUsers.keySet()) {
+			output.println(key + " " + myUsers.get(key));
+		}
 	}
 }

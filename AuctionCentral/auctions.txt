@@ -1,2 +1,2 @@
-GoodWill-Oct-28-2015 shirt 4.50 7.40 10.60
-EarthCo-May-25-2016 plant 44.35 23.56 2.45 5.65 chair 23.34 45.56
+GoodWill-Oct-28-2015 shirt 7.4 tempest 10.6 art 4.5 riley 
+EarthCo-May-25-2016 plant 23.56 art 5.65 tempest 44.35 willie 2.45 riley chair 23.34 tempest 45.56 art 

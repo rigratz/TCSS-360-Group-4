@@ -22,6 +22,12 @@ public class Auction {
 		myDate = theDate;
 	}
 	
+	public Auction(String theNonProfit, String theDate, List<Item> theItems) {
+		myName = theNonProfit;
+		myDate = theDate;
+		setMyItems(theItems);
+	}
+	
 	//For adding 1 item to the auction
 	public void addItem(Item theItem) {
 		myItems.add(theItem);
