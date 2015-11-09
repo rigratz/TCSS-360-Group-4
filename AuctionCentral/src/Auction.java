@@ -10,13 +10,15 @@ import java.util.List;
 public class Auction {
 	
 	//fields
+	private String myNonProfit;							//name of the nonprofit
 	private String myName; 								//name of auction
-	private String myDate; 								//Date of Auction 
+	private String myDate; 								//Date of auction 
 	private List<Item> myItems = new ArrayList<Item>();	//Items that have been added to the auction.
 	
 	//constructor
 	public Auction(String theNonProfit, String theDate) {
 		myName = theNonProfit + "-" + theDate;
+		myNonProfit = theNonProfit;
 		myDate = theDate;
 	}
 	
@@ -32,7 +34,8 @@ public class Auction {
 		return myDate;
 	}
 	public void setMyDate(String theDate) {
-		theDate = myDate;
+		myDate = theDate;
+		myName = myNonProfit + "-" + theDate;
 	}
 	
 	//for setting the name of the auction
