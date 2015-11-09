@@ -52,7 +52,6 @@ public class NonProfitEmployee extends User {
 		return myOrganizationName;
 	}
 
-
 	public void setMyOrganizationName(String theOrganizationName) {
 		myOrganizationName = theOrganizationName;
 	}

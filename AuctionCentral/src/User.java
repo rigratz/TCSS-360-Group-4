@@ -18,18 +18,18 @@ public abstract class User {
 	}
 
 	// not sure how we are going to display the calendar on console
-	private String viewCalendar(CalendarClass theCalendar) {
+	public String viewCalendar(CalendarClass theCalendar) {
 		return theCalendar.getListOfAuctions();
 	}
 	
-	private void viewAuction(Auction theAuction) {
-		System.out.println("Auction Name: " + theAuction.getMyName() +
-				" Auction Date: " + theAuction.getMyDate());
+	public String viewAuction(Auction theAuction) {
+		return "Auction Name: " + theAuction.getMyName() +
+				" Auction Date: " + theAuction.getMyDate();
 	}
 	
-	private void viewItem(Item theItem) {
-		System.out.println("Item Name: " + theItem.getMyName() + 
-				" Starting Bid: " + theItem.getMyStartingBid());
+	public String viewItem(Item theItem) {
+		return String.format("Item Name: %s Starting Bid: $%.2f",
+				theItem.getMyName(), theItem.getMyStartingBid());
 	}
 	
 	// not sure what we want to do here
