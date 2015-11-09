@@ -29,7 +29,7 @@ public class NonProfitEmployee extends User {
 	}
 	
 	private void editAuctionName(Auction theAuction, String theAuctionName) {
-		theAuction.setMyName(theAuctionName);
+		theAuction.setName(theAuctionName);
 	}
 	
 	private void editAuctionDate(Auction theAuction, String theAuctionDate) {
@@ -37,11 +37,11 @@ public class NonProfitEmployee extends User {
 	}
 	
 	private void addAuctionItem(Auction theAuction, String theItemName, double theStartingBid) {
-		theAuction.addMyItem(new Item(theItemName, theStartingBid));
+		theAuction.addItem(new Item(theItemName, theStartingBid));
 	}
 	
 	private void editAuctionItemName(Item theItem, String theName) {
-		theItem.setMyName(theName);
+		theItem.setName(theName);
 	}
 	
 	private void editAuctionItemStartingBid(Item theItem, double theStartingBid) {
@@ -53,8 +53,8 @@ public class NonProfitEmployee extends User {
 	}
 
 
-	public void setMyOrganizationName(String myOrganizationName) {
-		this.myOrganizationName = myOrganizationName;
+	public void setMyOrganizationName(String theOrganizationName) {
+		myOrganizationName = theOrganizationName;
 	}
 
 
