@@ -29,7 +29,7 @@ public class Item {
 	//THIS WILL REPLACE THE BIDDERS ORIGINAL BID because the bidder can only have one current bid on an item
 	//returns false if the bid is less than the starting bid of the item
 	//returns true if the bid is successfully added to the items map of bids
-	public boolean Bid(String theBidder, double theBid) {
+	public boolean bid(String theBidder, double theBid) {
 		if(theBid < myStartingBid) {
 			return false;
 		} else if(myBids.containsKey(theBidder)) {
