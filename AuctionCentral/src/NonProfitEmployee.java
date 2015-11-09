@@ -41,7 +41,7 @@ public class NonProfitEmployee extends User {
 	}
 	
 	private void editAuctionItemName(Item theItem, String theName) {
-		theItem.setName(theName);
+		theItem.setMyName(theName);
 	}
 	
 	private void editAuctionItemStartingBid(Item theItem, double theStartingBid) {
