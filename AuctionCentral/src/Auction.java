@@ -12,20 +12,20 @@ public class Auction {
 	//fields
 	private String myNonProfit;							//name of the nonprofit
 	private String myName; 								//name of auction
-	private String myDate; 								//Date of auction 
+	private String myDate; 								//Date of auction
+	private int myDay;									//Day of the Auction
+	private int myMonth;								//Month the auction is in
+	private int myYear;									//Year the auction is in
 	private List<Item> myItems = new ArrayList<Item>();	//Items that have been added to the auction.
 	
 	//constructor
-	public Auction(String theNonProfit, String theDate) {
-		myName = theNonProfit + "-" + theDate;
+	public Auction(String theNonProfit, int theMonth, int theDay, int theYear) {
 		myNonProfit = theNonProfit;
-		myDate = theDate;
-	}
-	
-	public Auction(String theNonProfit, String theDate, List<Item> theItems) {
-		myName = theNonProfit;
-		myDate = theDate;
-		setMyItems(theItems);
+		myDate = theMonth + "/" + theDay + "/" + theYear;
+		setMyDay(theDay);
+		setMyMonth(theMonth);
+		setMyYear(theYear);
+		myName = theNonProfit + "-" + myDate;
 	}
 	
 	//For adding 1 item to the auction
@@ -39,9 +39,9 @@ public class Auction {
 	public String getMyDate() {
 		return myDate;
 	}
-	public void setMyDate(String theDate) {
-		myDate = theDate;
-		myName = myNonProfit + "-" + theDate;
+	public void setMyDate(int theMonth, int theDay, int theYear) {
+		myDate = theMonth + "/" + theDay + "/" + theYear;
+		myName = myNonProfit + "-" + myDate;
 	}
 	
 	//for setting the name of the auction
@@ -56,8 +56,35 @@ public class Auction {
 	public List<Item> getMyItems() {
 		return myItems;
 	}
-	public void setMyItems(List<Item> myItems) {
-		this.myItems = myItems;
+	public void setMyItems(List<Item> theItems) {
+		myItems = theItems;
+	}
+
+	public int getMyDay() {
+		return myDay;
+	}
+
+	public void setMyDay(int theDay) {
+		myDay = theDay;
+		myDate = myMonth + "/" + theDay + "/" + myYear;
+	}
+
+	public int getMyMonth() {
+		return myMonth;
+	}
+
+	public void setMyMonth(int theMonth) {
+		myMonth = theMonth;
+		myDate = theMonth + "/" + myDay + "/" + myYear;
+	}
+
+	public int getMyYear() {
+		return myYear;
+	}
+
+	public void setMyYear(int theYear) {
+		myYear = theYear;
+		myDate = myMonth + "/" + myDay + "/" + theYear;
 	}
 	
 }
