@@ -1,4 +1,5 @@
-tempest employee
-art npo
-willie bidder
-riley employee
+*Format- <UserName> <Contact> <UserType> <OrganizationName (if applicable)>*
+riley riley@uw.edu employee
+art art@uw.edu npo EarthCo
+tempest tempest@uw.edu employee
+willie willie@uw.edu bidder

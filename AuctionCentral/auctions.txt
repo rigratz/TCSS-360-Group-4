@@ -1,2 +1,3 @@
-GoodWill-Oct-28-2015 shirt 7.4 tempest 10.6 art 4.5 riley 
-EarthCo-May-25-2016 plant 23.56 art 5.65 tempest 44.35 willie 2.45 riley chair 23.34 tempest 45.56 art 
+*Format- <OrganizationName> <Month> <Date> <Year> <StartTime> <EndTime> {<Item> <StartingBid> {<Bid> <Bidder>...}...}*
+GoodWill 11 28 2015 8 10 shirt 1.2 7.4 tempest 10.6 art 4.5 riley 
+EarthCo 11 29 2015 15 17 plant 1.2 23.56 art 5.65 tempest 44.35 willie 2.45 riley chair 1.2 23.34 tempest 45.56 art 
