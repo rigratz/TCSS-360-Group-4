@@ -43,28 +43,12 @@ public class CalendarClass {
 		//calculate offset to know where to add in our List
 		int monthIndex = calculateOffset(month);
 
-		//add auction if the day is empty
-		if( board.getMonth(monthIndex).getDay(day).isEmpty()) {
-			board.getMonth(monthIndex).getDay(day).setTodaysAuctions(auction.toString());
-			board.getMonth(monthIndex).getDay(day).setStartTime(startTime);
-			board.getMonth(monthIndex).getDay(day).setEndTime(endTime);
-			
-			auctionList.add(auction);
-		}
-		//add auction if we have at least one auction already.
-		else if(isAvailable(month, day, startTime, endTime)) {
-			//add a string representation of auction to the DAY
-			board.getMonth(monthIndex).getDay(day).setTodaysAuctions(auction.toString());
-			board.getMonth(monthIndex).getDay(day).setStartTime(startTime);
-			board.getMonth(monthIndex).getDay(day).setEndTime(endTime);
-			
-			//add auction to the list
-			auctionList.add(auction);
-		}
-		//if we have 2 auctions already prevent the addition of auciton.
-		else {
-			System.out.println("Please choose another date/time for: " + auction.toString());
-		}
+		//add auction and set all of the fields.
+		board.getMonth(monthIndex).getDay(day).setTodaysAuctions(auction.toString());
+		board.getMonth(monthIndex).getDay(day).setStartTime(startTime);
+		board.getMonth(monthIndex).getDay(day).setEndTime(endTime);
+		
+		auctionList.add(auction);
 	}
 	
 	/**
@@ -124,28 +108,41 @@ public class CalendarClass {
 		//subtract month scheduled from current month to get offset in index
 		int monthIndex = calculateOffset(month);
 		
-		//check if day is available
+		//if the day is empty
+		if(board.getMonth(monthIndex).getDay(day).isEmpty()) {
+			//if previous action ended at the end of the previous day
+			if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 23 && startTime < 1) {
+				return false;
+			} else if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 24 && startTime < 2) {
+				return false;
+			}
+			else return true;
+		}
+			
+		//check if day is available (so if there is one auction already or more.
 		boolean isDayAvailable = board.getMonth(monthIndex).getDay(day).getAvailability();
+		
 		//if day is not available --- exit
 		if(!isDayAvailable) return isDayAvailable;
-		
-		//check if time is available
-		boolean isTimeAvailable = true;
-		if(board.getMonth(monthIndex).getDay(day).getEndTime() < startTime) {
-			if(startTime - board.getMonth(monthIndex).getDay(day).getEndTime() < 2) {
-				isTimeAvailable = false;
-			} else {
-				isTimeAvailable = true;
+		else {
+			//check if time is available
+			boolean isTimeAvailable = true;
+			if(board.getMonth(monthIndex).getDay(day).getEndTime() < startTime) {
+				if(startTime - board.getMonth(monthIndex).getDay(day).getEndTime() < 2) {
+					isTimeAvailable = false;
+				} else {
+					isTimeAvailable = true;
+				}
 			}
-		}
-		else if (board.getMonth(monthIndex).getDay(day).getStartTime() > endTime) {
-			if(board.getMonth(monthIndex).getDay(day).getStartTime() - endTime < 2) {
-				isTimeAvailable = false;
-			} else {
-				isTimeAvailable = true;
+			else if (board.getMonth(monthIndex).getDay(day).getStartTime() > endTime) {
+				if(board.getMonth(monthIndex).getDay(day).getStartTime() - endTime < 2) {
+					isTimeAvailable = false;
+				} else {
+					isTimeAvailable = true;
+				}
 			}
+			return isTimeAvailable;
 		}
-		return isTimeAvailable;
 	}
 	
 	/**
@@ -153,7 +150,6 @@ public class CalendarClass {
 	 * @return String with a list of auctions.
 	 */
 	public String getListOfAuctions() {
-		//TODO need a toString() from Auction
 		String listOfAuctions = "";
 		for (int i = 0; i < auctionList.size(); i++) {
 			String currentAuction = auctionList.get(i).toString() + "\n";
@@ -166,7 +162,6 @@ public class CalendarClass {
 	 * This method would return available days.
 	 */
 	public String getListOfDays(int month) {
-		//TODO do I need a list of available days or just list unavailable days?
 		return board.getMonth(calculateOffset(month)).toStringAvailableDays();
 	}
 	
@@ -175,14 +170,39 @@ public class CalendarClass {
 	 * @return 
 	 */
 	public String getMonth(int month) {
-		//TODO Returns? the information about the month, auctions scheduled?
 		return board.getMonth(calculateOffset(month)).toStringAuctions();
 	}
 	/**
 	 * This method would return the auctions in the current day.
 	 */
 	public String getDay(int month, int day) {
-		//TODO returns? the information about the day.
 		return board.getMonth(calculateOffset(month)).getDay(day).toString();
+	}
+	
+	public void insertAuctions(ArrayList<Auction> auctionList) {
+		this.auctionList = auctionList;
+	}
+	
+	public String viewAuction(String auctionName) {
+		String toReturn = new String();
+		for(int i = 0; i < auctionList.size(); i++) {
+			
+			//TODO might be changed, dont see a point of this method for now.
+			if(auctionName.equals(auctionList.get(i).getMyNonProfit())) {
+				toReturn = auctionList.get(i).getMyName();
+			}
+		}
+		if(toReturn.equals("")) toReturn = "Nothing was found.";
+		return toReturn;
+	}
+	
+	public boolean checkOrganization(String organizationName) {
+		for(int i = 0; i < auctionList.size(); i++) {
+			//implies it is not per 12 month period but per year (itself, number)
+			if(organizationName.equals(auctionList.get(i).getMyNonProfit())) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
