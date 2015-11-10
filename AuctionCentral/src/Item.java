@@ -67,5 +67,7 @@ public class Item {
 		this.myBids = myBids;
 	}
 	
-	
+	public String toString() {
+		return myName + myStartingBid;
+	}
 }
