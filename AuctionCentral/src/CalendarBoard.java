@@ -5,7 +5,7 @@ import java.util.Calendar;
 /**
  * This is a board private class that keeps 4 months on it
  * @author Artsiom Vainilovich
- * @version 1.0
+ * @version 2.0
  */
 public class CalendarBoard {
 	//this is a list of months.
