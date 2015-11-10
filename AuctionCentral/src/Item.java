@@ -20,8 +20,9 @@ public class Item {
 		setMyStartingBid(theStartingBid);
 	}
 	
-	public Item(String theName, Map<String, Double> theBids) {
+	public Item(String theName, double theStartingBid, Map<String, Double> theBids) {
 		setMyName(theName);
+		setMyStartingBid(theStartingBid);
 		setMyBids(theBids);
 	}
 	
@@ -66,5 +67,7 @@ public class Item {
 		this.myBids = myBids;
 	}
 	
-	
+	public String toString() {
+		return myName + myStartingBid;
+	}
 }

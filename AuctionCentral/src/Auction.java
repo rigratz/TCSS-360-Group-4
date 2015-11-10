@@ -21,15 +21,30 @@ public class Auction {
 	private List<Item> myItems = new ArrayList<Item>();	//Items that have been added to the auction.
 	
 	//constructor
-	public Auction(String theNonProfit, int theMonth, int theDay, int theYear) {
+	public Auction(String theNonProfit, int theMonth, int theDay, int theYear, 
+										int theStartTime, int theEndTime) {
 		myNonProfit = theNonProfit;
 		myDate = theMonth + "/" + theDay + "/" + theYear;
 		setMyDay(theDay);
 		setMyMonth(theMonth);
 		setMyYear(theYear);
 		myName = theNonProfit + "-" + myDate;
-		setMyStartTime(0);
-		setMyEndTime(0);
+		myStartTime = theStartTime;
+		myEndTime = theEndTime;
+	}
+	
+	//constructor
+	public Auction(String theNonProfit, int theMonth, int theDay, int theYear, 
+										int theStartTime, int theEndTime, List<Item> theItems) {
+		myNonProfit = theNonProfit;
+		myDate = theMonth + "/" + theDay + "/" + theYear;
+		setMyDay(theDay);
+		setMyMonth(theMonth);
+		setMyYear(theYear);
+		myName = theNonProfit + "-" + myDate;
+		myStartTime = theStartTime;
+		myEndTime = theEndTime;
+		myItems = theItems;
 	}
 	
 	//For adding 1 item to the auction
@@ -107,4 +122,8 @@ public class Auction {
 		myEndTime = theEndTime;
 	}
 	
+	//toString for Calendar and console I/O
+	public String toString() {
+		return myName + myStartTime + myEndTime;
+	}
 }
