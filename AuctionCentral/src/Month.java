@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * This is a private class for the month.
  * @author Artsiom Vainilovich
- * @version 1.0
+ * @version 2.0
  */
 public class Month {
 	//this is a month number (unused yet)

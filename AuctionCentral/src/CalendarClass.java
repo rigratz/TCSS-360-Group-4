@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * This is Calendar class that keeps track of all auctions.
  * @author Artsiom Vainilovich
- * @version 1.0
+ * @version 2.0
  */
 public class CalendarClass {
 	
