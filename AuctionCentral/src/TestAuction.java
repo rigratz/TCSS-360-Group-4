@@ -12,7 +12,7 @@ public class TestAuction {
 	
 	@Before
 	public void setup() {
-		testAuction = new Auction("testNonProfit", 10, 5, 2016);
+		testAuction = new Auction("testNonProfit", 10, 5, 2016, 5, 6);
 	}
 	
 	@Test
