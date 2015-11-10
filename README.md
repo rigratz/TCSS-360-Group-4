@@ -1,4 +1,18 @@
 # TCSS-360-Group-4
+
+
+Last commit didn't work... so this is a new calendar
+Added new features:
+-	Now we support better rest hours for the auction crew 
+	by checking every single day and hour to make sure there 
+	is no overlaps.
+-	Now calendar accepts a list of auctions to add to the calendar.
+-	Now we can search the auction for its name by sendin a name of the 	auction (Useless).
+-	Now we do not allow similar non-profit organizations to host more that 	one auction per year.
+
+
+
+
 Before doing something, pull the repository.
 Before submitting, make a new branch with your new staff.
 Then ASK other members to approve it.
