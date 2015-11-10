@@ -1,9 +1,4 @@
-/*
- * This is a Calendar class.
- * Author Artsiom Vainilovich
- * 11.6.2015
- * Group 4 Project
- */
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,14 +18,14 @@ public class CalendarClass {
 	private ArrayList<Auction> auctionList = new ArrayList<Auction>();
 	
 	//this is a board with four months
-	private Board board;
+	private CalendarBoard board;
 	
 	/**
 	 * This is a constructor method for the calendar.
 	 */
 	public CalendarClass() {
 		//initialize the board with four months.
-		board = new Board();
+		board = new CalendarBoard();
 	}
 
 	/**
@@ -39,19 +34,37 @@ public class CalendarClass {
 	 */
 	public void addAuction(Auction auction) {
 		//separating date and time from the auction object
-		int year = auction.getYear();
-		int month = auction.getMonth();
-		int day = auction.getDay();
-		int startTime = auction.getStartTime();
-		int endTime = auction.getEndTime();
+		int year = auction.getMyYear();
+		int month = auction.getMyMonth();
+		int day = auction.getMyDay();
+		int startTime = auction.getMyStartTime();
+		int endTime = auction.getMyEndTime();
 		
 		//calculate offset to know where to add in our List
 		int monthIndex = calculateOffset(month);
 
-		//add a string representation of auction to the DAY
-		board.listOfMonths.get(monthIndex).days.get(day).todaysAuctions.add(auction.toString());
-		//add auction to the list
-		auctionList.add(auction);
+		//add auction if the day is empty
+		if( board.getMonth(monthIndex).getDay(day).isEmpty()) {
+			board.getMonth(monthIndex).getDay(day).setTodaysAuctions(auction.toString());
+			board.getMonth(monthIndex).getDay(day).setStartTime(startTime);
+			board.getMonth(monthIndex).getDay(day).setEndTime(endTime);
+			
+			auctionList.add(auction);
+		}
+		//add auction if we have at least one auction already.
+		else if(isAvailable(month, day, startTime, endTime)) {
+			//add a string representation of auction to the DAY
+			board.getMonth(monthIndex).getDay(day).setTodaysAuctions(auction.toString());
+			board.getMonth(monthIndex).getDay(day).setStartTime(startTime);
+			board.getMonth(monthIndex).getDay(day).setEndTime(endTime);
+			
+			//add auction to the list
+			auctionList.add(auction);
+		}
+		//if we have 2 auctions already prevent the addition of auciton.
+		else {
+			System.out.println("Please choose another date/time for: " + auction.toString());
+		}
 	}
 	
 	/**
@@ -112,20 +125,27 @@ public class CalendarClass {
 		int monthIndex = calculateOffset(month);
 		
 		//check if day is available
-		boolean isDayAvailable = board.listOfMonths.get(monthIndex).days.get(day).isAvailable();
+		boolean isDayAvailable = board.getMonth(monthIndex).getDay(day).getAvailability();
+		//if day is not available --- exit
+		if(!isDayAvailable) return isDayAvailable;
 		
 		//check if time is available
-		boolean isTimeAvailable;
-		if (startTime - board.listOfMonths.get(monthIndex).days.get(day).endTime < 2) {
-			System.out.println("START TIME IS BAD: " + startTime);
-			isTimeAvailable = false;
+		boolean isTimeAvailable = true;
+		if(board.getMonth(monthIndex).getDay(day).getEndTime() < startTime) {
+			if(startTime - board.getMonth(monthIndex).getDay(day).getEndTime() < 2) {
+				isTimeAvailable = false;
+			} else {
+				isTimeAvailable = true;
+			}
 		}
-		else {
-			isTimeAvailable = true;
-			board.listOfMonths.get(monthIndex).days.get(day).startTime = startTime;
-			board.listOfMonths.get(monthIndex).days.get(day).endTime = endTime;
+		else if (board.getMonth(monthIndex).getDay(day).getStartTime() > endTime) {
+			if(board.getMonth(monthIndex).getDay(day).getStartTime() - endTime < 2) {
+				isTimeAvailable = false;
+			} else {
+				isTimeAvailable = true;
+			}
 		}
-		return isDayAvailable && isTimeAvailable;
+		return isTimeAvailable;
 	}
 	
 	/**
@@ -133,6 +153,7 @@ public class CalendarClass {
 	 * @return String with a list of auctions.
 	 */
 	public String getListOfAuctions() {
+		//TODO need a toString() from Auction
 		String listOfAuctions = "";
 		for (int i = 0; i < auctionList.size(); i++) {
 			String currentAuction = auctionList.get(i).toString() + "\n";
@@ -144,128 +165,24 @@ public class CalendarClass {
 	/**
 	 * This method would return available days.
 	 */
-	public void getListOfDays() {
-		
-	}
-	/**
-	 * This method would return a month
-	 */
-	public void getMonth() {
-		
-	}
-	/**
-	 * This method would return a day
-	 */
-	public void getDay() {
-		
+	public String getListOfDays(int month) {
+		//TODO do I need a list of available days or just list unavailable days?
+		return board.getMonth(calculateOffset(month)).toStringAvailableDays();
 	}
 	
 	/**
-	 * This is a board private class that keeps 4 months on it
-	 * @author Artsiom Vainilovich
-	 * @version 1.0
+	 * This method would return auctions in the current month
+	 * @return 
 	 */
-	private class Board {
-		//this is a list of months.
-		private ArrayList<Month> listOfMonths = new ArrayList<Month>();
-		
-		/**
-		 * This is a constructor for board.
-		 */
-		public Board() {
-			//this is a template calendar to get rid of at the end
-			Calendar templateCalendar = Calendar.getInstance();
-			//creates four months with a correct number of days.
-			for (int i = 0; i < 4; i++) {
-				//add month to the list
-				listOfMonths.add(new Month(templateCalendar.get(Calendar.MONTH), 
-						templateCalendar.getActualMaximum(templateCalendar.get(Calendar.DAY_OF_MONTH))));
-				//increment month
-				templateCalendar.add(Calendar.MONTH, 1);
-			}
-		}
-		/**
-		 * This is a private class for the month.
-		 * @author Artsiom Vainilovich
-		 * @version 1.0
-		 */
-		private class Month {
-			//this is a month number (unused yet)
-			private int monthNumber;
-			
-			//this is a maximum number of days in the month
-			private int maxDays;
-			
-			//this is a list of days in the month
-			private ArrayList<Day> days = new ArrayList<Day>();
-			
-			/**
-			 * This is a constructor method for month.
-			 * @param monthNumber month number on the calendar
-			 * @param maxDays maximum number of days in month
-			 */
-			public Month(int monthNumber, int maxDays) {
-				this.monthNumber = monthNumber;
-				this.maxDays = maxDays;
-				createDays();
-			}
-			
-			/**
-			 * This method creates all days for the month.
-			 */
-			private void createDays() {
-				for(int i = 1; i <= maxDays; i++)
-					days.add(new Day(i, new ArrayList<String>(), 00, 00));
-			}
-			
-			/**
-			 * This is a private class for day.
-			 * @author Artsiom Vainilovich
-			 * @version 1.0
-			 */
-			private class Day {
-				//this is a day number of the month
-				private int day;
-				
-				//this is a list of auctions today.
-				private List<String> todaysAuctions;
-				
-				//this is a start time of an auction
-				private int startTime;
-				
-				//this is a end time of an auction
-				private int endTime;
-				
-				/**
-				 * This is a constructor method for the Day.
-				 * @param day number of the month
-				 * @param todaysAuctions auctions held today
-				 * @param startTime when auction begins
-				 * @param endTime when auction ends
-				 */
-				public Day(int day, List<String> todaysAuctions, 
-						int startTime, int endTime) {
-					this.day = day;
-					this.todaysAuctions = todaysAuctions;
-					this.startTime = startTime;
-					this.endTime = endTime;
-				}
-				
-				/**
-				 * This is a method that decides if we do not have space in the day.
-				 * @return true or false, available or not available
-				 */
-				public boolean isAvailable() {
-					//if there is at least one auction today already
-					if(!todaysAuctions.isEmpty()) {
-						//if there is more than one auction today
-						if(todaysAuctions.size() > 1)
-							return false;
-						return true;
-					}
-					return true;
-				}
-			}
-		}
+	public String getMonth(int month) {
+		//TODO Returns? the information about the month, auctions scheduled?
+		return board.getMonth(calculateOffset(month)).toStringAuctions();
+	}
+	/**
+	 * This method would return the auctions in the current day.
+	 */
+	public String getDay(int month, int day) {
+		//TODO returns? the information about the day.
+		return board.getMonth(calculateOffset(month)).getDay(day).toString();
 	}
 }
