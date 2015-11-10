@@ -16,6 +16,8 @@ public class Auction {
 	private int myDay;									//Day of the Auction
 	private int myMonth;								//Month the auction is in
 	private int myYear;									//Year the auction is in
+	private int myStartTime;							//Start time of the Auction
+	private int myEndTime;								//End time of the auction
 	private List<Item> myItems = new ArrayList<Item>();	//Items that have been added to the auction.
 	
 	//constructor
@@ -26,6 +28,8 @@ public class Auction {
 		setMyMonth(theMonth);
 		setMyYear(theYear);
 		myName = theNonProfit + "-" + myDate;
+		setMyStartTime(0);
+		setMyEndTime(0);
 	}
 	
 	//For adding 1 item to the auction
@@ -85,6 +89,22 @@ public class Auction {
 	public void setMyYear(int theYear) {
 		myYear = theYear;
 		myDate = myMonth + "/" + myDay + "/" + theYear;
+	}
+
+	public int getMyStartTime() {
+		return myStartTime;
+	}
+
+	public void setMyStartTime(int theStartTime) {
+		myStartTime = theStartTime;
+	}
+
+	public int getMyEndTime() {
+		return myEndTime;
+	}
+
+	public void setMyEndTime(int theEndTime) {
+		myEndTime = theEndTime;
 	}
 	
 }
