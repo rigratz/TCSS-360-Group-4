@@ -122,6 +122,11 @@ public class Auction {
 		myEndTime = theEndTime;
 	}
 	
+	public String getMyNonProfit(){
+		return myNonProfit;
+	}
+	
+	
 	//toString for Calendar and console I/O
 	public String toString() {
 		return myName + myStartTime + myEndTime;
