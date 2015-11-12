@@ -155,7 +155,7 @@ public class CalendarClass {
 		}
 	}
 	
-	public boolean lessThan5ThisWeek(int month, int day) {
+	public boolean belowWeekLimit(int month, int day) {
 		Calendar tempCalendar = Calendar.getInstance();
 		tempCalendar.set(Calendar.MONTH, month-1);
 		tempCalendar.set(Calendar.DAY_OF_MONTH, day);
@@ -181,7 +181,7 @@ public class CalendarClass {
 		else return true;
 	}
 	
-	public boolean below25AuctionsInFuture() {
+	public boolean belowMaxAuctions() {
 		int auctionsNum = 0;
 		Calendar tempCalendar = Calendar.getInstance();
 		tempCalendar.add(Calendar.DAY_OF_MONTH, 90);
@@ -197,7 +197,7 @@ public class CalendarClass {
 		else return true;
 	}
 	
-	public boolean below90DaysToFuture(int month, int day) {
+	public boolean belowMaxDaysToFuture(int month, int day) {
 		Calendar tempCalendar = Calendar.getInstance();
 		tempCalendar.add(Calendar.DAY_OF_MONTH, 90);
 		int myMonthIndex = calculateOffset(month);
