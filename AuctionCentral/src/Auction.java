@@ -1,7 +1,4 @@
-/* William Jensen
- * 11/6/15
- * This class represents an auction for the auction central program.
- */
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,5 +130,13 @@ public class Auction {
 	//toString for Calendar and console I/O
 	public String toString() {
 		return myName + " Start: " + myStartTime + " End: " + myEndTime;
+	}
+	
+	public String itemsToString() {
+		String toReturn = new String();
+		for(int i = 0; i < myItems.size(); i++) {
+			toReturn += myItems.get(i).toString() + "\n";
+		}
+		return toReturn;
 	}
 }

@@ -1,6 +1,7 @@
 
 
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -213,13 +214,19 @@ public class CalendarClass {
 	 * This method makes a list of auctions.
 	 * @return String with a list of auctions.
 	 */
-	public String getListOfAuctions() {
+	public String getAuctions() {
+		//TODO changed name
 		String listOfAuctions = "";
 		for (int i = 0; i < auctionList.size(); i++) {
 			String currentAuction = auctionList.get(i).toString() + "\n";
 			listOfAuctions = listOfAuctions + currentAuction;
 		}
 		return listOfAuctions;
+	}
+	
+	public List<Auction> getListOfAuctions() {
+		//TODO added this method
+		return auctionList;
 	}
 	
 	/**
@@ -247,23 +254,29 @@ public class CalendarClass {
 		this.auctionList = auctionList;
 	}
 	
-	public String viewAuction(String auctionName) {
+	public String viewAuction(String name) {
 		String toReturn = new String();
+		int index = 0;
+		boolean found = false;
 		for(int i = 0; i < auctionList.size(); i++) {
-			
-			//TODO might be changed, dont see a point of this method for now.
-			if(auctionName.equals(auctionList.get(i).getMyNonProfit())) {
-				toReturn = auctionList.get(i).getMyName();
+			//TODO changed this one
+			if(name.equals(auctionList.get(i).getMyName())) {
+				found = true;
+				index = i;
+				toReturn = auctionList.get(index).toString() + "\n";
+				toReturn += auctionList.get(index).itemsToString();
+				return toReturn;
 			}
 		}
 		if(toReturn.equals("")) toReturn = "Nothing was found.";
 		return toReturn;
 	}
 	
-	public int getNumberOfAuctionsInDay(int month, int day) {
-		int monthIndex = calculateOffset(month);
-		return board.getMonth(monthIndex).getDay(day).getNumberOfAuctions();
-	}
+	//TODO removed this method
+//	public int getNumberOfAuctionsInDay(int month, int day) {
+//		int monthIndex = calculateOffset(month);
+//		return board.getMonth(monthIndex).getDay(day).getNumberOfAuctions();
+//	}
 	
 	public boolean checkOrganization(String organizationName) {
 		for(int i = 0; i < auctionList.size(); i++) {

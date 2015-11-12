@@ -1,3 +1,4 @@
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,6 +78,6 @@ public class Item {
 	}
 	
 	public String toString() {
-		return myName + myStartingBid;
+		return myName + " " + myStartingBid;
 	}
 }

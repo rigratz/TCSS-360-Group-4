@@ -1,3 +1,4 @@
+
 /**
  * Abstract User class
  * @author tempest
@@ -18,7 +19,7 @@ public abstract class User {
 	}
 
 	public String viewCalendar(CalendarClass theCalendar) {
-		return theCalendar.getListOfAuctions();
+		return theCalendar.getAuctions();
 	}
 	
 	public String viewAuction(CalendarClass theCalendar, String theAuctionName) {
