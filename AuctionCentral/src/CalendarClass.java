@@ -214,7 +214,7 @@ public class CalendarClass {
 	 * This method makes a list of auctions.
 	 * @return String with a list of auctions.
 	 */
-	public String getAuctions() {
+	public String getAllAuctions() {
 		//TODO changed name
 		String listOfAuctions = "";
 		for (int i = 0; i < auctionList.size(); i++) {
@@ -227,6 +227,17 @@ public class CalendarClass {
 	public List<Auction> getListOfAuctions() {
 		//TODO added this method
 		return auctionList;
+	}
+	
+	public Auction getAuction(String name) {
+		Auction auct = null;
+		for (int i = 0; i < auctionList.size(); i++) {
+			if(name.equals(auctionList.get(i).getMyName())) {
+				auct = auctionList.get(i);
+				break;
+			}
+		}
+		return auct;
 	}
 	
 	/**

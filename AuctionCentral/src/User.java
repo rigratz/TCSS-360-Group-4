@@ -19,7 +19,7 @@ public abstract class User {
 	}
 
 	public String viewCalendar(CalendarClass theCalendar) {
-		return theCalendar.getAuctions();
+		return theCalendar.getAllAuctions();
 	}
 	
 	public String viewAuction(CalendarClass theCalendar, String theAuctionName) {
