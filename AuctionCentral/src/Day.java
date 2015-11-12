@@ -1,4 +1,5 @@
 
+
 import java.util.List;
 
 /**
@@ -31,26 +32,8 @@ public class Day {
 		this.todaysAuctions = todaysAuctions;
 	}
 	
-	/**
-	 * This is a method that decides if we do not have space in the day.
-	 * @return true or false, available or not available
-	 */
-	public boolean getAvailability() {
-		//TODO needs further development
-		//if there is at least one auction today already
-		if(!todaysAuctions.isEmpty()) {
-			//if there is more than one auction today
-			if(todaysAuctions.size() > 1) {
-				return false;
-			}
-			return true;
-		}
-		return true;
-	}
-	
-	public boolean isEmpty() {
-		if(todaysAuctions.isEmpty()) return true;
-		else return false;
+	public int getNumberOfAuctions() {
+		return todaysAuctions.size();
 	}
 	
 	public int getStartTime() {

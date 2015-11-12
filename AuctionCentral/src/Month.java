@@ -1,4 +1,5 @@
 
+
 import java.util.ArrayList;
 
 /**
@@ -50,9 +51,9 @@ public class Month {
 	public String toStringAvailableDays() {
 		String info = new String();
 		for(int i = 1; i < days.size(); i++) {
-			if(days.get(i).isEmpty()) {
+			if(days.get(i).getNumberOfAuctions() == 0) {
 				info += i + ": " + days.get(i) + " [+]" + "\n";
-			} else if(days.get(i).getAvailability()) {
+			} else if(days.get(i).getNumberOfAuctions() == 1) {
 				info += i + ":  [+] " + days.get(i);
 			}
 		}
