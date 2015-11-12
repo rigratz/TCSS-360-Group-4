@@ -1,4 +1,7 @@
-
+/* William Jensen
+ * 11/6/15
+ * This class represents an auction for the auction central program.
+ */
 
 import java.util.ArrayList;
 import java.util.List;

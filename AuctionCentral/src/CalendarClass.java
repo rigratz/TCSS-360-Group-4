@@ -267,15 +267,11 @@ public class CalendarClass {
 	
 	public String viewAuction(String name) {
 		String toReturn = new String();
-		int index = 0;
-		boolean found = false;
 		for(int i = 0; i < auctionList.size(); i++) {
 			//TODO changed this one
 			if(name.equals(auctionList.get(i).getMyName())) {
-				found = true;
-				index = i;
-				toReturn = auctionList.get(index).toString() + "\n";
-				toReturn += auctionList.get(index).itemsToString();
+				toReturn = auctionList.get(i).toString() + "\n";
+				toReturn += auctionList.get(i).itemsToString();
 				return toReturn;
 			}
 		}
