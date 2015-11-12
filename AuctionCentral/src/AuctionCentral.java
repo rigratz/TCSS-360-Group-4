@@ -21,7 +21,7 @@ public class AuctionCentral {
 
 	private static Scanner myInput;
 	private static CalendarClass myAuctionCalendar;
-	private static List<Auction> myAuctions;
+	private static ArrayList<Auction> myAuctions;
 	private static List<User> myUsers;
 	private static User myUser;
 	
@@ -77,16 +77,19 @@ public class AuctionCentral {
 			}
 		}
 		if (found) {
-			User theUser = myUsers.get(index);
-			if (theUser instanceof AuctionCentralEmployee) {
+			myUser = myUsers.get(index);
+			if (myUser instanceof AuctionCentralEmployee) {
 				employeeMenu();
-			} else if (theUser instanceof NonProfitEmployee) {
+			} else if (myUser instanceof NonProfitEmployee) {
 				npoMenu();
-			} else if (theUser instanceof Bidder) {
+			} else if (myUser instanceof Bidder) {
 				bidderMenu();
 			} else {
 				System.out.println("Something failed...");
 			}
+		} else {
+			System.out.println("Name not found, try again:\n");
+			logInMenu();
 		}
 	}
 	
@@ -118,15 +121,21 @@ public class AuctionCentral {
 			
 			switch (selectType) {
 				case 1: newUser = new AuctionCentralEmployee(userName, contact);
+					myUsers.add(newUser);
+					myUser = newUser;
 					employeeMenu();
 					break;
 				case 2:
 					System.out.println("\nPlease type in the name of your organization:\n");
 					organizationName = myInput.next();
 					newUser = new NonProfitEmployee(userName, contact, organizationName);
+					myUsers.add(newUser);
+					myUser = newUser;
 					npoMenu();
 					break;
 				case 3: newUser = new Bidder(userName, contact);
+					myUsers.add(newUser);
+					myUser = newUser;
 					bidderMenu();
 					break;
 				default: 
@@ -144,13 +153,19 @@ public class AuctionCentral {
 	 * This is the menu of employee actions.
 	 */
 	public static void employeeMenu() {
+		String auctionName ="";
+		
 		System.out.println("\nHello, Employee! What would you like to do?");
 		System.out.println("\n1. View Monthly Calendar\n2. View Auction Details\n3. Log Out");
 		int selection = myInput.nextInt();
 		switch (selection) {
-			//case 1: appUser.viewCalendar(); break;
-			//case 2: appUser.viewAuction(); break;
-			//case 3: System.out.println("Logging out... Good-bye!"); initialMenu(); break;
+			case 1: System.out.println(myUser.viewCalendar(myAuctionCalendar)); 
+			employeeMenu(); break;
+			case 2: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
+				auctionName = myInput.next();
+				System.out.println(myUser.viewAuction(myAuctionCalendar, auctionName)); 
+				employeeMenu(); break;
+			case 3: System.out.println("Logging out... Good-bye!"); initialMenu(); break;
 			default: System.out.println("Invalid selection!"); employeeMenu(); break;
 		}
 	}
@@ -170,7 +185,7 @@ public class AuctionCentral {
 			//case 3: appUser.editAuctionInfo(); break;
 			//case 4: appUser.enterItemInfo(); break;
 			//case 5: appUser.editItemInfo(); break;
-			//case 6: System.out.println("Logging out... Good-bye!"); initialMenu(); break;
+			case 6: System.out.println("Logging out... Good-bye!"); initialMenu(); break;
 			default: System.out.println("Invalid selection!"); npoMenu(); break;
 		}
 	}
@@ -179,15 +194,90 @@ public class AuctionCentral {
 	 * This is the menu for bidder actions.
 	 */
 	public static void bidderMenu() {
+		String selectName = "";
+		Auction selectedAuction = null;
+		List<Item> selectedItemList = null;
+		boolean found = false;
+		int index = -1;
+		//ArrayList<Auction> tempAuctions = null;
+		
 		System.out.println("\nHello, Bidder! What would you like to do?");
 		System.out.println("\n1. Choose Auction\n2. Bid on Item in Auction");
-		System.out.println("3. Change Existing Bid\n4. Log Out");
+		System.out.println("3. Change Existing Bid\n4. Cancel existing bid\n5. Log Out");
 		int selection = myInput.nextInt();
 		switch (selection) {
-			//case 1: appUser.chooseAuction(); break;
-			//case 2: appUser.bid(); break;
-			//case 3: appUser.changeBid(); break;
-			//case 4: System.out.println("Logging out... Good-bye!"); initialMenu(); break;
+			case 1: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
+				selectName = myInput.next();
+				System.out.println(myUser.viewAuction(myAuctionCalendar, selectName)); 
+				found = false;
+				for (int i = 0; i < myAuctions.size(); i++) {
+					if (myAuctions.get(i).getMyNonProfit().equals(selectName)) {
+						found = true;
+						selectedAuction = myAuctions.get(i);
+						selectedItemList = selectedAuction.getMyItems();
+						break;
+					}
+				}
+				if (found) {
+					System.out.println("Auction selected.\n");
+				} else {
+					System.out.println("Auction not found...");
+				}
+				bidderMenu(); break;
+		
+			case 2: System.out.println("Please type the name one of the following items to bid on:\n");
+				for (int i = 0; i < selectedItemList.size(); i++) {
+					System.out.println(selectedItemList.get(i));
+				}
+				System.out.println();
+				selectName = myInput.next();
+				found = false;
+				index = -1;
+				for (int i = 0; i < selectedItemList.size(); i++) {
+					if (selectedItemList.get(i).getMyName().equals(selectName)) {
+						found = true;
+						index = i;
+						break;
+					}
+				}
+				if (found) {
+					System.out.println("Please enter bid amount:");
+					double bid = myInput.nextDouble();
+					((Bidder)myUser).placeBid(selectedItemList.get(index), bid);
+					System.out.println("Bid placed successfully");
+				} else {
+					System.out.println("No such item found...");
+				}
+				bidderMenu(); break;
+			
+			case 3: System.out.println("Please type the name one of the following items to change bid on:\n");
+				for (int i = 0; i < selectedItemList.size(); i++) {
+					System.out.println(selectedItemList.get(i));
+				}
+				System.out.println();
+				selectName = myInput.next();
+				found = false;
+				index = -1;
+				for (int i = 0; i < selectedItemList.size(); i++) {
+					if (selectedItemList.get(i).getMyName().equals(selectName)) {
+						found = true;
+						index = i;
+						break;
+					}
+				}
+				if (found) {
+					System.out.println("Please enter new bid amount:");
+					double bid = myInput.nextDouble();
+					((Bidder)myUser).changeBid(selectedItemList.get(index), bid);
+					System.out.println("Bid changed successfully");
+				} else {
+					System.out.println("No such item found...");
+				}
+				bidderMenu(); break;
+			//Cancel bid
+			case 4: 
+				bidderMenu(); break;
+			case 5: System.out.println("Logging out... Good-bye!"); initialMenu(); break;
 			default: System.out.println("Invalid selection!"); npoMenu(); break;
 		}
 	}
@@ -211,14 +301,14 @@ public class AuctionCentral {
 		int auctionStart = 0;
 		int auctionEnd = 0;
 		int month, date, year;
-		String[] months = {"January", "February", "March", "April", "May", "June", 
-							"July", "August", "September", "October", "November", "December"};
+		//String[] months = {"January", "February", "March", "April", "May", "June", 
+		//					"July", "August", "September", "October", "November", "December"};
 		String itemName = "";
 		double startingBid = 0;
 		String bidder = "";
 		double bid = 0;
 		
-		List<Auction> auctions = new ArrayList<Auction>();
+		ArrayList<Auction> auctions = new ArrayList<Auction>();
 		List<Item> items = new ArrayList<Item>();
 		
 		Map<String, Double> tempBids = new HashMap<String, Double>();
@@ -259,6 +349,7 @@ public class AuctionCentral {
 		}
 		myAuctions = auctions;
 		myAuctionCalendar = new CalendarClass();
+		myAuctionCalendar.insertAuctions(myAuctions);
 		//myAuctionCalendar = new CalendarClass(myAuctions);
 		
 		
