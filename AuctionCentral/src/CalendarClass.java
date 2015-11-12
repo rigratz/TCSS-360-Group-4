@@ -1,5 +1,6 @@
 
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -57,18 +58,19 @@ public class CalendarClass {
 	 * @return integer depending on the outcome
 	 */
 	private int calculateOffset(int month) {
+		Calendar tempCalendar = calendar2;
 		//return 0 if our target month is a current month
-		if(calendar2.get(Calendar.MONTH) == (month-1)) 
+		if(tempCalendar.get(Calendar.MONTH) == (month-1)) 
 			return 0;
 		//return the offset if our target month is bigger than our current month.
-		else if (calendar2.get(Calendar.MONTH) < (month-1)) {
-			int index = maximum(calendar2.get(Calendar.MONTH), month-1) - 
-					minimum(calendar2.get(Calendar.MONTH), month-1);
+		else if (tempCalendar.get(Calendar.MONTH) < (month-1)) {
+			int index = maximumMonth(tempCalendar.get(Calendar.MONTH), month-1) - 
+					minimum(tempCalendar.get(Calendar.MONTH), month-1);
 			return index;
 		}
 		//return in all other cases (if target month is less than current month)
 		else// (calendar2.get(Calendar.MONTH) > (month-1))
-			return ((month -1 + 12) - calendar2.get(Calendar.MONTH));
+			return ((month -1 + 12) - tempCalendar.get(Calendar.MONTH));
 	}
 	
 	/**
@@ -77,10 +79,16 @@ public class CalendarClass {
 	 * @param targetMonth this is a target month
 	 * @return integer maximum month number
 	 */
-	private int maximum(int currentMonth, int targetMonth) {
+	private int maximumMonth(int currentMonth, int targetMonth) {
 		if (calendar2.get(Calendar.MONTH) > targetMonth)
 			return calendar2.get(Calendar.MONTH);
 		else return targetMonth;
+	}
+	
+	private int maximum(int one, int two) {
+		if (one > two)
+			return one;
+		else return two;
 	}
 	
 	/**
@@ -109,21 +117,23 @@ public class CalendarClass {
 		int monthIndex = calculateOffset(month);
 		
 		//if the day is empty
-		if(board.getMonth(monthIndex).getDay(day).isEmpty()) {
+		if(board.getMonth(monthIndex).getDay(day).getNumberOfAuctions() == 0) {
 			//if previous action ended at the end of the previous day
-			if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 23 && startTime < 1) {
+			if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 
+					23 && startTime < 1) {
 				return false;
-			} else if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 24 && startTime < 2) {
+			} else if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 
+					24 && startTime < 2) {
 				return false;
 			}
 			else return true;
 		}
 			
 		//check if day is available (so if there is one auction already or more.
-		boolean isDayAvailable = board.getMonth(monthIndex).getDay(day).getAvailability();
+		int numberOfAuctions = board.getMonth(monthIndex).getDay(day).getNumberOfAuctions();
 		
 		//if day is not available --- exit
-		if(!isDayAvailable) return isDayAvailable;
+		if(numberOfAuctions == 2) return false;
 		else {
 			//check if time is available
 			boolean isTimeAvailable = true;
@@ -143,6 +153,60 @@ public class CalendarClass {
 			}
 			return isTimeAvailable;
 		}
+	}
+	
+	public boolean lessThan5ThisWeek(int month, int day) {
+		Calendar tempCalendar = Calendar.getInstance();
+		tempCalendar.set(Calendar.MONTH, month-1);
+		tempCalendar.set(Calendar.DAY_OF_MONTH, day);
+		int numberOfAuctionsInWeek = 0;
+		//go 7 days back and count from there
+		
+		tempCalendar.add(Calendar.DAY_OF_MONTH, -6);
+		//count from that day any 7 rolling days to the current day
+		for(int i = 0; i < 7; i++) {
+			int temp = 0;
+			for(int j = 0; j < 7; j++) {
+				int monthIndex = calculateOffset(tempCalendar.get(Calendar.MONTH)+1);
+
+				int currentDay = tempCalendar.get(Calendar.DAY_OF_MONTH);
+				temp += board.getMonth(monthIndex)
+						.getDay(currentDay).getNumberOfAuctions();
+				tempCalendar.add(Calendar.DAY_OF_MONTH, 1);
+			}
+			numberOfAuctionsInWeek = maximum(numberOfAuctionsInWeek, temp);
+			tempCalendar.add(Calendar.DAY_OF_MONTH, -6);
+		}
+		if(numberOfAuctionsInWeek > 4) return false;
+		else return true;
+	}
+	
+	public boolean below25AuctionsInFuture() {
+		int auctionsNum = 0;
+		Calendar tempCalendar = Calendar.getInstance();
+		tempCalendar.add(Calendar.DAY_OF_MONTH, 90);
+		
+		for(int i = 0; i < 90; i++) {
+			int monthIndex = calculateOffset(tempCalendar.get(Calendar.MONTH)+1);
+			auctionsNum += board.getMonth(monthIndex)
+					.getDay(tempCalendar.get(Calendar.DAY_OF_MONTH))
+					.getNumberOfAuctions();
+			tempCalendar.add(Calendar.DAY_OF_MONTH, -1);
+		}
+		if(auctionsNum > 25) return false;
+		else return true;
+	}
+	
+	public boolean below90DaysToFuture(int month, int day) {
+		Calendar tempCalendar = Calendar.getInstance();
+		tempCalendar.add(Calendar.DAY_OF_MONTH, 90);
+		int myMonthIndex = calculateOffset(month);
+		int imagineMonthIndex = calculateOffset(tempCalendar.get(Calendar.MONTH));
+		if(myMonthIndex > imagineMonthIndex &&
+				day > tempCalendar.get(Calendar.DAY_OF_MONTH)) {
+			return false;			
+		}
+		else return true;
 	}
 	
 	/**
@@ -194,6 +258,11 @@ public class CalendarClass {
 		}
 		if(toReturn.equals("")) toReturn = "Nothing was found.";
 		return toReturn;
+	}
+	
+	public int getNumberOfAuctionsInDay(int month, int day) {
+		int monthIndex = calculateOffset(month);
+		return board.getMonth(monthIndex).getDay(day).getNumberOfAuctions();
 	}
 	
 	public boolean checkOrganization(String organizationName) {
