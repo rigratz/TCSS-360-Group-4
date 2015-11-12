@@ -3,3 +3,5 @@ riley riley@uw.edu employee
 art art@uw.edu npo EarthCo
 tempest tempest@uw.edu employee
 willie willie@uw.edu bidder
+george george@uw.edu bidder
+larry larry@uw.edu npo GeneralMills

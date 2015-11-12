@@ -47,15 +47,18 @@ public class AuctionCentral {
 	 * This is the log in menu.
 	 */
 	public static void initialMenu() {
+		int selection = 0;
 		System.out.println("\nWelcome to AuctionCentral!\n--------------------------");
-		System.out.println("\nWhat would you like to do?");
-		System.out.println("\n1. Log In\n2. Create Account\n3. Exit\n");
-		int selection = myInput.nextInt();
-		switch (selection) {
-			case 1: logInMenu(); break;
-			case 2: createAccountMenu(); break;
-			case 3: saveAndQuit(); break;
-			default: System.out.println("Invalid selection!"); initialMenu(); break;
+		while(selection != 3) {
+			System.out.println("\nWhat would you like to do?");
+			System.out.println("\n1. Log In\n2. Create Account\n3. Exit\n");
+			selection = myInput.nextInt();
+			switch (selection) {
+				case 1: logInMenu(); break;
+				case 2: createAccountMenu(); break;
+				case 3: saveAndQuit(); break;
+				default: System.out.println("Invalid selection!"); break;
+			}
 		}
 	}
 	
@@ -63,33 +66,35 @@ public class AuctionCentral {
 	 * Menu for user with account to log in
 	 */
 	public static void logInMenu() {
-		System.out.println("\nPlease type your user name:\n");
-
-		String selection = myInput.next();
-		
-		int index = 0;
 		boolean found = false;
-		for (int i = 0; i < myUsers.size(); i++) {
-			if (myUsers.get(i).getMyName().equals(selection)) {
-				found = true;
-				index = i;
-				break;
+		while (!found) {
+			System.out.println("\nPlease type your user name:\n");
+
+			String selection = myInput.next();
+		
+			int index = 0;
+		
+			for (int i = 0; i < myUsers.size(); i++) {
+				if (myUsers.get(i).getMyName().equals(selection)) {
+					found = true;
+					index = i;
+					break;
+				}
 			}
-		}
-		if (found) {
-			myUser = myUsers.get(index);
-			if (myUser instanceof AuctionCentralEmployee) {
-				employeeMenu();
-			} else if (myUser instanceof NonProfitEmployee) {
-				npoMenu();
-			} else if (myUser instanceof Bidder) {
-				bidderMenu();
+			if (found) {
+				myUser = myUsers.get(index);
+				if (myUser instanceof AuctionCentralEmployee) {
+					employeeMenu();
+				} else if (myUser instanceof NonProfitEmployee) {
+					npoMenu();
+				} else if (myUser instanceof Bidder) {
+					bidderMenu();
+				} else {
+					System.out.println("Something failed...");
+				}
 			} else {
-				System.out.println("Something failed...");
+				System.out.println("Name not found, try again:\n");
 			}
-		} else {
-			System.out.println("Name not found, try again:\n");
-			logInMenu();
 		}
 	}
 	
@@ -154,19 +159,22 @@ public class AuctionCentral {
 	 */
 	public static void employeeMenu() {
 		String auctionName ="";
+		int selection = 0;
 		
-		System.out.println("\nHello, Employee! What would you like to do?");
-		System.out.println("\n1. View Monthly Calendar\n2. View Auction Details\n3. Log Out");
-		int selection = myInput.nextInt();
-		switch (selection) {
-			case 1: System.out.println(myUser.viewCalendar(myAuctionCalendar)); 
-			employeeMenu(); break;
-			case 2: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
-				auctionName = myInput.next();
-				System.out.println(myUser.viewAuction(myAuctionCalendar, auctionName)); 
+		while (selection != 3) {
+			System.out.println("\nHello, Employee! What would you like to do?");
+			System.out.println("\n1. View Monthly Calendar\n2. View Auction Details\n3. Log Out");
+			selection = myInput.nextInt();
+			switch (selection) {
+				case 1: System.out.println(myUser.viewCalendar(myAuctionCalendar)); 
 				employeeMenu(); break;
-			case 3: System.out.println("Logging out... Good-bye!"); initialMenu(); break;
-			default: System.out.println("Invalid selection!"); employeeMenu(); break;
+				case 2: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
+					auctionName = myInput.next();
+					System.out.println(myUser.viewAuction(myAuctionCalendar, auctionName)); 
+					employeeMenu(); break;
+				case 3: System.out.println("Logging out... Good-bye!"); break;
+				default: System.out.println("Invalid selection!"); break;
+			}
 		}
 	}
 	
@@ -174,19 +182,23 @@ public class AuctionCentral {
 	 * This is the menu of NPO actions.
 	 */
 	public static void npoMenu() {
-		System.out.println("\nHello, Non-Profit Organization! What would you like to do?");
-		System.out.println("\n1. Schedule Auction\n2. Enter Auction Information");
-		System.out.println("3. Edit Auction Information\n4. Enter Item Information");
-		System.out.println("5. Edit Item Information\n6. Log Out");
-		int selection = myInput.nextInt();
-		switch (selection) {
-			//case 1: appUser.scheduleAuction(); break;
-			//case 2: appUser.enterAuctionInfo(); break;
-			//case 3: appUser.editAuctionInfo(); break;
-			//case 4: appUser.enterItemInfo(); break;
-			//case 5: appUser.editItemInfo(); break;
-			case 6: System.out.println("Logging out... Good-bye!"); initialMenu(); break;
-			default: System.out.println("Invalid selection!"); npoMenu(); break;
+		int selection = 0;
+		
+		while (selection != 6) {
+			System.out.println("\nHello, Non-Profit Organization! What would you like to do?");
+			System.out.println("\n1. Schedule Auction\n2. Enter Auction Information");
+			System.out.println("3. Edit Auction Information\n4. Enter Item Information");
+			System.out.println("5. Edit Item Information\n6. Log Out");
+			selection = myInput.nextInt();
+			switch (selection) {
+				//case 1: appUser.scheduleAuction(); break;
+				//case 2: appUser.enterAuctionInfo(); break;
+				//case 3: appUser.editAuctionInfo(); break;
+				//case 4: appUser.enterItemInfo(); break;
+				//case 5: appUser.editItemInfo(); break;
+				case 6: System.out.println("Logging out... Good-bye!"); break;
+				default: System.out.println("Invalid selection!"); break;
+			}
 		}
 	}
 	
@@ -194,6 +206,7 @@ public class AuctionCentral {
 	 * This is the menu for bidder actions.
 	 */
 	public static void bidderMenu() {
+		int selection = 0;
 		String selectName = "";
 		Auction selectedAuction = null;
 		List<Item> selectedItemList = null;
@@ -201,84 +214,86 @@ public class AuctionCentral {
 		int index = -1;
 		//ArrayList<Auction> tempAuctions = null;
 		
-		System.out.println("\nHello, Bidder! What would you like to do?");
-		System.out.println("\n1. Choose Auction\n2. Bid on Item in Auction");
-		System.out.println("3. Change Existing Bid\n4. Cancel existing bid\n5. Log Out");
-		int selection = myInput.nextInt();
-		switch (selection) {
-			case 1: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
-				selectName = myInput.next();
-				System.out.println(myUser.viewAuction(myAuctionCalendar, selectName)); 
-				found = false;
-				for (int i = 0; i < myAuctions.size(); i++) {
-					if (myAuctions.get(i).getMyNonProfit().equals(selectName)) {
-						found = true;
-						selectedAuction = myAuctions.get(i);
-						selectedItemList = selectedAuction.getMyItems();
-						break;
+		while (selection != 5) {
+			System.out.println("\nHello, Bidder! What would you like to do?");
+			System.out.println("\n1. Choose Auction\n2. Bid on Item in Auction");
+			System.out.println("3. Change Existing Bid\n4. Cancel existing bid\n5. Log Out");
+			selection = myInput.nextInt();
+			switch (selection) {
+				case 1: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
+					selectName = myInput.next();
+					System.out.println(myUser.viewAuction(myAuctionCalendar, selectName)); 
+					found = false;
+					for (int i = 0; i < myAuctions.size(); i++) {
+						if (myAuctions.get(i).getMyNonProfit().equals(selectName)) {
+							found = true;
+							selectedAuction = myAuctions.get(i);
+							selectedItemList = selectedAuction.getMyItems();
+							break;
+						}
 					}
-				}
-				if (found) {
-					System.out.println("Auction selected.\n");
-				} else {
-					System.out.println("Auction not found...");
-				}
-				bidderMenu(); break;
+					if (found) {
+						System.out.println("Auction selected.\n");
+					} else {
+						System.out.println("Auction not found...");
+					}
+					break;
 		
-			case 2: System.out.println("Please type the name one of the following items to bid on:\n");
-				for (int i = 0; i < selectedItemList.size(); i++) {
-					System.out.println(selectedItemList.get(i));
-				}
-				System.out.println();
-				selectName = myInput.next();
-				found = false;
-				index = -1;
-				for (int i = 0; i < selectedItemList.size(); i++) {
-					if (selectedItemList.get(i).getMyName().equals(selectName)) {
-						found = true;
-						index = i;
-						break;
+				case 2: System.out.println("Please type the name one of the following items to bid on:\n");
+					for (int i = 0; i < selectedItemList.size(); i++) {
+						System.out.println(selectedItemList.get(i));
 					}
-				}
-				if (found) {
-					System.out.println("Please enter bid amount:");
-					double bid = myInput.nextDouble();
-					((Bidder)myUser).placeBid(selectedItemList.get(index), bid);
-					System.out.println("Bid placed successfully");
-				} else {
-					System.out.println("No such item found...");
-				}
-				bidderMenu(); break;
+					System.out.println();
+					selectName = myInput.next();
+					found = false;
+					index = -1;
+					for (int i = 0; i < selectedItemList.size(); i++) {
+						if (selectedItemList.get(i).getMyName().equals(selectName)) {
+							found = true;
+							index = i;
+							break;
+						}
+					}
+					if (found) {
+						System.out.println("Please enter bid amount:");
+						double bid = myInput.nextDouble();
+						((Bidder)myUser).placeBid(selectedItemList.get(index), bid);
+						System.out.println("Bid placed successfully");
+					} else {
+						System.out.println("No such item found...");
+					}
+					break;
 			
-			case 3: System.out.println("Please type the name one of the following items to change bid on:\n");
-				for (int i = 0; i < selectedItemList.size(); i++) {
-					System.out.println(selectedItemList.get(i));
-				}
-				System.out.println();
-				selectName = myInput.next();
-				found = false;
-				index = -1;
-				for (int i = 0; i < selectedItemList.size(); i++) {
-					if (selectedItemList.get(i).getMyName().equals(selectName)) {
-						found = true;
-						index = i;
-						break;
+				case 3: System.out.println("Please type the name one of the following items to change bid on:\n");
+					for (int i = 0; i < selectedItemList.size(); i++) {
+						System.out.println(selectedItemList.get(i));
 					}
-				}
-				if (found) {
-					System.out.println("Please enter new bid amount:");
-					double bid = myInput.nextDouble();
-					((Bidder)myUser).changeBid(selectedItemList.get(index), bid);
-					System.out.println("Bid changed successfully");
-				} else {
-					System.out.println("No such item found...");
-				}
-				bidderMenu(); break;
-			//Cancel bid
-			case 4: 
-				bidderMenu(); break;
-			case 5: System.out.println("Logging out... Good-bye!"); initialMenu(); break;
-			default: System.out.println("Invalid selection!"); npoMenu(); break;
+					System.out.println();
+					selectName = myInput.next();
+					found = false;
+					index = -1;
+					for (int i = 0; i < selectedItemList.size(); i++) {
+						if (selectedItemList.get(i).getMyName().equals(selectName)) {
+							found = true;
+							index = i;
+							break;
+						}
+					}
+					if (found) {
+						System.out.println("Please enter new bid amount:");
+						double bid = myInput.nextDouble();
+						((Bidder)myUser).changeBid(selectedItemList.get(index), bid);
+						System.out.println("Bid changed successfully");
+					} else {
+						System.out.println("No such item found...");
+					}
+					bidderMenu(); break;
+				
+				case 4: //Cancel bid
+					break;
+				case 5: System.out.println("Logging out... Good-bye!"); break;
+				default: System.out.println("Invalid selection!"); break;
+			}
 		}
 	}
 	
@@ -290,7 +305,6 @@ public class AuctionCentral {
 		
 		Scanner auctionScan = new Scanner(new File("auctions.txt"));
 		auctionsFormat = auctionScan.nextLine();
-		System.out.println(auctionsFormat);
 		Scanner userScan = new Scanner(new File("users.txt"));
 		usersFormat = userScan.nextLine();
 		
@@ -369,7 +383,7 @@ public class AuctionCentral {
 			readLine = readLine.substring(readLine.indexOf(' ') + 1);
 
 			//Parse contact
-			tempContact = readLine.substring(0, readLine.indexOf(' ') + 1);
+			tempContact = readLine.substring(0, readLine.indexOf(' '));
 			readLine = readLine.substring(readLine.indexOf(' ') + 1);
 			
 			//Parse user type
@@ -399,7 +413,6 @@ public class AuctionCentral {
 							}
 						}
 					}
-					System.out.println(tempUserBids);
 					tempUser = new Bidder(name, tempContact); // , tempUserBids); 
 					myUsers.add(tempUser); break;
 				default: break;
@@ -452,13 +465,9 @@ public class AuctionCentral {
 			System.err.println("no file made");
 			e.printStackTrace();
 		}
-		System.out.println(auctionsFormat);
 		output.println(usersFormat);
 		for (int i = 0; i < myUsers.size(); i++) {
-			System.out.println(myUsers.get(i));
-		}
-		for (int i = 0; i < myUsers.size(); i++) {
-			output.print(myUsers.get(i).getMyName() + " " + myUsers.get(i).getMyContact());
+			output.print(myUsers.get(i).getMyName() + " " + myUsers.get(i).getMyContact() + " ");
 			User theUser = myUsers.get(i);
 			if (theUser instanceof AuctionCentralEmployee) {
 				output.println("employee");
