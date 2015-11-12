@@ -39,6 +39,15 @@ public class Item {
 		myBids.put(theBidder, new Double(theBid));
 		return true;
 	}
+	
+	// to remove a bid from myBids
+	public boolean removeBid(String theBidder) {
+		if (myBids.containsKey(theBidder)) {
+			myBids.remove(theBidder);
+			return true;
+		}
+		return false;
+	}
 
 	//Getters and setters for fields//
 	

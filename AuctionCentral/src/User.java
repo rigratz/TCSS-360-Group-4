@@ -6,7 +6,7 @@
 public abstract class User {
 
 	private String myName;		// name of user
-	private String myContact;
+	private String myContact;	// contact phone number
 
 	/**
 	 * @param myName
@@ -17,24 +17,12 @@ public abstract class User {
 		myContact = theContact;
 	}
 
-	// not sure how we are going to display the calendar on console
 	public String viewCalendar(CalendarClass theCalendar) {
 		return theCalendar.getListOfAuctions();
 	}
 	
-	public String viewAuction(Auction theAuction) {
-		return "Auction Name: " + theAuction.getMyName() +
-				" Auction Date: " + theAuction.getMyDate();
-	}
-	
-	public String viewItem(Item theItem) {
-		return String.format("Item Name: %s Starting Bid: $%.2f",
-				theItem.getMyName(), theItem.getMyStartingBid());
-	}
-	
-	// not sure what we want to do here
-	private void logIn() {
-		 
+	public String viewAuction(CalendarClass theCalendar, String theAuctionName) {
+		return theCalendar.viewAuction(theAuctionName);
 	}
 
 	public String getMyName() {
@@ -52,6 +40,4 @@ public abstract class User {
 	public void setMyContact(String theContact) {
 		myContact = theContact;
 	}
-
-	
 }

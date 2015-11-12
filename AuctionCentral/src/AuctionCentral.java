@@ -160,10 +160,10 @@ public class AuctionCentral {
 						bidder = pr.next();
 						tempBids.put(bidder, bid);
 					}
-					items.add(new Item(itemName, tempBids));
+					//items.add(new Item(itemName, tempBids));
 					tempBids = new HashMap<String, Double>();
 				}
-				auctions.add(new Auction(auctionName, "date", items));
+				//auctions.add(new Auction(auctionName, "date", items));
 				items = new ArrayList<Item>();
 			}
 			

@@ -86,6 +86,7 @@ public class Auction {
 	public void setMyDay(int theDay) {
 		myDay = theDay;
 		myDate = myMonth + "/" + theDay + "/" + myYear;
+		myName = myNonProfit + "-" + myDate;
 	}
 
 	public int getMyMonth() {
@@ -95,6 +96,7 @@ public class Auction {
 	public void setMyMonth(int theMonth) {
 		myMonth = theMonth;
 		myDate = theMonth + "/" + myDay + "/" + myYear;
+		myName = myNonProfit + "-" + myDate;
 	}
 
 	public int getMyYear() {
@@ -104,6 +106,7 @@ public class Auction {
 	public void setMyYear(int theYear) {
 		myYear = theYear;
 		myDate = myMonth + "/" + myDay + "/" + theYear;
+		myName = myNonProfit + "-" + myDate;
 	}
 
 	public int getMyStartTime() {
@@ -129,6 +132,6 @@ public class Auction {
 	
 	//toString for Calendar and console I/O
 	public String toString() {
-		return myName + myStartTime + myEndTime;
+		return myName + " Start: " + myStartTime + " End: " + myEndTime;
 	}
 }

@@ -19,32 +19,44 @@ public class NonProfitEmployee extends User {
 		myOrganizationName = theOrganizationName; 
 	}
 
-	private void scheduleAuction(Auction theAuction, String theName, String theDate) {
-		new Auction(theName, theDate);
+	public void scheduleAuction(String theNonProfit, int theMonth, int theDay, int theYear, 
+			int theStartTime, int theEndTime) {
+		new Auction(theNonProfit, theMonth, theDay, theYear, theStartTime, theEndTime);
 	}
-	
-	// I think this isn't necessary?
-	private void addAuctionInfo() {
-		
-	}
-	
-	private void editAuctionName(Auction theAuction, String theAuctionName) {
+
+	public void editAuctionName(Auction theAuction, String theAuctionName) {
 		theAuction.setName(theAuctionName);
 	}
 	
-	private void editAuctionDate(Auction theAuction, String theAuctionDate) {
-		theAuction.setMyDate(theAuctionDate);
+	public void editAuctionDay(Auction theAuction, int theDay) {
+		theAuction.setMyDay(theDay);
 	}
 	
-	private void addAuctionItem(Auction theAuction, String theItemName, double theStartingBid) {
+	public void editAuctionMonth(Auction theAuction, int theMonth) {
+		theAuction.setMyMonth(theMonth);
+	}
+	
+	public void editAuctionYear(Auction theAuction, int theYear) {
+		theAuction.setMyYear(theYear);
+	}
+	
+	public void editAuctionStartTime(Auction theAuction, int theStartTime) {
+		theAuction.setMyStartTime(theStartTime);
+	}
+	
+	public void editAuctionEndTime(Auction theAuction, int theEndTime) {
+		theAuction.setMyEndTime(theEndTime);
+	}
+	
+	public void addAuctionItem(Auction theAuction, String theItemName, double theStartingBid) {
 		theAuction.addItem(new Item(theItemName, theStartingBid));
 	}
 	
-	private void editAuctionItemName(Item theItem, String theName) {
+	public void editAuctionItemName(Item theItem, String theName) {
 		theItem.setMyName(theName);
 	}
 	
-	private void editAuctionItemStartingBid(Item theItem, double theStartingBid) {
+	public void editAuctionItemStartingBid(Item theItem, double theStartingBid) {
 		theItem.setMyStartingBid(theStartingBid);
 	}
 
@@ -54,8 +66,5 @@ public class NonProfitEmployee extends User {
 
 	public void setMyOrganizationName(String theOrganizationName) {
 		myOrganizationName = theOrganizationName;
-	}
-
-
-	
+	}	
 }
