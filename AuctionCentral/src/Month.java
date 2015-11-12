@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * This is a private class for the month.
  * @author Artsiom Vainilovich
- * @version 1.0
+ * @version 2.0
  */
 public class Month {
 	//this is a month number (unused yet)
@@ -34,7 +34,7 @@ public class Month {
 	 * This method creates all days for the month.
 	 */
 	private void createDays() {
-		for(int i = 1; i <= maxDays; i++) {
+		for(int i = 1; i <= maxDays+1; i++) {
 			days.add(new Day(i, new ArrayList<String>()));			
 		}
 	}
@@ -49,11 +49,11 @@ public class Month {
 	
 	public String toStringAvailableDays() {
 		String info = new String();
-		for(int i = 0; i < days.size(); i++) {
+		for(int i = 1; i < days.size(); i++) {
 			if(days.get(i).isEmpty()) {
 				info += i + ": " + days.get(i) + " [+]" + "\n";
 			} else if(days.get(i).getAvailability()) {
-				info += i + ": [+] " + days.get(i);
+				info += i + ":  [+] " + days.get(i);
 			}
 		}
 		return info;

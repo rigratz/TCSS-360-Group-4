@@ -4,7 +4,7 @@ import java.util.List;
 /**
  * This is a class for days.
  * @author Artsiom Vainilovich
- * @version 1.0
+ * @version 2.0
  */
 public class Day {
 	//this is a day number of the month
