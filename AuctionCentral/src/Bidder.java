@@ -19,6 +19,16 @@ public class Bidder extends User {
 		super(theName, theContact);
 		myBids = new HashMap<String, Double>();
 	}
+	
+	/**
+	 * * Constructs a Bidder with map of bids
+	 * @param theName
+	 * @param theContact
+	 */
+	public Bidder(String theName, String theContact, Map<String, Double>theBids) {
+		super(theName, theContact);
+		myBids = theBids;
+	}
 
 	/**
 	 * Place bid and add it to the list of bidder's bids.

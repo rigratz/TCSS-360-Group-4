@@ -269,8 +269,9 @@ public class CalendarClass {
 		String toReturn = new String();
 		for(int i = 0; i < auctionList.size(); i++) {
 			//TODO changed this one
-			if(name.equals(auctionList.get(i).getMyName())) {
-				toReturn = auctionList.get(i).toString() + "\n";
+			
+			if(name.equals(auctionList.get(i).getMyNonProfit())) {
+				toReturn = auctionList.get(i).toString() + "\nList of Items/Starting Bids:\n";
 				toReturn += auctionList.get(i).itemsToString();
 				return toReturn;
 			}

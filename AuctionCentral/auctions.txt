@@ -1,3 +1,4 @@
 *Format- <OrganizationName> <Month> <Date> <Year> <StartTime> <EndTime> {<Item> <StartingBid> {<Bid> <Bidder>...}...}*
-GoodWill 11 28 2015 8 10 shirt 1.2 7.4 tempest 10.6 art 4.5 riley 
-EarthCo 11 29 2015 15 17 plant 1.2 23.56 art 5.65 tempest 44.35 willie 2.45 riley chair 1.2 23.34 tempest 45.56 art 
+GoodWill 11 28 2015 8 10 Shirt 1.2 7.4 tempest 10.6 art 80.2 willie 4.5 riley 
+EarthCo 11 29 2015 15 17 Plant 1.2 23.56 art 5.65 tempest 2.45 riley Chair 1.2 23.34 tempest 45.56 art 
+GeneralMills 12 12 2015 8 12 

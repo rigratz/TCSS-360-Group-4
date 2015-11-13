@@ -20,9 +20,9 @@ public class NonProfitEmployee extends User {
 		myOrganizationName = theOrganizationName; 
 	}
 
-	public void scheduleAuction(String theNonProfit, int theMonth, int theDay, int theYear, 
+	public Auction scheduleAuction(String theNonProfit, int theMonth, int theDay, int theYear, 
 			int theStartTime, int theEndTime) {
-		new Auction(theNonProfit, theMonth, theDay, theYear, theStartTime, theEndTime);
+		return new Auction(theNonProfit, theMonth, theDay, theYear, theStartTime, theEndTime);
 	}
 
 	public void editAuctionName(Auction theAuction, String theAuctionName) {
