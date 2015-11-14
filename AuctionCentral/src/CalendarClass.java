@@ -1,7 +1,3 @@
-
-
-
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,7 +32,6 @@ public class CalendarClass {
 	 */
 	public void addAuction(Auction auction) {
 		//separating date and time from the auction object
-		int year = auction.getMyYear();
 		int month = auction.getMyMonth();
 		int day = auction.getMyDay();
 		int startTime = auction.getMyStartTime();
@@ -58,7 +53,7 @@ public class CalendarClass {
 	 * @param month this is month we want to add
 	 * @return integer depending on the outcome
 	 */
-	private int calculateOffset(int month) {
+	protected int calculateOffset(int month) {
 		Calendar tempCalendar = calendar2;
 		//return 0 if our target month is a current month
 		if(tempCalendar.get(Calendar.MONTH) == (month-1)) 
@@ -80,13 +75,18 @@ public class CalendarClass {
 	 * @param targetMonth this is a target month
 	 * @return integer maximum month number
 	 */
-	private int maximumMonth(int currentMonth, int targetMonth) {
+	protected int maximumMonth(int currentMonth, int targetMonth) {
 		if (calendar2.get(Calendar.MONTH) > targetMonth)
 			return calendar2.get(Calendar.MONTH);
 		else return targetMonth;
 	}
-	
-	private int maximum(int one, int two) {
+	/**
+	 * This class calculates maximum number.
+	 * @param one this is a first number
+	 * @param two this is a second number
+	 * @return integer maximum  number
+	 */
+	protected int maximum(int one, int two) {
 		if (one > two)
 			return one;
 		else return two;
@@ -98,7 +98,7 @@ public class CalendarClass {
 	 * @param targetMonth this is a target month
 	 * @return integer minimum month number
 	 */
-	private int minimum(int currentMonth, int targetMonth) {
+	protected int minimum(int currentMonth, int targetMonth) {
 		if (calendar2.get(Calendar.MONTH) < targetMonth)
 			return calendar2.get(Calendar.MONTH);
 		else return targetMonth;
@@ -121,10 +121,12 @@ public class CalendarClass {
 		if(board.getMonth(monthIndex).getDay(day).getNumberOfAuctions() == 0) {
 			//if previous action ended at the end of the previous day
 			if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 
-					23 && startTime < 1) {
+					23 && 
+					startTime < 1) {
 				return false;
 			} else if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 
-					24 && startTime < 2) {
+					24 && 
+					startTime < 2) {
 				return false;
 			}
 			else return true;
@@ -156,6 +158,12 @@ public class CalendarClass {
 		}
 	}
 	
+	/**
+	 * This method calculates if we have too many auctions in a week.
+	 * @param month of the week
+	 * @param day of the week
+	 * @return true or false
+	 */
 	public boolean belowWeekLimit(int month, int day) {
 		Calendar tempCalendar = Calendar.getInstance();
 		tempCalendar.set(Calendar.MONTH, month-1);
@@ -182,6 +190,10 @@ public class CalendarClass {
 		else return true;
 	}
 	
+	/**
+	 * This method calculates if we have less than max auctions.
+	 * @return true or false
+	 */
 	public boolean belowMaxAuctions() {
 		int auctionsNum = 0;
 		Calendar tempCalendar = Calendar.getInstance();
@@ -198,6 +210,12 @@ public class CalendarClass {
 		else return true;
 	}
 	
+	/**
+	 * This method calculates if we trying to schedule auction too far into future.
+	 * @param month of the auction
+	 * @param day of the auction
+	 * @return true or false
+	 */
 	public boolean belowMaxDaysToFuture(int month, int day) {
 		Calendar tempCalendar = Calendar.getInstance();
 		tempCalendar.add(Calendar.DAY_OF_MONTH, 90);
@@ -215,7 +233,6 @@ public class CalendarClass {
 	 * @return String with a list of auctions.
 	 */
 	public String getAllAuctions() {
-		//TODO changed name
 		String listOfAuctions = "";
 		for (int i = 0; i < auctionList.size(); i++) {
 			String currentAuction = auctionList.get(i).toString() + "\n";
@@ -224,15 +241,25 @@ public class CalendarClass {
 		return listOfAuctions;
 	}
 	
+	/**
+	 * This method returns a list of auctions.
+	 * @return a list of auctions
+	 */
 	public List<Auction> getListOfAuctions() {
-		//TODO added this method
 		return auctionList;
 	}
 	
+	/**
+	 * This method shows the informatino of the auction.
+	 * @param name of the auction
+	 * @return the auction information
+	 */
 	public Auction getAuction(String name) {
 		Auction auct = null;
 		for (int i = 0; i < auctionList.size(); i++) {
-			if(name.equals(auctionList.get(i).getMyName())) {
+			if(name.equals(
+					auctionList.get(i).
+					getMyName())) {
 				auct = auctionList.get(i);
 				break;
 			}
@@ -261,15 +288,22 @@ public class CalendarClass {
 		return board.getMonth(calculateOffset(month)).getDay(day).toString();
 	}
 	
+	/**
+	 * This method inserts a list of auctions.
+	 * @param auctionList list of auctions
+	 */
 	public void insertAuctions(ArrayList<Auction> auctionList) {
 		this.auctionList = auctionList;
 	}
 	
+	/**
+	 * This method returns information about the auction
+	 * @param name of the auction
+	 * @return information about the auction
+	 */
 	public String viewAuction(String name) {
 		String toReturn = new String();
 		for(int i = 0; i < auctionList.size(); i++) {
-			//TODO changed this one
-			
 			if(name.equals(auctionList.get(i).getMyNonProfit())) {
 				toReturn = auctionList.get(i).toString() + "\nList of Items/Starting Bids:\n";
 				toReturn += auctionList.get(i).itemsToString();
@@ -280,12 +314,11 @@ public class CalendarClass {
 		return toReturn;
 	}
 	
-	//TODO removed this method
-//	public int getNumberOfAuctionsInDay(int month, int day) {
-//		int monthIndex = calculateOffset(month);
-//		return board.getMonth(monthIndex).getDay(day).getNumberOfAuctions();
-//	}
-	
+	/**
+	 * This method checks organization for validity.
+	 * @param organizationName of the organization
+	 * @return true or false.
+	 */
 	public boolean checkOrganization(String organizationName) {
 		for(int i = 0; i < auctionList.size(); i++) {
 			//implies it is not per 12 month period but per year (itself, number)
