@@ -166,12 +166,10 @@ public class AuctionCentral {
 			System.out.println("\n1. View Monthly Calendar\n2. View Auction Details\n3. Log Out");
 			selection = myInput.nextInt();
 			switch (selection) {
-				case 1: System.out.println(myUser.viewCalendar(myAuctionCalendar)); 
-				employeeMenu(); break;
+				case 1: System.out.println(myUser.viewCalendar(myAuctionCalendar)); break;
 				case 2: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
 					auctionName = myInput.next();
-					System.out.println(myUser.viewAuction(myAuctionCalendar, auctionName)); 
-					employeeMenu(); break;
+					System.out.println(myUser.viewAuction(myAuctionCalendar, auctionName)); break;
 				case 3: System.out.println("Logging out... Good-bye!"); break;
 				default: System.out.println("Invalid selection!"); break;
 			}
@@ -183,6 +181,10 @@ public class AuctionCentral {
 	 */
 	public static void npoMenu() {
 		int selection = 0;
+		Auction auct = null;
+		if (hasAuction()) {
+			auct = getAuction();
+		}
 		
 		while (selection != 6) {
 			System.out.println("\nHello, Non-Profit Organization! What would you like to do?");
@@ -191,11 +193,84 @@ public class AuctionCentral {
 			System.out.println("5. Edit Item Information\n6. Log Out");
 			selection = myInput.nextInt();
 			switch (selection) {
-				case 1: scheduleAuctionMenu(); break;
-				case 2: enterAuctionInfoMenu(); break;
-				//case 3: appUser.editAuctionInfo(); break;
-				//case 4: appUser.enterItemInfo(); break;
-				//case 5: appUser.editItemInfo(); break;
+				case 1: if (auct == null) {
+							scheduleAuctionMenu(); break;
+						} else {
+							System.out.println("You already have an auction scheduled.");
+						} break;
+				case 2:  if (hasAuction()) enterAuctionInfoMenu(); break;
+				case 3: if (hasAuction()) {
+							int innerSelect, newArg;
+							System.out.println("What would you like to edit?\n");
+							System.out.println("1. Day\n2: Month\n3. Year\n4. Start Time\n5. End Time\n");
+							innerSelect = myInput.nextInt();
+							switch (innerSelect) {
+							case 1: System.out.println("Please enter new day:");
+									newArg = myInput.nextInt(); 
+									auct.setMyDay(newArg);break;
+									
+							case 2: System.out.println("Please enter new month:"); 
+									newArg = myInput.nextInt(); 
+									auct.setMyMonth(newArg); break;
+							case 3: System.out.println("Please enter new year:"); 
+									newArg = myInput.nextInt(); 
+									auct.setMyYear(newArg); break;
+							case 4: System.out.println("Please enter new start time:"); 
+									newArg = myInput.nextInt(); 
+									auct.setMyStartTime(newArg); break;
+							case 5: System.out.println("Please enter new end time:"); 
+									newArg = myInput.nextInt(); 
+									auct.setMyEndTime(newArg); break;
+							default: System.out.println("Incorrect input."); break;
+							}
+						} else {
+							System.out.println("You have no auction to edit.");
+						} break;
+				case 4: if (hasAuction()) {
+							String itemName = "";
+							double itemStart = 0.0;
+							
+							System.out.println("Please enter the name of the item:\n");
+							itemName = myInput.next();
+							System.out.println("Please enter the starting bid amount for the item:\n");
+							itemStart = myInput.nextDouble();
+							auct.addItem(new Item(itemName, itemStart));
+						} else {
+							System.out.println("You have no auction to add items to.");
+						} break;
+				
+				case 5: if (hasAuction()) {
+							String itemName, itemNewName;
+							Item editItem = null;
+							double itemNewStart;
+							int innerSelect;
+							
+							System.out.println("Which item would you like to edit?\n");
+							System.out.println(auct.itemsToString());
+							itemName = myInput.next();
+							for (Item i : auct.getMyItems()) {
+								if (itemName.equals(i.getMyName())) {
+									editItem = i;
+									break;
+								}
+							}
+							if (editItem != null) {
+								System.out.println("What would you like to change?\n");
+								System.out.println("1. Item name\n2. Item starting bid");
+								innerSelect = myInput.nextInt();
+							
+								switch (innerSelect) {
+									case 1: System.out.println("Please enter new item name:\n");
+										itemNewName = myInput.next();
+										editItem.setMyName(itemNewName); break;
+									case 2: System.out.println("Please enter new starting bid:\n");
+										itemNewStart = myInput.nextDouble();
+										editItem.setMyStartingBid(itemNewStart); break;
+								}
+							} else {
+								System.out.println("Item does not exist.\n");
+							}
+						} break;
 				case 6: System.out.println("Logging out... Good-bye!"); break;
 				default: System.out.println("Invalid selection!"); break;
 			}
@@ -259,8 +334,12 @@ public class AuctionCentral {
 					if (found && !previousBid) {
 						System.out.println("Please enter bid amount:");
 						double bid = myInput.nextDouble();
-						((Bidder)myUser).placeBid(selectedItemList.get(index), bid);
-						System.out.println("Bid placed successfully");
+						boolean valid = ((Bidder)myUser).placeBid(selectedItemList.get(index), bid);
+						if (valid) {
+							System.out.println("Bid placed successfully");
+						} else {
+							System.out.println("Not a valid bid");
+						}
 					} else if (found && previousBid) {
 						System.out.println("You already have a pre-existing bid for this item.");
 					} else {
@@ -556,22 +635,33 @@ public class AuctionCentral {
 	}
 	
 	public static void enterAuctionInfoMenu() {
+		System.out.println("Don't know what do do here.");
+	}
+	
+	private static boolean hasAuction() {
 		List<Auction> auctions = myAuctionCalendar.getListOfAuctions();
-		Auction info = null;
 		
 		boolean found = false;
 		for (Auction a : auctions) {
 			if (a.getMyNonProfit().equals(((NonProfitEmployee)myUser).getMyOrganizationName())) {
-				info = a;
 				found = true;
 				break;
 			}
 		}
-		if (found) {
-			System.out.println();
-		} else {
-			System.out.println("Your organization has no auctions scheduled.");
+		return found;
+	}
+	
+	private static Auction getAuction() {
+		List<Auction> auctions = myAuctionCalendar.getListOfAuctions();
+		Auction auct = null;
+		
+		for (Auction a : auctions) {
+			if (a.getMyNonProfit().equals(((NonProfitEmployee)myUser).getMyOrganizationName())) {
+				auct = a;
+				break;
+			}
 		}
+		return auct;
 	}
 }
 
