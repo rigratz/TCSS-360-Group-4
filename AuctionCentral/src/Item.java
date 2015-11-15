@@ -32,11 +32,10 @@ public class Item {
 	//returns false if the bid is less than the starting bid of the item
 	//returns true if the bid is successfully added to the items map of bids
 	public boolean bid(String theBidder, double theBid) {
-		if(theBid < myStartingBid) {
+		if(bidGreaterThanStartingBid(theBid)) {
 			return false;
-		} else if(myBids.containsKey(theBidder)) {
-			myBids.remove(theBidder);
 		}
+		oneBidPerbidder(theBidder);
 		myBids.put(theBidder, new Double(theBid));
 		return true;
 	}
@@ -79,5 +78,20 @@ public class Item {
 	
 	public String toString() {
 		return myName + " " + myStartingBid;
+	}
+	
+	//Business rule 6
+	private void oneBidPerbidder(String theBidder) {
+		if(myBids.containsKey(theBidder)) {
+			myBids.remove(theBidder);
+		}
+	}
+	
+	//business rule 9
+	private boolean bidGreaterThanStartingBid(double theBid) {
+		if(theBid < myStartingBid) {
+			return true;
+		}
+		return false;
 	}
 }
