@@ -211,6 +211,8 @@ public class TestCalendarClass {
 	@Test
 	public void testGetAllAuctions() {
 		fullCal.getAllAuctions();
+		fullCal.getPastAuctions();
+		emptyCalendar.getPastAuctions();
 //		cal.getAllAuctions();
 //		emptyCalendar.getAllAuctions();
 	}

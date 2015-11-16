@@ -268,6 +268,10 @@ public class CalendarClass {
 		return listOfPastAuctions;
 	}
 	
+	public List<Auction> getListOfPastAuctions() {
+		return pastAuctionList;
+	}
+	
 	/**
 	 * This method returns a list of auctions.
 	 * @return a list of auctions
