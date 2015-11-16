@@ -12,6 +12,8 @@ public class CalendarClass {
 	//this is a calendar
 	private Calendar calendar2 = Calendar.getInstance();
 	
+	private String listOfPastAuctions = "";
+	
 	//this is a list of auctions
 	private ArrayList<Auction> auctionList = new ArrayList<Auction>();
 	private ArrayList<Auction> pastAuctionList = new ArrayList<Auction>();
@@ -229,11 +231,17 @@ public class CalendarClass {
 	}
 	
 	/**
-	 * This method makes a list of future auctions.
-	 * @return String with a list of future auctions.
+	 * This method makes a list of auctions.
+	 * @return String with a list of auctions.
 	 */
 	public String getAllAuctions() {
 		String listOfAuctions = "";
+		
+		//add past auctions
+		listOfPastAuctions += "Past Jobs:\n";
+		for(int i = 0; i < pastAuctionList.size(); i++) {
+			listOfPastAuctions += pastAuctionList.get(i).toString() + "\n";
+		}
 		for(int i = 0; i < 4; i++) {
 			for(int j = 1; j <= board.getMonth(i).getMaxDays(); j++)
 			{
@@ -245,20 +253,13 @@ public class CalendarClass {
 		
 		return listOfAuctions;
 	}
-	
 	/**
-	 * This class returns past auctions
-	 * @return listOfAuctions is the past auctions
+	 * This method returns a string of past auctions
+	 * @return listOfPastAuctions of past auctions.
 	 */
 	public String pastAuctions() {
-		String listOfAuctions = "";
+		return listOfPastAuctions;
 		
-		//add past auctions
-		listOfAuctions += "Past Jobs:\n";
-		for(int i = 0; i < pastAuctionList.size(); i++) {
-			listOfAuctions += pastAuctionList.get(i).toString() + "\n";
-		}
-		return listOfAuctions;
 	}
 	
 	/**
