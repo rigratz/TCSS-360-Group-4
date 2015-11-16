@@ -4,7 +4,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ TestAuction.class, TestBidder.class, TestCalendarClass.class, TestDay.class, TestItem.class,
-		TestNonProfitEmployee.class, TestUser.class })
+		TestNonProfitEmployee.class, TestUser.class, TestAuction.class })
 public class AllTests {
 
 }

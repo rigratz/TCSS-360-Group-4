@@ -229,18 +229,11 @@ public class CalendarClass {
 	}
 	
 	/**
-	 * This method makes a list of auctions.
-	 * @return String with a list of auctions.
+	 * This method makes a list of future auctions.
+	 * @return String with a list of future auctions.
 	 */
 	public String getAllAuctions() {
 		String listOfAuctions = "";
-		
-		//add past auctions
-		listOfAuctions += "Past Jobs:\n";
-		for(int i = 0; i < pastAuctionList.size(); i++) {
-			listOfAuctions += pastAuctionList.get(i).toString() + "\n";
-		}
-		listOfAuctions += "\nFuture Jobs:\n";
 		for(int i = 0; i < 4; i++) {
 			for(int j = 1; j <= board.getMonth(i).getMaxDays(); j++)
 			{
@@ -250,6 +243,21 @@ public class CalendarClass {
 			}
 		}
 		
+		return listOfAuctions;
+	}
+	
+	/**
+	 * This class returns past auctions
+	 * @return listOfAuctions is the past auctions
+	 */
+	public String pastAuctions() {
+		String listOfAuctions = "";
+		
+		//add past auctions
+		listOfAuctions += "Past Jobs:\n";
+		for(int i = 0; i < pastAuctionList.size(); i++) {
+			listOfAuctions += pastAuctionList.get(i).toString() + "\n";
+		}
 		return listOfAuctions;
 	}
 	
