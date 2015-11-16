@@ -12,7 +12,7 @@ public class CalendarClass {
 	//this is a calendar
 	private Calendar calendar2 = Calendar.getInstance();
 	
-	private String listOfPastAuctions = "";
+	private String listOfPastAuctions;
 	
 	//this is a list of auctions
 	private ArrayList<Auction> auctionList = new ArrayList<Auction>();
@@ -236,12 +236,13 @@ public class CalendarClass {
 	 */
 	public String getAllAuctions() {
 		String listOfAuctions = "";
-		
-		//add past auctions
-		listOfPastAuctions += "Past Jobs:\n";
-		for(int i = 0; i < pastAuctionList.size(); i++) {
-			listOfPastAuctions += pastAuctionList.get(i).toString() + "\n";
-		}
+//		listOfPastAuctions = "";
+//		
+//		//add past auctions
+//		listOfPastAuctions += "Past Jobs:\n";
+//		for(int i = 0; i < pastAuctionList.size(); i++) {
+//			listOfPastAuctions += pastAuctionList.get(i).toString() + "\n";
+//		}
 		for(int i = 0; i < 4; i++) {
 			for(int j = 1; j <= board.getMonth(i).getMaxDays(); j++)
 			{
@@ -258,8 +259,13 @@ public class CalendarClass {
 	 * @return listOfPastAuctions of past auctions.
 	 */
 	public String getPastAuctions() {
+		//add past auctions
+		String listOfPastAuctions = "";
+		listOfPastAuctions += "Past Auctions:\n";
+		for(int i = 0; i < pastAuctionList.size(); i++) {
+			listOfPastAuctions += pastAuctionList.get(i).toString() + "\n";
+		}
 		return listOfPastAuctions;
-		
 	}
 	
 	/**
