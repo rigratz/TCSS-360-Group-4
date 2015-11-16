@@ -547,6 +547,7 @@ public class AuctionCentral {
 		List<Auction> past = myAuctionCalendar.getListOfPastAuctions();
 		while (!past.isEmpty()) {
 			auctions.add(past.get(0));
+			past.remove(0);
 		}
 		
 		output.println(auctionsFormat);
