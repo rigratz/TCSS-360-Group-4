@@ -49,6 +49,10 @@ public class Month {
 		return monthInfo;
 	}
 	
+	public int getMaxDays() {
+		return maxDays;
+	}
+	
 	public String toStringAvailableDays() {
 		String info = new String();
 		for(int i = 1; i < days.size(); i++) {

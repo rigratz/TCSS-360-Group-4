@@ -14,6 +14,7 @@ public class CalendarClass {
 	
 	//this is a list of auctions
 	private ArrayList<Auction> auctionList = new ArrayList<Auction>();
+	private ArrayList<Auction> pastAuctionList = new ArrayList<Auction>();
 	
 	//this is a board with four months
 	private CalendarBoard board;
@@ -116,7 +117,6 @@ public class CalendarClass {
 	public boolean isAvailable(int month, int day, int startTime, int endTime) {
 		//subtract month scheduled from current month to get offset in index
 		int monthIndex = calculateOffset(month);
-		
 		//if the day is empty
 		if(board.getMonth(monthIndex).getDay(day).getNumberOfAuctions() == 0) {
 			//if previous action ended at the end of the previous day
@@ -234,10 +234,22 @@ public class CalendarClass {
 	 */
 	public String getAllAuctions() {
 		String listOfAuctions = "";
-		for (int i = 0; i < auctionList.size(); i++) {
-			String currentAuction = auctionList.get(i).toString() + "\n";
-			listOfAuctions = listOfAuctions + currentAuction;
+		
+		//add past auctions
+		listOfAuctions += "Past Jobs:\n";
+		for(int i = 0; i < pastAuctionList.size(); i++) {
+			listOfAuctions += pastAuctionList.get(i).toString() + "\n";
 		}
+		listOfAuctions += "\nFuture Jobs:\n";
+		for(int i = 0; i < 4; i++) {
+			for(int j = 1; j <= board.getMonth(i).getMaxDays(); j++)
+			{
+				if(board.getMonth(i).getDay(j).getNumberOfAuctions() > 0) {
+					listOfAuctions += board.getMonth(i).getDay(j).toString();
+				}
+			}
+		}
+		
 		return listOfAuctions;
 	}
 	
@@ -293,7 +305,25 @@ public class CalendarClass {
 	 * @param auctionList list of auctions
 	 */
 	public void insertAuctions(ArrayList<Auction> auctionList) {
-		this.auctionList = auctionList;
+		for(int i = 0; i < auctionList.size(); i++) {
+			int monthIndex = calculateOffset(auctionList.get(i).getMyMonth());
+			if((monthIndex >= 0 && monthIndex < 4) && (auctionList.get(i).getMyDay() >= calendar2.get(Calendar.DAY_OF_MONTH))) {
+				if (isAvailable(auctionList.get(i).getMyMonth(), 
+						auctionList.get(i).getMyDay(), 
+						auctionList.get(i).getMyStartTime(), 
+						auctionList.get(i).getMyEndTime())
+						&& belowMaxAuctions()
+						&& belowMaxDaysToFuture(auctionList.get(i).getMyMonth(), 
+								auctionList.get(i).getMyDay())
+						&& belowWeekLimit(auctionList.get(i).getMyMonth(), 
+								auctionList.get(i).getMyDay())) {
+					addAuction(auctionList.get(i));
+				}
+			}
+			else {
+				pastAuctionList.add(auctionList.get(i));
+			}
+		}
 	}
 	
 	/**
