@@ -1,7 +1,7 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class TestCalendarClass {
 	ArrayList<Auction> list;
-	CalendarClass cal, fullCal, badCalendar, badCalendar2;
+	CalendarClass cal, fullCal, badCalendar, badCalendar2, emptyCalendar;
 	Auction auction, auction2, auction3, auction4, auction5,auction6;
 	Auction auction7, auction8, auction9, auction10, auction11, auction12;
 	Auction auction13, auction14, auction15, auction16, auction17, auction18, auction19;
@@ -30,6 +30,7 @@ public class TestCalendarClass {
 	public void setUp() throws Exception {
 		list = new ArrayList<Auction>();
 		cal = new CalendarClass();
+		emptyCalendar = new CalendarClass();
 		auction = new Auction("Good-Will", 12, 1, 2015, 8, 10);
 		auction2= new Auction("E-bay", 12, 4, 2015, 23, 24);
 		
@@ -210,6 +211,8 @@ public class TestCalendarClass {
 	@Test
 	public void testGetAllAuctions() {
 		fullCal.getAllAuctions();
+//		cal.getAllAuctions();
+//		emptyCalendar.getAllAuctions();
 	}
 	
 	@Test
@@ -237,6 +240,16 @@ public class TestCalendarClass {
 	@Test
 	public void testInsertAuction() {
 		fullCal.insertAuctions(list);
+		Auction auct = new Auction("GdsWill", 11, 2, 2015, 11, 18);
+		Auction auct2 = new Auction("GdsWill", 10, 2, 2015, 11, 12);
+		Auction auct3 = new Auction("GdssdfWill", 11, 20, 2015, 20, 22);
+		Auction auct4 = new Auction("GdasfsgsWill", 3, 2, 2015, 11, 12);
+		list.add(auct);
+		list.add(auct2);
+		list.add(auct3);
+		list.add(auct4);
+		fullCal.insertAuctions(list);
+		emptyCalendar.insertAuctions(list);
 	}
 	
 	@Test
