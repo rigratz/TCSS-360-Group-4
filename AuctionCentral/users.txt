@@ -6,3 +6,6 @@ willie willie@uw.edu bidder
 george george@uw.edu bidder
 larry larry@uw.edu npo GeneralMills
 Bill g@gmail.com npo GatesGates
+heisenberg wwhite@abq.edu npo CrystalBlue
+boolean bool@gb.edu bidder
+google google@gmail.com npo Google

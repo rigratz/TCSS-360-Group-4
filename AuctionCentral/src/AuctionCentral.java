@@ -21,7 +21,7 @@ public class AuctionCentral {
 
 	private static Scanner myInput;
 	private static CalendarClass myAuctionCalendar;
-	private static ArrayList<Auction> myAuctions;
+	//private static ArrayList<Auction> myAuctions;
 	private static List<User> myUsers;
 	private static User myUser;
 	
@@ -50,6 +50,12 @@ public class AuctionCentral {
 		int selection = 0;
 		System.out.println("\nWelcome to AuctionCentral!\n--------------------------");
 		while(selection != 3) {
+//			try {
+//				//initialize();
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			System.out.println("\nWhat would you like to do?");
 			System.out.println("\n1. Log In\n2. Create Account\n3. Exit\n");
 			selection = myInput.nextInt();
@@ -166,7 +172,11 @@ public class AuctionCentral {
 			System.out.println("\n1. View Monthly Calendar\n2. View Auction Details\n3. Log Out");
 			selection = myInput.nextInt();
 			switch (selection) {
-				case 1: System.out.println(myUser.viewCalendar(myAuctionCalendar)); break;
+				case 1: 
+					//System.out.println("before");
+					System.out.println(myAuctionCalendar.getPastAuctions());
+					//System.out.println("after");
+					System.out.println("Future Auctions: \n" + myUser.viewCalendar(myAuctionCalendar)); break;
 				case 2: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
 					auctionName = myInput.next();
 					System.out.println(myUser.viewAuction(myAuctionCalendar, auctionName)); break;
@@ -182,11 +192,12 @@ public class AuctionCentral {
 	public static void npoMenu() {
 		int selection = 0;
 		Auction auct = null;
-		if (hasAuction()) {
-			auct = getAuction();
-		}
+		
 		
 		while (selection != 6) {
+			if (hasAuction()) {
+				auct = getAuction();
+			}
 			System.out.println("\nHello, Non-Profit Organization! What would you like to do?");
 			System.out.println("\n1. Schedule Auction\n2. Enter Auction Information");
 			System.out.println("3. Edit Auction Information\n4. Enter Item Information");
@@ -194,7 +205,8 @@ public class AuctionCentral {
 			selection = myInput.nextInt();
 			switch (selection) {
 				case 1: if (auct == null) {
-							scheduleAuctionMenu(); break;
+							scheduleAuctionMenu();
+							System.out.println(myAuctionCalendar.getAllAuctions()); break;
 						} else {
 							System.out.println("You already have an auction scheduled.");
 						} break;
@@ -274,6 +286,7 @@ public class AuctionCentral {
 				case 6: System.out.println("Logging out... Good-bye!"); break;
 				default: System.out.println("Invalid selection!"); break;
 			}
+		saveAndQuit();
 		}
 	}
 	
@@ -286,6 +299,7 @@ public class AuctionCentral {
 		String finder = "";
 		Auction selectedAuction = null;
 		List<Auction> auctionList = myAuctionCalendar.getListOfAuctions();
+		System.out.println(myAuctionCalendar.getAllAuctions());
 		List<Item> selectedItemList = null;
 		Item selectedItem = null;
 		boolean found = false;
@@ -298,7 +312,8 @@ public class AuctionCentral {
 			System.out.println("3. Change Existing Bid\n4. Cancel existing bid\n5. Log Out");
 			selection = myInput.nextInt();
 			switch (selection) {
-				case 1: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
+				case 1: System.out.println("Please enter the name of the organization hosting\nthe auction:\n");
+					System.out.println(myUser.viewCalendar(myAuctionCalendar));
 					selectName = myInput.next();
 					finder = myUser.viewAuction(myAuctionCalendar, selectName); 
 					System.out.println(finder);
@@ -313,24 +328,27 @@ public class AuctionCentral {
 					}
 					break;
 		
-				case 2: System.out.println("Please type the name one of the following items to bid on:\n");
-					for (int i = 0; i < selectedItemList.size(); i++) {
-						System.out.println(selectedItemList.get(i));
-					}
-					System.out.println();
-					selectName = myInput.next();
-					found = false;
-					index = -1;
-					for (int i = 0; i < selectedItemList.size(); i++) {
-						if (selectedItemList.get(i).getMyName().equals(selectName)) {
-							found = true;
-							index = i;
-							if (selectedItemList.get(i).getMyBids().containsKey(myUser.getMyName())) {
-								previousBid = true;
+				case 2: if (selectedItemList == null) {
+							System.out.println("No auction has been selected.\n");
+						} else {
+							System.out.println("Please type the name one of the following items to bid on:\n");
+							for (int i = 0; i < selectedItemList.size(); i++) {
+								System.out.println(selectedItemList.get(i));
 							}
-							break;
-						}
-					}
+							System.out.println();
+							selectName = myInput.next();
+							found = false;
+							index = -1;
+							for (int i = 0; i < selectedItemList.size(); i++) {
+								if (selectedItemList.get(i).getMyName().equals(selectName)) {
+									found = true;
+									index = i;
+									if (selectedItemList.get(i).getMyBids().containsKey(myUser.getMyName())) {
+										previousBid = true;
+									}
+									break;
+								}
+							}
 					if (found && !previousBid) {
 						System.out.println("Please enter bid amount:");
 						double bid = myInput.nextDouble();
@@ -345,30 +363,25 @@ public class AuctionCentral {
 					} else {
 						System.out.println("No such item found...");
 					}
+					}
 					break;
 			
-				case 3: System.out.println("Please type the name one of the following items to change bid on:\n");
-					for (int i = 0; i < selectedItemList.size(); i++) {
-						System.out.println(selectedItemList.get(i));
-					}
-					System.out.println();
+				case 3:
+					System.out.println("You currently have bids on the following items:\n");
+					System.out.println(((Bidder) myUser).getMyBids() + "\n");
+					System.out.println("Which bid would you like to change?\n");
 					selectName = myInput.next();
-					found = false;
-					index = -1;
-					for (int i = 0; i < selectedItemList.size(); i++) {
-						if (selectedItemList.get(i).getMyName().equals(selectName)) {
-							found = true;
-							index = i;
-							break;
-						}
-					}
-					if (found) {
+					selectedItem = getItemFromList(selectName);
+					if (selectedItem != null) {
 						System.out.println("Please enter new bid amount:");
-						double bid = myInput.nextDouble();
-						((Bidder)myUser).changeBid(selectedItemList.get(index), bid);
-						System.out.println("Bid changed successfully");
+						double newBid = myInput.nextDouble();
+						if (((Bidder)myUser).changeBid(selectedItem, newBid)) {
+							System.out.println("Bid changed.");
+						} else {
+							System.out.println("Bid could not be changed to specified amount.");
+						}
 					} else {
-						System.out.println("No such item found...");
+						System.out.println("No bid for selected item to cancel.");
 					}
 					break;
 				
@@ -455,9 +468,9 @@ public class AuctionCentral {
 			}
 			
 		}
-		myAuctions = auctions;
+		//myAuctions = auctions;
 		myAuctionCalendar = new CalendarClass();
-		myAuctionCalendar.insertAuctions(myAuctions);
+		myAuctionCalendar.insertAuctions(auctions);
 		//myAuctionCalendar = new CalendarClass(myAuctions);
 		
 		
@@ -498,7 +511,7 @@ public class AuctionCentral {
 								myUsers.add(tempUser);break;
 				case "bidder": 
 					tempUserBids = new HashMap<String, Double>();
-					for (Auction a : myAuctions) {
+					for (Auction a : auctions) {
 						for (Item i : a.getMyItems()) {
 							for (String key : i.getMyBids().keySet()) {
 								if (key.equals(name)) {
@@ -532,14 +545,15 @@ public class AuctionCentral {
 		
 		List<Item> tempItems;
 		Map<String, Double> tempBids;
+		List<Auction> auctions = myAuctionCalendar.getListOfAuctions();
 		
 		output.println(auctionsFormat);
-		for (int i = 0; i < myAuctions.size(); i++) {
-			output.print(myAuctions.get(i).getMyNonProfit() + " " + myAuctions.get(i).getMyMonth() + 
-					" " + myAuctions.get(i).getMyDay() + " " + myAuctions.get(i).getMyYear() + 
-					" " + myAuctions.get(i).getMyStartTime() + " " + 
-					myAuctions.get(i).getMyEndTime() + " ");
-			tempItems = myAuctions.get(i).getMyItems();
+		for (int i = 0; i < auctions.size(); i++) {
+			output.print(auctions.get(i).getMyNonProfit() + " " + auctions.get(i).getMyMonth() + 
+					" " + auctions.get(i).getMyDay() + " " + auctions.get(i).getMyYear() + 
+					" " + auctions.get(i).getMyStartTime() + " " + 
+					auctions.get(i).getMyEndTime() + " ");
+			tempItems = auctions.get(i).getMyItems();
 			for (int j = 0; j < tempItems.size(); j++) {
 				output.print(tempItems.get(j).getMyName() + " " + 
 						tempItems.get(j).getMyStartingBid() + " ");
