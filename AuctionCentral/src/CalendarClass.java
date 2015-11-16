@@ -257,7 +257,7 @@ public class CalendarClass {
 	 * This method returns a string of past auctions
 	 * @return listOfPastAuctions of past auctions.
 	 */
-	public String pastAuctions() {
+	public String getPastAuctions() {
 		return listOfPastAuctions;
 		
 	}
