@@ -307,8 +307,26 @@ public class CalendarClass {
 	public void insertAuctions(ArrayList<Auction> auctionList) {
 		for(int i = 0; i < auctionList.size(); i++) {
 			int monthIndex = calculateOffset(auctionList.get(i).getMyMonth());
-			if((monthIndex >= 0 && monthIndex < 4) && (auctionList.get(i).getMyDay() >= calendar2.get(Calendar.DAY_OF_MONTH))) {
-				if (isAvailable(auctionList.get(i).getMyMonth(), 
+			if((monthIndex >= 0 && monthIndex < 4)) {
+				if(monthIndex == 0) {
+					if(auctionList.get(i).getMyDay() >= calendar2.get(Calendar.DAY_OF_MONTH)) {
+						if (isAvailable(auctionList.get(i).getMyMonth(), 
+								auctionList.get(i).getMyDay(), 
+								auctionList.get(i).getMyStartTime(), 
+								auctionList.get(i).getMyEndTime())
+								&& belowMaxAuctions()
+								&& belowMaxDaysToFuture(auctionList.get(i).getMyMonth(), 
+										auctionList.get(i).getMyDay())
+								&& belowWeekLimit(auctionList.get(i).getMyMonth(), 
+										auctionList.get(i).getMyDay())) {
+							addAuction(auctionList.get(i));
+						}
+					}
+					else {
+						pastAuctionList.add(auctionList.get(i));
+					}
+				}
+				else if (isAvailable(auctionList.get(i).getMyMonth(), 
 						auctionList.get(i).getMyDay(), 
 						auctionList.get(i).getMyStartTime(), 
 						auctionList.get(i).getMyEndTime())
