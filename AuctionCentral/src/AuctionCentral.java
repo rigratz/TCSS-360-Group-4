@@ -1,8 +1,6 @@
 /*
  * TCSS 360 Group 4
  * AuctionCentral
- * 
- * Still very much a work in progress, just wanted to get something up there on Master right now.
  */
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,6 +16,10 @@ import java.util.Scanner;
 
 /**
  * This is the main driver class for the AuctionCentral program.
+ * 
+ * No JUnit testing, as this class relies on almost exclusively on user input 
+ * and external classes and methods which have all been individually tested.
+ * 
  * @author Riley Gratzer
  */
 public class AuctionCentral {
@@ -55,6 +57,8 @@ public class AuctionCentral {
 	public static void initialMenu() throws IOException {
 		int selection = 0;
 		System.out.println("\nWelcome to AuctionCentral!\n--------------------------");
+		System.out.println("Proper input consists of a number when prompted \nfor one" 
+								+ ", or a string with no spaces\n");
 		while(selection != 3) {
 
 			System.out.println("\nWhat would you like to do?");
@@ -115,10 +119,8 @@ public class AuctionCentral {
 		String userName, organizationName, contact;
 		int selectType;
 		boolean taken = false;
-		boolean success = true;
 		userName = null;
-		
-		while (success) {
+
 		System.out.println("\nPlease type in your desired User Name:\n");
 		userName = readString();
 
@@ -127,7 +129,6 @@ public class AuctionCentral {
 				taken = true;
 			}
 		}
-		
 		if (!taken) {
 			System.out.println("\nPlease type in your e-mail address:\n");
 			contact = readString();
@@ -157,14 +158,12 @@ public class AuctionCentral {
 					break;
 				default: 
 					System.out.println("Invalid selection, please try Account creation again");
-					createAccountMenu(); break;
+					 break;
 			}
 		} else {
 			System.out.println("User Name already taken.\n");
-			success = false;
-			//createAccountMenu();
 		}
-		}
+		
 		
 		
 	}
@@ -184,7 +183,7 @@ public class AuctionCentral {
 				case 1: 
 					System.out.println(myAuctionCalendar.getPastAuctions());
 					System.out.println("Future Auctions: \n" + myUser.viewCalendar(myAuctionCalendar)); break;
-				case 2: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
+				case 2: System.out.println("Please enter the name of the organization hosting\nthe auction:\n");
 					auctionName = myInput.next();
 					System.out.println(myUser.viewAuction(myAuctionCalendar, auctionName)); break;
 				case 3: System.out.println("Logging out... Good-bye!"); break;
@@ -304,7 +303,6 @@ public class AuctionCentral {
 		String finder = "";
 		Auction selectedAuction = null;
 		List<Auction> auctionList = myAuctionCalendar.getListOfAuctions();
-		System.out.println(myAuctionCalendar.getAllAuctions());
 		List<Item> selectedItemList = null;
 		Item selectedItem = null;
 		boolean found = false;
@@ -335,6 +333,8 @@ public class AuctionCentral {
 		
 				case 2: if (selectedItemList == null) {
 							System.out.println("No auction has been selected.\n");
+				} else if (selectedItemList.isEmpty()) {
+					System.out.println("No items currently up for auction.");
 						} else {
 							System.out.println("Please type the name one of the following items to bid on:\n");
 							for (int i = 0; i < selectedItemList.size(); i++) {
@@ -646,17 +646,17 @@ public class AuctionCentral {
 			if (!c.checkOrganization(((NonProfitEmployee)myUser).getMyOrganizationName())) {
 				System.out.println("Your organization already has an auction scheduled.\n");
 			}
-			if (!c.isAvailable(month, day, start, end)) {
-				System.out.println("Selected time is not available.\n");
-			}
-			if (!c.belowMaxAuctions()) {
-				System.out.println("Sorry, we have a full set of auctions right now.\n");
-			}
-			if (!c.belowMaxDaysToFuture(month, day)) {
+			else if (!c.belowMaxDaysToFuture(month, day)) {
 				System.out.println("Selected time is too far in advance.\n");
 			}
-			if (!c.belowWeekLimit(month, day)) {
+			else if (!c.belowMaxAuctions()) {
+				System.out.println("Sorry, we have a full set of auctions right now.\n");
+			}
+			else if (!c.belowWeekLimit(month, day)) {
 				System.out.println("Sorry, we are full for that particular week\n");
+			}
+			else if (!c.isAvailable(month, day, start, end)) {
+				System.out.println("Selected time is not available.\n");
 			}
 		}
 	}
