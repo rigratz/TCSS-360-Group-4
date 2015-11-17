@@ -173,9 +173,7 @@ public class AuctionCentral {
 			selection = myInput.nextInt();
 			switch (selection) {
 				case 1: 
-					//System.out.println("before");
 					System.out.println(myAuctionCalendar.getPastAuctions());
-					//System.out.println("after");
 					System.out.println("Future Auctions: \n" + myUser.viewCalendar(myAuctionCalendar)); break;
 				case 2: System.out.println("Please enter the name of the organization hosting\n the auction:\n");
 					auctionName = myInput.next();
@@ -546,6 +544,11 @@ public class AuctionCentral {
 		List<Item> tempItems;
 		Map<String, Double> tempBids;
 		List<Auction> auctions = myAuctionCalendar.getListOfAuctions();
+		List<Auction> past = myAuctionCalendar.getListOfPastAuctions();
+		while (!past.isEmpty()) {
+			auctions.add(past.get(0));
+			past.remove(0);
+		}
 		
 		output.println(auctionsFormat);
 		for (int i = 0; i < auctions.size(); i++) {

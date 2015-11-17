@@ -2,8 +2,4 @@
 GoodWill 11 28 2015 8 10 Shirt 1.2 7.4 tempest 10.6 art 80.2 willie 4.5 riley 1.6 awe 
 GeneralMills 12 14 2015 8 12 cheerios 3.99 5.0 willie 
 EarthCo 11 29 2015 15 17 Plant 1.1 23.56 art 5.65 tempest 1.234 george 2.45 riley Chair 1.2 23.34 tempest 45.56 art 4.0 george fertilizer 3.7 
-rbgfvdc 2 3 3 3 5 
-rbvfedzs 12 4 4 4 5 
-rbvfe 1 12 2015 5 15 
-recd 1 20 2016 15 16 
-vercd 2 5 2015 2 5 
+Google 10 23 2015 17 19 
