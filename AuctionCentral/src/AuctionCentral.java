@@ -4,8 +4,11 @@
  * 
  * Still very much a work in progress, just wanted to get something up there on Master right now.
  */
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +23,7 @@ import java.util.Scanner;
 public class AuctionCentral {
 
 	private static Scanner myInput;
+	private static BufferedReader myStringInput;
 	private static CalendarClass myAuctionCalendar;
 	//private static ArrayList<Auction> myAuctions;
 	private static List<User> myUsers;
@@ -29,9 +33,12 @@ public class AuctionCentral {
 	/**
 	 * main method.
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		myInput = new Scanner(System.in);
+		myStringInput = new BufferedReader(new InputStreamReader(System.in));
+		
 		try {
 			initialize();
 			//saveAndQuit();
@@ -45,8 +52,9 @@ public class AuctionCentral {
 
 	/**
 	 * This is the log in menu.
+	 * @throws IOException 
 	 */
-	public static void initialMenu() {
+	public static void initialMenu() throws IOException {
 		int selection = 0;
 		System.out.println("\nWelcome to AuctionCentral!\n--------------------------");
 		while(selection != 3) {
@@ -73,11 +81,19 @@ public class AuctionCentral {
 	 */
 	public static void logInMenu() {
 		boolean found = false;
-		while (!found) {
-			System.out.println("\nPlease type your user name:\n");
-
-			String selection = myInput.next();
+		String selection = null;
+		System.out.println("\nPlease type your user name:\n");
 		
+		
+		while (!found) {
+			selection = readString();
+			//boolean good = false;
+//			while (!good) {
+//				selection = myInput.nextLine();
+//				good = checkSpace(selection);
+//				
+//			}
+			//if (!selection.equals("")) {
 			int index = 0;
 		
 			for (int i = 0; i < myUsers.size(); i++) {
@@ -101,6 +117,7 @@ public class AuctionCentral {
 			} else {
 				System.out.println("Name not found, try again:\n");
 			}
+			//}
 		}
 	}
 	
@@ -112,9 +129,16 @@ public class AuctionCentral {
 		String userName, organizationName, contact;
 		int selectType;
 		boolean taken = false;
+		boolean success = true;
+		userName = null;
 		
+		while (success) {
 		System.out.println("\nPlease type in your desired User Name:\n");
-		userName = myInput.next();
+		userName = readString();
+		//userName = checkSpace(userName);
+		
+		
+	
 		
 		for (int i = 0; i < myUsers.size(); i++) {
 			if (myUsers.get(i).getMyName().equals(userName)) {
@@ -124,7 +148,7 @@ public class AuctionCentral {
 		
 		if (!taken) {
 			System.out.println("\nPlease type in your e-mail address:\n");
-			contact = myInput.next();
+			contact = readString();
 			
 			System.out.println("Please select your access privilages:\n");
 			System.out.println("1. AuctionCentral Employee\n2. Non-Profit Organization\n3. Bidder\n");
@@ -138,7 +162,7 @@ public class AuctionCentral {
 					break;
 				case 2:
 					System.out.println("\nPlease type in the name of your organization:\n");
-					organizationName = myInput.next();
+					organizationName = readString();
 					newUser = new NonProfitEmployee(userName, contact, organizationName);
 					myUsers.add(newUser);
 					myUser = newUser;
@@ -155,8 +179,11 @@ public class AuctionCentral {
 			}
 		} else {
 			System.out.println("User Name already taken.\n");
-			createAccountMenu();
+			success = false;
+			//createAccountMenu();
 		}
+		}
+		
 		
 	}
 	
@@ -192,14 +219,14 @@ public class AuctionCentral {
 		Auction auct = null;
 		
 		
-		while (selection != 6) {
+		while (selection != 5) {
 			if (hasAuction()) {
 				auct = getAuction();
 			}
 			System.out.println("\nHello, Non-Profit Organization! What would you like to do?");
-			System.out.println("\n1. Schedule Auction\n2. Enter Auction Information");
-			System.out.println("3. Edit Auction Information\n4. Enter Item Information");
-			System.out.println("5. Edit Item Information\n6. Log Out");
+			System.out.println("\n1. Schedule Auction");
+			System.out.println("2. Edit Auction Information\n3. Enter Item Information");
+			System.out.println("4. Edit Item Information\n5. Log Out");
 			selection = myInput.nextInt();
 			switch (selection) {
 				case 1: if (auct == null) {
@@ -208,8 +235,7 @@ public class AuctionCentral {
 						} else {
 							System.out.println("You already have an auction scheduled.");
 						} break;
-				case 2:  if (hasAuction()) enterAuctionInfoMenu(); break;
-				case 3: if (hasAuction()) {
+				case 2: if (hasAuction()) {
 							int innerSelect, newArg;
 							System.out.println("What would you like to edit?\n");
 							System.out.println("1. Day\n2: Month\n3. Year\n4. Start Time\n5. End Time\n");
@@ -236,12 +262,12 @@ public class AuctionCentral {
 						} else {
 							System.out.println("You have no auction to edit.");
 						} break;
-				case 4: if (hasAuction()) {
+				case 3: if (hasAuction()) {
 							String itemName = "";
 							double itemStart = 0.0;
 							
 							System.out.println("Please enter the name of the item:\n");
-							itemName = myInput.next();
+							itemName = readString();
 							System.out.println("Please enter the starting bid amount for the item:\n");
 							itemStart = myInput.nextDouble();
 							auct.addItem(new Item(itemName, itemStart));
@@ -249,7 +275,7 @@ public class AuctionCentral {
 							System.out.println("You have no auction to add items to.");
 						} break;
 				
-				case 5: if (hasAuction()) {
+				case 4: if (hasAuction()) {
 							String itemName, itemNewName;
 							Item editItem = null;
 							double itemNewStart;
@@ -257,7 +283,7 @@ public class AuctionCentral {
 							
 							System.out.println("Which item would you like to edit?\n");
 							System.out.println(auct.itemsToString());
-							itemName = myInput.next();
+							itemName = readString();
 							for (Item i : auct.getMyItems()) {
 								if (itemName.equals(i.getMyName())) {
 									editItem = i;
@@ -271,7 +297,7 @@ public class AuctionCentral {
 							
 								switch (innerSelect) {
 									case 1: System.out.println("Please enter new item name:\n");
-										itemNewName = myInput.next();
+										itemNewName = readString();
 										editItem.setMyName(itemNewName); break;
 									case 2: System.out.println("Please enter new starting bid:\n");
 										itemNewStart = myInput.nextDouble();
@@ -281,7 +307,7 @@ public class AuctionCentral {
 								System.out.println("Item does not exist.\n");
 							}
 						} break;
-				case 6: System.out.println("Logging out... Good-bye!"); break;
+				case 5: System.out.println("Logging out... Good-bye!"); break;
 				default: System.out.println("Invalid selection!"); break;
 			}
 		saveAndQuit();
@@ -312,7 +338,7 @@ public class AuctionCentral {
 			switch (selection) {
 				case 1: System.out.println("Please enter the name of the organization hosting\nthe auction:\n");
 					System.out.println(myUser.viewCalendar(myAuctionCalendar));
-					selectName = myInput.next();
+					selectName = readString();
 					finder = myUser.viewAuction(myAuctionCalendar, selectName); 
 					System.out.println(finder);
 					if (!finder.equals("Nothing was found.")) {
@@ -334,7 +360,7 @@ public class AuctionCentral {
 								System.out.println(selectedItemList.get(i));
 							}
 							System.out.println();
-							selectName = myInput.next();
+							selectName = readString();
 							found = false;
 							index = -1;
 							for (int i = 0; i < selectedItemList.size(); i++) {
@@ -368,7 +394,7 @@ public class AuctionCentral {
 					System.out.println("You currently have bids on the following items:\n");
 					System.out.println(((Bidder) myUser).getMyBids() + "\n");
 					System.out.println("Which bid would you like to change?\n");
-					selectName = myInput.next();
+					selectName = readString();
 					selectedItem = getItemFromList(selectName);
 					if (selectedItem != null) {
 						System.out.println("Please enter new bid amount:");
@@ -596,6 +622,12 @@ public class AuctionCentral {
 
  //RANDOM HELPER METHODS
  	
+	/**
+	 * Retrieves an item from a list if it exists.
+	 * 
+	 * @param theName is the item to look for.
+	 * @return the item if it exists (or null otherwise)
+	 */
 	private static Item getItemFromList(String theName) {
 		Item foundItem = null;
 		List<Auction> list = myAuctionCalendar.getListOfAuctions();
@@ -610,6 +642,9 @@ public class AuctionCentral {
 		return foundItem;
 	}
 	
+	/**
+	 * Menu for scheduling an auction.
+	 */
 	public static void scheduleAuctionMenu() {
 		CalendarClass c = myAuctionCalendar;
 		
@@ -651,10 +686,11 @@ public class AuctionCentral {
 		}
 	}
 	
-	public static void enterAuctionInfoMenu() {
-		System.out.println("Don't know what do do here.");
-	}
-	
+	/**
+	 * Checks if an NPO has an auction scheduled.
+	 * 
+	 * @return if NPO has an auction scheduled.
+	 */
 	private static boolean hasAuction() {
 		List<Auction> auctions = myAuctionCalendar.getListOfAuctions();
 		
@@ -668,6 +704,11 @@ public class AuctionCentral {
 		return found;
 	}
 	
+	/**
+	 * Gets an auction from a non-profit.
+	 * 
+	 * @return the desired auction.
+	 */
 	private static Auction getAuction() {
 		List<Auction> auctions = myAuctionCalendar.getListOfAuctions();
 		Auction auct = null;
@@ -679,6 +720,33 @@ public class AuctionCentral {
 			}
 		}
 		return auct;
+	}
+	
+	/**
+	 * This method makes sure any input is free of spaces to preserve file read/write format.
+	 * @return the valid string.
+	 */
+	private static String readString() {
+		boolean read = false;
+		String input = "";
+		while (!read) {
+			try {
+				input = myStringInput.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			while (input.contains(" ")) {
+				System.out.println("Please do not use spaces. Type CamelCase or use underscores.");
+				System.out.println("Try Again:");
+				try {
+					input = myStringInput.readLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			read = true;
+		}
+		return input;
 	}
 }
 
