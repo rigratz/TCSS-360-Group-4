@@ -25,7 +25,7 @@ public class AuctionCentral {
 	private static Scanner myInput;
 	private static BufferedReader myStringInput;
 	private static CalendarClass myAuctionCalendar;
-	//private static ArrayList<Auction> myAuctions;
+
 	private static List<User> myUsers;
 	private static User myUser;
 	
@@ -41,13 +41,11 @@ public class AuctionCentral {
 		
 		try {
 			initialize();
-			//saveAndQuit();
 		} catch (FileNotFoundException e) {
 			System.err.println("No such file!");
 			e.printStackTrace();
 		}
 		initialMenu();
-		//saveAndQuit();
 	}
 
 	/**
@@ -58,12 +56,7 @@ public class AuctionCentral {
 		int selection = 0;
 		System.out.println("\nWelcome to AuctionCentral!\n--------------------------");
 		while(selection != 3) {
-//			try {
-//				//initialize();
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+
 			System.out.println("\nWhat would you like to do?");
 			System.out.println("\n1. Log In\n2. Create Account\n3. Exit\n");
 			selection = myInput.nextInt();
@@ -87,13 +80,6 @@ public class AuctionCentral {
 		
 		while (!found) {
 			selection = readString();
-			//boolean good = false;
-//			while (!good) {
-//				selection = myInput.nextLine();
-//				good = checkSpace(selection);
-//				
-//			}
-			//if (!selection.equals("")) {
 			int index = 0;
 		
 			for (int i = 0; i < myUsers.size(); i++) {
@@ -117,7 +103,7 @@ public class AuctionCentral {
 			} else {
 				System.out.println("Name not found, try again:\n");
 			}
-			//}
+			
 		}
 	}
 	
@@ -135,11 +121,7 @@ public class AuctionCentral {
 		while (success) {
 		System.out.println("\nPlease type in your desired User Name:\n");
 		userName = readString();
-		//userName = checkSpace(userName);
-		
-		
-	
-		
+
 		for (int i = 0; i < myUsers.size(); i++) {
 			if (myUsers.get(i).getMyName().equals(userName)) {
 				taken = true;
@@ -231,7 +213,6 @@ public class AuctionCentral {
 			switch (selection) {
 				case 1: if (auct == null) {
 							scheduleAuctionMenu();
-							System.out.println(myAuctionCalendar.getAllAuctions()); break;
 						} else {
 							System.out.println("You already have an auction scheduled.");
 						} break;
@@ -446,8 +427,6 @@ public class AuctionCentral {
 		int auctionStart = 0;
 		int auctionEnd = 0;
 		int month, date, year;
-		//String[] months = {"January", "February", "March", "April", "May", "June", 
-		//					"July", "August", "September", "October", "November", "December"};
 		String itemName = "";
 		double startingBid = 0;
 		String bidder = "";
@@ -470,7 +449,6 @@ public class AuctionCentral {
 				date = pr.nextInt();
 				//Scan year
 				year = pr.nextInt();
-				//auctionName += "-" + months[month - 1] + "-" + date +"-" + year;
 				//Scan start time, end time
 				auctionStart = pr.nextInt();
 				auctionEnd = pr.nextInt();
@@ -492,13 +470,10 @@ public class AuctionCentral {
 			}
 			
 		}
-		//myAuctions = auctions;
+
 		myAuctionCalendar = new CalendarClass();
 		myAuctionCalendar.insertAuctions(auctions);
-		//myAuctionCalendar = new CalendarClass(myAuctions);
 		
-		
-		//myUsers = new HashMap<String, String>();
 		myUsers = new ArrayList<User>();
 		String name = "";
 		String userType = "";
