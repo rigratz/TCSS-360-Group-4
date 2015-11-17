@@ -232,12 +232,14 @@ public class TestCalendarClass {
 	
 	@Test
 	public void testBelowMaxDayToFuture() {
-		assertFalse(cal.belowMaxDaysToFuture(5, 20));
-		assertFalse(cal.belowMaxDaysToFuture(5, 1));
-		assertTrue(cal.belowMaxDaysToFuture(12, 1));
-		assertFalse(cal.belowMaxDaysToFuture(2, 28));
-		assertTrue(cal.belowMaxDaysToFuture(2, 1));
-		assertFalse(cal.belowMaxDaysToFuture(1111, 1));
+		assertFalse(cal.belowMaxDaysToFuture(5, 20, 2016));
+		assertFalse(cal.belowMaxDaysToFuture(5, 1, 2016));
+		assertTrue(cal.belowMaxDaysToFuture(12, 1, 2015));
+		assertFalse(cal.belowMaxDaysToFuture(2, 28, 2016));
+		assertTrue(cal.belowMaxDaysToFuture(2, 1, 2016));
+		assertFalse(cal.belowMaxDaysToFuture(1111, 1, 2016));
+		assertFalse(cal.belowMaxDaysToFuture(12, 1, 2016));
+		assertFalse(cal.belowMaxDaysToFuture(11, 1, 2016));
 	}
 	
 	@Test

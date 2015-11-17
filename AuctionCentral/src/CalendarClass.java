@@ -218,17 +218,21 @@ public class CalendarClass {
 	 * @param day of the auction
 	 * @return true or false
 	 */
-	public boolean belowMaxDaysToFuture(int month, int day) {
+	public boolean belowMaxDaysToFuture(int month, int day, int year) {
 		Calendar tempCalendar = Calendar.getInstance();
 		tempCalendar.add(Calendar.DAY_OF_MONTH, 90);
 		int myMonthIndex = calculateOffset(month);
+		
+		if(year > calendar2.get(Calendar.YEAR) &&
+				(myMonthIndex >= 0 && myMonthIndex < 2)) {
+			return false;
+		}
 		if(myMonthIndex >= 0 && myMonthIndex < 4) {
 			if(myMonthIndex == 3) {
-					if(day > tempCalendar.get(Calendar.DAY_OF_MONTH)) {
-						return false;			
-						
-					}
-					return true;
+				if(day > tempCalendar.get(Calendar.DAY_OF_MONTH)) {
+					return false;	
+				}
+				return true;
 			}
 			else return true;
 		} else return false;
@@ -332,7 +336,7 @@ public class CalendarClass {
 								auctionList.get(i).getMyEndTime())
 								&& belowMaxAuctions()
 								&& belowMaxDaysToFuture(auctionList.get(i).getMyMonth(), 
-										auctionList.get(i).getMyDay())
+										auctionList.get(i).getMyDay(), auctionList.get(i).getMyYear())
 								&& belowWeekLimit(auctionList.get(i).getMyMonth(), 
 										auctionList.get(i).getMyDay())) {
 							addAuction(auctionList.get(i));
@@ -348,7 +352,7 @@ public class CalendarClass {
 						auctionList.get(i).getMyEndTime())
 						&& belowMaxAuctions()
 						&& belowMaxDaysToFuture(auctionList.get(i).getMyMonth(), 
-								auctionList.get(i).getMyDay())
+								auctionList.get(i).getMyDay(), auctionList.get(i).getMyYear())
 						&& belowWeekLimit(auctionList.get(i).getMyMonth(), 
 								auctionList.get(i).getMyDay())) {
 					addAuction(auctionList.get(i));

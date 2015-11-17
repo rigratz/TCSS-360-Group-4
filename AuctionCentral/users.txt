@@ -12,3 +12,4 @@ google google@gmail.com npo Google
 robert robert@gmail.com npo RobertInc
 andy andy@pixar.com npo PizzaPlanet
 jolly jolly@gg.com npo AsparagusTown
+artsiom art@mail npo ArtTest

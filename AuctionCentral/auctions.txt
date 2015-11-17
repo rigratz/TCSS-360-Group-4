@@ -2,7 +2,4 @@
 GoodWill 11 28 2015 8 10 Shirt 1.2 10.5 boolean 80.2 willie 7.4 george 
 GeneralMills 12 14 2015 8 12 cheerios 3.99 5.0 willie 
 EarthCo 11 29 2015 15 20 Plant 1.1 23.56 boolean 5.65 willie 1.234 george Chair 1.2 23.34 boolean 45.56 willie 4.0 george fertilizer 3.7 SpecialK 5.99 
-RobertInc 12 23 2016 4 7 
-PizzaPlanet 12 23 2016 3 6 
-AsparagusTown 12 25 2017 3 7 
 Google 10 23 2015 17 19 

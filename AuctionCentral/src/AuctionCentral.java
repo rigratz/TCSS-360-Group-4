@@ -637,7 +637,7 @@ public class AuctionCentral {
 		if (c.checkOrganization(((NonProfitEmployee)myUser).getMyOrganizationName())
 				&& c.isAvailable(month, day, start, end)
 				&& c.belowMaxAuctions()
-				&& c.belowMaxDaysToFuture(month, day)
+				&& c.belowMaxDaysToFuture(month, day, year)
 				&& c.belowWeekLimit(month, day)) {
 			c.addAuction(((NonProfitEmployee)myUser).scheduleAuction(((NonProfitEmployee)myUser).getMyOrganizationName(), month, day, year, start, end));
 			System.out.println("Auction Scheduled");
@@ -646,7 +646,7 @@ public class AuctionCentral {
 			if (!c.checkOrganization(((NonProfitEmployee)myUser).getMyOrganizationName())) {
 				System.out.println("Your organization already has an auction scheduled.\n");
 			}
-			else if (!c.belowMaxDaysToFuture(month, day)) {
+			else if (!c.belowMaxDaysToFuture(month, day, year)) {
 				System.out.println("Selected time is too far in advance.\n");
 			}
 			else if (!c.belowMaxAuctions()) {
