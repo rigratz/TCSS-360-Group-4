@@ -11,9 +11,6 @@ public class CalendarClass {
 	
 	//this is a calendar
 	private Calendar calendar2 = Calendar.getInstance();
-	
-	private String listOfPastAuctions;
-	
 	//this is a list of auctions
 	private ArrayList<Auction> auctionList = new ArrayList<Auction>();
 	private ArrayList<Auction> pastAuctionList = new ArrayList<Auction>();
@@ -80,7 +77,7 @@ public class CalendarClass {
 	 */
 	protected int maximumMonth(int currentMonth, int targetMonth) {
 		if (calendar2.get(Calendar.MONTH) > targetMonth)
-			return calendar2.get(Calendar.MONTH);
+			return calendar2.get(Calendar.MONTH)+1;
 		else return targetMonth;
 	}
 	/**
@@ -102,8 +99,8 @@ public class CalendarClass {
 	 * @return integer minimum month number
 	 */
 	protected int minimum(int currentMonth, int targetMonth) {
-		if (calendar2.get(Calendar.MONTH) < targetMonth)
-			return calendar2.get(Calendar.MONTH);
+		if (currentMonth < targetMonth)
+			return currentMonth;
 		else return targetMonth;
 	}
 	
@@ -120,44 +117,47 @@ public class CalendarClass {
 		//subtract month scheduled from current month to get offset in index
 		int monthIndex = calculateOffset(month);
 		//if the day is empty
-		if(board.getMonth(monthIndex).getDay(day).getNumberOfAuctions() == 0) {
-			//if previous action ended at the end of the previous day
-			if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 
-					23 && 
-					startTime < 1) {
-				return false;
-			} else if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 
-					24 && 
-					startTime < 2) {
-				return false;
+		if(monthIndex >= 0 && monthIndex < 4) {
+			if(board.getMonth(monthIndex).getDay(day).getNumberOfAuctions() == 0) {
+				//if previous action ended at the end of the previous day
+				if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 
+						23 && 
+						startTime < 1) {
+					return false;
+				} else if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 
+						24 && 
+						startTime < 2) {
+					return false;
+				}
+				else return true;
 			}
-			else return true;
-		}
 			
-		//check if day is available (so if there is one auction already or more.
-		int numberOfAuctions = board.getMonth(monthIndex).getDay(day).getNumberOfAuctions();
-		
-		//if day is not available --- exit
-		if(numberOfAuctions == 2) return false;
-		else {
-			//check if time is available
-			boolean isTimeAvailable = true;
-			if(board.getMonth(monthIndex).getDay(day).getEndTime() < startTime) {
-				if(startTime - board.getMonth(monthIndex).getDay(day).getEndTime() < 2) {
-					isTimeAvailable = false;
-				} else {
-					isTimeAvailable = true;
+			//check if day is available (so if there is one auction already or more.
+			int numberOfAuctions = board.getMonth(monthIndex).getDay(day).getNumberOfAuctions();
+			
+			//if day is not available --- exit
+			if(numberOfAuctions == 2) return false;
+			else {
+				//check if time is available
+				boolean isTimeAvailable = true;
+				if(board.getMonth(monthIndex).getDay(day).getEndTime() < startTime) {
+					if(startTime - board.getMonth(monthIndex).getDay(day).getEndTime() < 2) {
+						isTimeAvailable = false;
+					} else {
+						isTimeAvailable = true;
+					}
 				}
-			}
-			else if (board.getMonth(monthIndex).getDay(day).getStartTime() > endTime) {
-				if(board.getMonth(monthIndex).getDay(day).getStartTime() - endTime < 2) {
-					isTimeAvailable = false;
-				} else {
-					isTimeAvailable = true;
+				else if (board.getMonth(monthIndex).getDay(day).getStartTime() > endTime) {
+					if(board.getMonth(monthIndex).getDay(day).getStartTime() - endTime < 2) {
+						isTimeAvailable = false;
+					} else {
+						isTimeAvailable = true;
+					}
 				}
+				return isTimeAvailable;
 			}
-			return isTimeAvailable;
-		}
+			
+		} else return false;
 	}
 	
 	/**
@@ -222,12 +222,16 @@ public class CalendarClass {
 		Calendar tempCalendar = Calendar.getInstance();
 		tempCalendar.add(Calendar.DAY_OF_MONTH, 90);
 		int myMonthIndex = calculateOffset(month);
-		int imagineMonthIndex = calculateOffset(tempCalendar.get(Calendar.MONTH));
-		if(myMonthIndex > imagineMonthIndex &&
-				day > tempCalendar.get(Calendar.DAY_OF_MONTH)) {
-			return false;			
-		}
-		else return true;
+		if(myMonthIndex >= 0 && myMonthIndex < 4) {
+			if(myMonthIndex == 3) {
+					if(day > tempCalendar.get(Calendar.DAY_OF_MONTH)) {
+						return false;			
+						
+					}
+					return true;
+			}
+			else return true;
+		} else return false;
 	}
 	
 	/**
@@ -236,22 +240,13 @@ public class CalendarClass {
 	 */
 	public String getAllAuctions() {
 		String listOfAuctions = "";
-//		listOfPastAuctions = "";
-//		
-//		//add past auctions
-//		listOfPastAuctions += "Past Jobs:\n";
-//		for(int i = 0; i < pastAuctionList.size(); i++) {
-//			listOfPastAuctions += pastAuctionList.get(i).toString() + "\n";
-//		}
 		for(int i = 0; i < 4; i++) {
-			for(int j = 1; j <= board.getMonth(i).getMaxDays(); j++)
-			{
+			for(int j = 1; j <= board.getMonth(i).getMaxDays(); j++) {
 				if(board.getMonth(i).getDay(j).getNumberOfAuctions() > 0) {
 					listOfAuctions += board.getMonth(i).getDay(j).toString();
 				}
 			}
 		}
-		
 		return listOfAuctions;
 	}
 	/**
@@ -268,6 +263,10 @@ public class CalendarClass {
 		return listOfPastAuctions;
 	}
 	
+	/**
+	 * This method returns a list of past auctions
+	 * @return pastAuctionList a list of past auctions
+	 */
 	public List<Auction> getListOfPastAuctions() {
 		return pastAuctionList;
 	}
@@ -288,9 +287,7 @@ public class CalendarClass {
 	public Auction getAuction(String name) {
 		Auction auct = null;
 		for (int i = 0; i < auctionList.size(); i++) {
-			if(name.equals(
-					auctionList.get(i).
-					getMyName())) {
+			if(name.equals(auctionList.get(i).getMyName())) {
 				auct = auctionList.get(i);
 				break;
 			}

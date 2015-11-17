@@ -206,7 +206,7 @@ public class AuctionCentral {
 			switch (selection) {
 				case 1: if (auct == null) {
 							scheduleAuctionMenu();
-							System.out.println(myAuctionCalendar.getAllAuctions()); break;
+//							System.out.println(myAuctionCalendar.getAllAuctions()); break;
 						} else {
 							System.out.println("You already have an auction scheduled.");
 						} break;
@@ -633,17 +633,17 @@ public class AuctionCentral {
 			if (!c.checkOrganization(((NonProfitEmployee)myUser).getMyOrganizationName())) {
 				System.out.println("Your organization already has an auction scheduled.\n");
 			}
-			if (!c.isAvailable(month, day, start, end)) {
-				System.out.println("Selected time is not available.\n");
-			}
-			if (!c.belowMaxAuctions()) {
-				System.out.println("Sorry, we have a full set of auctions right now.\n");
-			}
-			if (!c.belowMaxDaysToFuture(month, day)) {
+			else if (!c.belowMaxDaysToFuture(month, day)) {
 				System.out.println("Selected time is too far in advance.\n");
 			}
-			if (!c.belowWeekLimit(month, day)) {
+			else if (!c.belowMaxAuctions()) {
+				System.out.println("Sorry, we have a full set of auctions right now.\n");
+			}
+			else if (!c.belowWeekLimit(month, day)) {
 				System.out.println("Sorry, we are full for that particular week\n");
+			}
+			else if (!c.isAvailable(month, day, start, end)) {
+				System.out.println("Selected time is not available.\n");
 			}
 		}
 	}
