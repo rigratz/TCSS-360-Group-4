@@ -51,7 +51,7 @@ public class Bidder extends User {
 	 */
 	public boolean cancelBid(Item theItem) {
 		if (theItem.removeBid(getMyName())) {
-			myBids.remove(theItem.getMyName());
+			myBids.remove(theItem.getMyName(), myBids.get(theItem.getMyName()));
 			return true;
 		}
 		return false;
@@ -72,12 +72,8 @@ public class Bidder extends User {
 		return false;
 	}
 
-	public String getMyBids() {
-		String bids = "";
-		for (String item : myBids.keySet()) {
-			bids += item + " " + myBids.get(item) + "\n";
-			
-		}
-		return bids;
+	public Map<String, Double> getMyBids() {
+		return myBids;
 	}
+
 }

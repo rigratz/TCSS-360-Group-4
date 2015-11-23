@@ -27,61 +27,13 @@ public class TestNonProfitEmployee {
 	}
 	
 	@Test
-	public void testEditAuctionName() {
-		testAuction.setName("Dunder Mifflin");
-		assertEquals(testAuction.getMyName(), "Dunder Mifflin-12/23/2015");
+	public void testGetMyOrganizationName() {
+		assertEquals(testNPEmp.getMyOrganizationName(), "Dunder Mifflin");
 	}
 	
 	@Test
-	public void testEditAuctionDay() {
-		testAuction.setMyDay(5);
-		assertEquals(testAuction.getMyDay(), 5);
-		assertEquals(testAuction.getMyName(), "DM-12/5/2015");
-	}
-	
-	@Test
-	public void testEditAuctionMonth() {
-		testAuction.setMyMonth(11);
-		assertEquals(testAuction.getMyMonth(), 11);
-		assertEquals(testAuction.getMyName(), "DM-11/23/2015");
-	}
-	
-	@Test
-	public void testEditAuctionYear() {
-		testAuction.setMyYear(2016);
-		assertEquals(testAuction.getMyYear(), 2016);
-		assertEquals(testAuction.getMyName(), "DM-12/23/2016");
-	}
-	
-	@Test
-	public void testEditAuctionStartTime() {
-		testAuction.setMyStartTime(6);
-		assertEquals(testAuction.getMyStartTime(), 6);
-		assertEquals(testAuction.toString(), "DM-12/23/2015 Start: 6 End: 7");
-	}
-	
-	@Test
-	public void testEditAuctionEndTime() {
-		testAuction.setMyEndTime(3);
-		assertEquals(testAuction.getMyEndTime(), 3);
-		assertEquals(testAuction.toString(), "DM-12/23/2015 Start: 2 End: 3");
-	}
-	
-	@Test
-	public void testAddAuctionItem() {
-		testAuction.addItem(testItem);
-		assertEquals(testAuction.itemsToString(), "hat 2.0\n");
-	}
-	
-	@Test
-	public void testEditAuctionItemName() {
-		testItem.setMyName("vest");
-		assertEquals(testItem.getMyName(), "vest");
-	}
-	
-	@Test
-	public void testEditAuctionItemStartingBid() {
-		testItem.setMyStartingBid(3.0);
-		assertEquals(testItem.getMyStartingBid(), 3.0, 0.001);
+	public void testSetMyOrganizationName() {
+		testNPEmp.setMyOrganizationName("DMI");
+		assertEquals(testNPEmp.getMyOrganizationName(), "DMI");
 	}
 }

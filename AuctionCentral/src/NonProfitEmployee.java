@@ -25,42 +25,6 @@ public class NonProfitEmployee extends User {
 		return new Auction(theNonProfit, theMonth, theDay, theYear, theStartTime, theEndTime);
 	}
 
-	public void editAuctionName(Auction theAuction, String theAuctionName) {
-		theAuction.setName(theAuctionName);
-	}
-	
-	public void editAuctionDay(Auction theAuction, int theDay) {
-		theAuction.setMyDay(theDay);
-	}
-	
-	public void editAuctionMonth(Auction theAuction, int theMonth) {
-		theAuction.setMyMonth(theMonth);
-	}
-	
-	public void editAuctionYear(Auction theAuction, int theYear) {
-		theAuction.setMyYear(theYear);
-	}
-	
-	public void editAuctionStartTime(Auction theAuction, int theStartTime) {
-		theAuction.setMyStartTime(theStartTime);
-	}
-	
-	public void editAuctionEndTime(Auction theAuction, int theEndTime) {
-		theAuction.setMyEndTime(theEndTime);
-	}
-	
-	public void addAuctionItem(Auction theAuction, String theItemName, double theStartingBid) {
-		theAuction.addItem(new Item(theItemName, theStartingBid));
-	}
-	
-	public void editAuctionItemName(Item theItem, String theName) {
-		theItem.setMyName(theName);
-	}
-	
-	public void editAuctionItemStartingBid(Item theItem, double theStartingBid) {
-		theItem.setMyStartingBid(theStartingBid);
-	}
-
 	public String getMyOrganizationName() {
 		return myOrganizationName;
 	}

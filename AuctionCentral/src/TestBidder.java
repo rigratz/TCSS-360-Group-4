@@ -47,26 +47,49 @@ public class TestBidder {
 	}
 
 	@Test
-	public void testGetMyBids() {
+	public void testGetMyBidsContainsKey() {
 		testBidder.placeBid(testItem, 5.2);
 		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
-		assertEquals(testBidder.getMyBids(), "pen 5.2\nshoe 35.0\n");
+		assertTrue(testBidder.getMyBids().containsKey("shoe"));	
 	}
 	
 	@Test
-	public void testGetMyBidsAfterCancelBid() {
+	public void testGetMyBidsContainsValue() {
+		testBidder.placeBid(testItem, 5.2);
+		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
+		assertTrue(testBidder.getMyBids().containsValue(35.0));	
+	}
+	
+	@Test
+	public void testGetMyBidsContainsKeyAfterCancelBid() {
 		testBidder.placeBid(testItem, 5.2);
 		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
 		testBidder.cancelBid(testItem);
-		assertEquals(testBidder.getMyBids(), "shoe 35.0\n");
+		assertTrue(testBidder.getMyBids().containsKey("shoe"));
 	}
 	
 	@Test
-	public void testGetMyBidsAfterChangeBid() {
+	public void testGetMyBidsContainsValueAfterCancelBid() {
+		testBidder.placeBid(testItem, 5.2);
+		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
+		testBidder.cancelBid(testItem);
+		assertTrue(testBidder.getMyBids().containsValue(35.0));
+	}
+	
+	@Test
+	public void testGetMyBidsContainsKeyAfterChangeBid() {
 		testBidder.placeBid(testItem, 5.2);
 		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
 		testBidder.changeBid(testItem, 6.5);
-		assertEquals(testBidder.getMyBids(), "pen 6.5\nshoe 35.0\n");
+		assertTrue(testBidder.getMyBids().containsKey("shoe"));
+	}
+	
+	@Test
+	public void testGetMyBidsContainsValueAfterChangeBid() {
+		testBidder.placeBid(testItem, 5.2);
+		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
+		testBidder.changeBid(testItem, 6.5);
+		assertTrue(testBidder.getMyBids().containsValue(35.0));	
 	}
 
 }
