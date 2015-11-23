@@ -81,14 +81,14 @@ public class Item {
 	}
 	
 	//Business rule 6
-	private void oneBidPerbidder(String theBidder) {
+	public void oneBidPerbidder(String theBidder) {
 		if(myBids.containsKey(theBidder)) {
 			myBids.remove(theBidder);
 		}
 	}
 	
 	//business rule 9
-	private boolean bidGreaterThanStartingBid(double theBid) {
+	public boolean bidGreaterThanStartingBid(double theBid) {
 		if(theBid < myStartingBid) {
 			return true;
 		}

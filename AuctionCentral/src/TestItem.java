@@ -22,6 +22,18 @@ public class TestItem {
 	}
 	
 	@Test
+	public void testBidGreaterThanStartingBid() {
+		assertTrue(testItem.bidGreaterThanStartingBid(3.49));
+	}
+	
+	@Test
+	public void testOneBidPerbidder() {
+		testItem.bid("Tim", 500);
+		testItem.oneBidPerbidder("Tim");
+		assertEquals(testItem.getMyBids().get("Tim"), null);
+	}
+	
+	@Test
 	public void testGetName() {
 		assertEquals(testItem.getMyName(), "testLamp");
 	}
