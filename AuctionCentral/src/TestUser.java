@@ -23,26 +23,6 @@ public class TestUser {
 	}
 
 	@Test
-	public void testViewCalendar() {
-		testCalendar.addAuction(testAuction);
-		testCalendar.addAuction(new Auction("12345", 1, 30, 2016, 1, 5));
-		assertEquals(testBidder.viewCalendar(testCalendar),
-				"ABC Group-12/5/2015 Start: 12 End: 15\n12345-1/30/2016 Start: 1 End: 5\n");
-		assertEquals(testAuctionCentralEmployee.viewCalendar(testCalendar),
-				"ABC Group-12/5/2015 Start: 12 End: 15\n12345-1/30/2016 Start: 1 End: 5\n");
-		assertEquals(testNonProfitEmployee.viewCalendar(testCalendar),
-				"ABC Group-12/5/2015 Start: 12 End: 15\n12345-1/30/2016 Start: 1 End: 5\n");
-	}
-	
-	@Test
-	public void testViewAuction() {
-		testCalendar.addAuction(testAuction);
-		assertEquals(testBidder.viewAuction(testCalendar, "ABC Group"), "ABC Group-12/5/2015");
-		assertEquals(testAuctionCentralEmployee.viewAuction(testCalendar, "ABC Group"), "ABC Group-12/5/2015");
-		assertEquals(testNonProfitEmployee.viewAuction(testCalendar, "ABC Group"), "ABC Group-12/5/2015");
-	}
-		
-	@Test
 	public void testGetMyName() {
 		assertEquals(testBidder.getMyName(), "George");
 		assertEquals(testAuctionCentralEmployee.getMyName(), "Louis");

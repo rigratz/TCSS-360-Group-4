@@ -18,14 +18,6 @@ public abstract class User {
 		myContact = theContact;
 	}
 
-	public String viewCalendar(CalendarClass theCalendar) {
-		return theCalendar.getAllAuctions();
-	}
-	
-	public String viewAuction(CalendarClass theCalendar, String theAuctionName) {
-		return theCalendar.viewAuction(theAuctionName);
-	}
-
 	public String getMyName() {
 		return myName;
 	}
