@@ -1,5 +1,6 @@
 *Format- <OrganizationName> <Month> <Date> <Year> <StartTime> <EndTime> {<Item> <StartingBid> {<Bid> <Bidder>...}...}*
 GoodWill 11 28 2015 8 10 Shirt 1.2 10.5 boolean 80.2 willie 7.4 george 
 GeneralMills 12 14 2015 8 12 cheerios 3.99 5.0 willie 
-EarthCo 11 29 2015 15 20 Plant 1.1 23.56 boolean 5.65 willie 1.234 george Chair 1.2 23.34 boolean 45.56 willie 4.0 george fertilizer 3.7 SpecialK 5.99 
+EarthCo 11 28 2015 11 20 Plant 1.1 23.56 boolean 5.65 willie 1.234 george Chair 1.2 23.34 boolean 45.56 willie 4.0 george fertilizer 3.7 SpecialK 5.99 
+CrystalBlue 12 26 2015 5 8 Green 50.0 50.01 willie 
 Google 10 23 2015 17 19 

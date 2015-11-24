@@ -41,7 +41,7 @@ public class CalendarClass {
 		int monthIndex = calculateOffset(month);
 
 		//add auction and set all of the fields.
-		board.getMonth(monthIndex).getDay(day).setTodaysAuctions(auction.toString());
+		board.getMonth(monthIndex).getDay(day).setTodaysAuctions(auction);
 		board.getMonth(monthIndex).getDay(day).setStartTime(startTime);
 		board.getMonth(monthIndex).getDay(day).setEndTime(endTime);
 		
@@ -238,34 +238,35 @@ public class CalendarClass {
 		} else return false;
 	}
 	
-	/**
-	 * This method makes a list of auctions.
-	 * @return String with a list of auctions.
-	 */
-	public String getAllAuctions() {
-		String listOfAuctions = "";
-		for(int i = 0; i < 4; i++) {
-			for(int j = 1; j <= board.getMonth(i).getMaxDays(); j++) {
-				if(board.getMonth(i).getDay(j).getNumberOfAuctions() > 0) {
-					listOfAuctions += board.getMonth(i).getDay(j).toString();
-				}
-			}
-		}
-		return listOfAuctions;
-	}
-	/**
-	 * This method returns a string of past auctions
-	 * @return listOfPastAuctions of past auctions.
-	 */
-	public String getPastAuctions() {
-		//add past auctions
-		String listOfPastAuctions = "";
-		listOfPastAuctions += "Past Auctions:\n";
-		for(int i = 0; i < pastAuctionList.size(); i++) {
-			listOfPastAuctions += pastAuctionList.get(i).toString() + "\n";
-		}
-		return listOfPastAuctions;
-	}
+//	/**
+//	 * This method makes a list of auctions.
+//	 * @return String with a list of auctions.
+//	 */
+//	public String getAllAuctions() {
+//		String listOfAuctions = "";
+//		for(int i = 0; i < 4; i++) {
+//			for(int j = 1; j <= board.getMonth(i).getMaxDays(); j++) {
+//				if(board.getMonth(i).getDay(j).getNumberOfAuctions() > 0) {
+//					listOfAuctions += board.getMonth(i).getDay(j).toString();
+//				}
+//			}
+//		}
+//		return listOfAuctions;
+//	}
+	
+//	/**
+//	 * This method returns a string of past auctions
+//	 * @return listOfPastAuctions of past auctions.
+//	 */
+//	public String getPastAuctions() {
+//		//add past auctions
+//		String listOfPastAuctions = "";
+//		listOfPastAuctions += "Past Auctions:\n";
+//		for(int i = 0; i < pastAuctionList.size(); i++) {
+//			listOfPastAuctions += pastAuctionList.get(i).toString() + "\n";
+//		}
+//		return listOfPastAuctions;
+//	}
 	
 	/**
 	 * This method returns a list of past auctions
@@ -283,41 +284,44 @@ public class CalendarClass {
 		return auctionList;
 	}
 	
-	/**
-	 * This method shows the informatino of the auction.
-	 * @param name of the auction
-	 * @return the auction information
-	 */
-	public Auction getAuction(String name) {
-		Auction auct = null;
-		for (int i = 0; i < auctionList.size(); i++) {
-			if(name.equals(auctionList.get(i).getMyName())) {
-				auct = auctionList.get(i);
-				break;
-			}
-		}
-		return auct;
-	}
+//	/**
+//	 * This method shows the information of the auction.
+//	 * @param name of the auction
+//	 * @return the auction information
+//	 */
+//	public Auction getAuction(String name) {
+//		Auction auct = null;
+//		for (int i = 0; i < auctionList.size(); i++) {
+//			if(name.equals(auctionList.get(i).getMyName())) {
+//				auct = auctionList.get(i);
+//				break;
+//			}
+//		}
+//		return auct;
+//	}
 	
 	/**
 	 * This method would return available days.
 	 */
-	public String getListOfDays(int month) {
-		return board.getMonth(calculateOffset(month)).toStringAvailableDays();
+//	public String getListOfDays(int month) {
+//		return board.getMonth(calculateOffset(month)).toStringAvailableDays();
+//	}
+	public Month getListOfDays(int month) {
+		return board.getMonth(calculateOffset(month));
 	}
 	
 	/**
 	 * This method would return auctions in the current month
 	 * @return 
 	 */
-	public String getMonth(int month) {
-		return board.getMonth(calculateOffset(month)).toStringAuctions();
+	public List<Auction> getMonth(int month) {
+		return board.getMonth(calculateOffset(month)).listOfAuctions();
 	}
 	/**
 	 * This method would return the auctions in the current day.
 	 */
-	public String getDay(int month, int day) {
-		return board.getMonth(calculateOffset(month)).getDay(day).toString();
+	public List<Auction> getDay(int month, int day) {
+		return board.getMonth(calculateOffset(month)).getDay(day).getTodaysAuctions();
 	}
 	
 	/**
@@ -364,23 +368,23 @@ public class CalendarClass {
 		}
 	}
 	
-	/**
-	 * This method returns information about the auction
-	 * @param name of the auction
-	 * @return information about the auction
-	 */
-	public String viewAuction(String name) {
-		String toReturn = new String();
-		for(int i = 0; i < auctionList.size(); i++) {
-			if(name.equals(auctionList.get(i).getMyNonProfit())) {
-				toReturn = auctionList.get(i).toString() + "\nList of Items/Starting Bids:\n";
-				toReturn += auctionList.get(i).itemsToString();
-				return toReturn;
-			}
-		}
-		if(toReturn.equals("")) toReturn = "Nothing was found.";
-		return toReturn;
-	}
+//	/**
+//	 * This method returns information about the auction
+//	 * @param name of the auction
+//	 * @return information about the auction
+//	 */
+//	public String viewAuction(String name) {
+//		String toReturn = new String();
+//		for(int i = 0; i < auctionList.size(); i++) {
+//			if(name.equals(auctionList.get(i).getMyNonProfit())) {
+//				toReturn = auctionList.get(i).toString() + "\nList of Items/Starting Bids:\n";
+//				toReturn += auctionList.get(i).itemsToString();
+//				return toReturn;
+//			}
+//		}
+//		if(toReturn.equals("")) toReturn = "Nothing was found.";
+//		return toReturn;
+//	}
 	
 	/**
 	 * This method checks organization for validity.

@@ -1,6 +1,3 @@
-
-
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -22,8 +19,7 @@ public class CalendarBoard {
 		//creates four months with a correct number of days.
 		for (int i = 0; i < 4; i++) {
 			//add month to the list
-			listOfMonths.add(new Month(templateCalendar.get(Calendar.MONTH), 
-					templateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)));
+			listOfMonths.add(new Month(templateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)));
 			//increment month
 			templateCalendar.add(Calendar.MONTH, 1);
 		}
