@@ -56,8 +56,7 @@ public class CalendarClass {
 	protected int calculateOffset(int month) {
 		Calendar tempCalendar = calendar2;
 		//return 0 if our target month is a current month
-		if(tempCalendar.get(Calendar.MONTH) == (month-1)) 
-			return 0;
+		if(tempCalendar.get(Calendar.MONTH) == (month-1)) return 0;
 		//return the offset if our target month is bigger than our current month.
 		else if (tempCalendar.get(Calendar.MONTH) < (month-1)) {
 			int index = maximumMonth(tempCalendar.get(Calendar.MONTH), month-1) - 
@@ -116,50 +115,20 @@ public class CalendarClass {
 	public boolean isAvailable(int month, int day, int startTime, int endTime) {
 		//subtract month scheduled from current month to get offset in index
 		int monthIndex = calculateOffset(month);
-		//if the day is empty
-		if(monthIndex >= 0 && monthIndex < 4) {
-			if(board.getMonth(monthIndex).getDay(day).getNumberOfAuctions() == 0) {
-				//if previous action ended at the end of the previous day
-				if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 
-						23 && 
-						startTime < 1) {
-					return false;
-				} else if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 
-						24 && 
-						startTime < 2) {
-					return false;
-				}
-				else return true;
-			}
-			
-			//check if day is available (so if there is one auction already or more.
-			int numberOfAuctions = board.getMonth(monthIndex).getDay(day).getNumberOfAuctions();
-			
-			//if day is not available --- exit
-			if(numberOfAuctions == 2) return false;
-			else {
-				//check if time is available
-				boolean isTimeAvailable = true;
-				if(board.getMonth(monthIndex).getDay(day).getEndTime() < startTime) {
-					if(startTime - board.getMonth(monthIndex).getDay(day).getEndTime() < 2) {
-						isTimeAvailable = false;
-					} else {
-						isTimeAvailable = true;
-					}
-				}
-				else if (board.getMonth(monthIndex).getDay(day).getStartTime() > endTime) {
-					if(board.getMonth(monthIndex).getDay(day).getStartTime() - endTime < 2) {
-						isTimeAvailable = false;
-					} else {
-						isTimeAvailable = true;
-					}
-				}
-				return isTimeAvailable;
-			}
-			
-		} else return false;
+		if(monthIndex < 0 || monthIndex > 3) return false;
+		if(board.getMonth(monthIndex).getDay(day).getNumberOfAuctions() > 1) return false;
+		if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 23 && startTime < 1) return false;
+		if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 24 && startTime < 2) return false;
+		if(board.getMonth(monthIndex).getDay(day).getNumberOfAuctions() == 0) return true;
+		
+		if(startTime > board.getMonth(monthIndex).getDay(day).getStartTime()-2 
+				&& startTime < board.getMonth(monthIndex).getDay(day).getEndTime()+2) return false;
+		if(endTime > board.getMonth(monthIndex).getDay(day).getStartTime()-2 
+				&& endTime < board.getMonth(monthIndex).getDay(day).getEndTime()+2) return false;
+		if(startTime < board.getMonth(monthIndex).getDay(day).getStartTime()-2 
+				&& endTime > board.getMonth(monthIndex).getDay(day).getEndTime()+2) return false;
+		return true;
 	}
-	
 	/**
 	 * This method calculates if we have too many auctions in a week.
 	 * @param month of the week
@@ -223,50 +192,11 @@ public class CalendarClass {
 		tempCalendar.add(Calendar.DAY_OF_MONTH, 90);
 		int myMonthIndex = calculateOffset(month);
 		
-		if(year > calendar2.get(Calendar.YEAR) &&
-				(myMonthIndex >= 0 && myMonthIndex < 2)) {
-			return false;
-		}
-		if(myMonthIndex >= 0 && myMonthIndex < 4) {
-			if(myMonthIndex == 3) {
-				if(day > tempCalendar.get(Calendar.DAY_OF_MONTH)) {
-					return false;	
-				}
-				return true;
-			}
-			else return true;
-		} else return false;
+		if(year > calendar2.get(Calendar.YEAR) && (myMonthIndex >= 0 && myMonthIndex < 2)) return false;
+		if(myMonthIndex < 0 || myMonthIndex > 3) return false;
+		if(myMonthIndex == 3 && day > tempCalendar.get(Calendar.DAY_OF_MONTH)) return false;
+		return true;
 	}
-	
-//	/**
-//	 * This method makes a list of auctions.
-//	 * @return String with a list of auctions.
-//	 */
-//	public String getAllAuctions() {
-//		String listOfAuctions = "";
-//		for(int i = 0; i < 4; i++) {
-//			for(int j = 1; j <= board.getMonth(i).getMaxDays(); j++) {
-//				if(board.getMonth(i).getDay(j).getNumberOfAuctions() > 0) {
-//					listOfAuctions += board.getMonth(i).getDay(j).toString();
-//				}
-//			}
-//		}
-//		return listOfAuctions;
-//	}
-	
-//	/**
-//	 * This method returns a string of past auctions
-//	 * @return listOfPastAuctions of past auctions.
-//	 */
-//	public String getPastAuctions() {
-//		//add past auctions
-//		String listOfPastAuctions = "";
-//		listOfPastAuctions += "Past Auctions:\n";
-//		for(int i = 0; i < pastAuctionList.size(); i++) {
-//			listOfPastAuctions += pastAuctionList.get(i).toString() + "\n";
-//		}
-//		return listOfPastAuctions;
-//	}
 	
 	/**
 	 * This method returns a list of past auctions
@@ -283,29 +213,9 @@ public class CalendarClass {
 	public List<Auction> getListOfAuctions() {
 		return auctionList;
 	}
-	
-//	/**
-//	 * This method shows the information of the auction.
-//	 * @param name of the auction
-//	 * @return the auction information
-//	 */
-//	public Auction getAuction(String name) {
-//		Auction auct = null;
-//		for (int i = 0; i < auctionList.size(); i++) {
-//			if(name.equals(auctionList.get(i).getMyName())) {
-//				auct = auctionList.get(i);
-//				break;
-//			}
-//		}
-//		return auct;
-//	}
-	
 	/**
 	 * This method would return available days.
 	 */
-//	public String getListOfDays(int month) {
-//		return board.getMonth(calculateOffset(month)).toStringAvailableDays();
-//	}
 	public Month getListOfDays(int month) {
 		return board.getMonth(calculateOffset(month));
 	}
@@ -334,15 +244,11 @@ public class CalendarClass {
 			if((monthIndex >= 0 && monthIndex < 4)) {
 				if(monthIndex == 0) {
 					if(auctionList.get(i).getMyDay() >= calendar2.get(Calendar.DAY_OF_MONTH)) {
-						if (isAvailable(auctionList.get(i).getMyMonth(), 
-								auctionList.get(i).getMyDay(), 
-								auctionList.get(i).getMyStartTime(), 
-								auctionList.get(i).getMyEndTime())
-								&& belowMaxAuctions()
-								&& belowMaxDaysToFuture(auctionList.get(i).getMyMonth(), 
+						if (isAvailable(auctionList.get(i).getMyMonth(), auctionList.get(i).getMyDay(), 
+								auctionList.get(i).getMyStartTime(), auctionList.get(i).getMyEndTime())
+								&& belowMaxAuctions() && belowMaxDaysToFuture(auctionList.get(i).getMyMonth(), 
 										auctionList.get(i).getMyDay(), auctionList.get(i).getMyYear())
-								&& belowWeekLimit(auctionList.get(i).getMyMonth(), 
-										auctionList.get(i).getMyDay())) {
+								&& belowWeekLimit(auctionList.get(i).getMyMonth(), auctionList.get(i).getMyDay())) {
 							addAuction(auctionList.get(i));
 						}
 					}
@@ -350,15 +256,11 @@ public class CalendarClass {
 						pastAuctionList.add(auctionList.get(i));
 					}
 				}
-				else if (isAvailable(auctionList.get(i).getMyMonth(), 
-						auctionList.get(i).getMyDay(), 
-						auctionList.get(i).getMyStartTime(), 
-						auctionList.get(i).getMyEndTime())
-						&& belowMaxAuctions()
-						&& belowMaxDaysToFuture(auctionList.get(i).getMyMonth(), 
+				else if (isAvailable(auctionList.get(i).getMyMonth(), auctionList.get(i).getMyDay(), 
+						auctionList.get(i).getMyStartTime(), auctionList.get(i).getMyEndTime())
+						&& belowMaxAuctions() && belowMaxDaysToFuture(auctionList.get(i).getMyMonth(), 
 								auctionList.get(i).getMyDay(), auctionList.get(i).getMyYear())
-						&& belowWeekLimit(auctionList.get(i).getMyMonth(), 
-								auctionList.get(i).getMyDay())) {
+						&& belowWeekLimit(auctionList.get(i).getMyMonth(), auctionList.get(i).getMyDay())) {
 					addAuction(auctionList.get(i));
 				}
 			}
@@ -367,25 +269,6 @@ public class CalendarClass {
 			}
 		}
 	}
-	
-//	/**
-//	 * This method returns information about the auction
-//	 * @param name of the auction
-//	 * @return information about the auction
-//	 */
-//	public String viewAuction(String name) {
-//		String toReturn = new String();
-//		for(int i = 0; i < auctionList.size(); i++) {
-//			if(name.equals(auctionList.get(i).getMyNonProfit())) {
-//				toReturn = auctionList.get(i).toString() + "\nList of Items/Starting Bids:\n";
-//				toReturn += auctionList.get(i).itemsToString();
-//				return toReturn;
-//			}
-//		}
-//		if(toReturn.equals("")) toReturn = "Nothing was found.";
-//		return toReturn;
-//	}
-	
 	/**
 	 * This method checks organization for validity.
 	 * @param organizationName of the organization
