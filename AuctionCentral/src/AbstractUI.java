@@ -21,7 +21,7 @@ public abstract class AbstractUI {
 	abstract void menu(User theUser);
 	
 	/**
-	 * Method to ensure number being read in my input is an int.
+	 * Method to ensure number being read in myInput is an int.
 	 * @return an int from input.
 	 */
 	public int readInt() {
@@ -40,7 +40,7 @@ public abstract class AbstractUI {
 	}
 	
 	/**
-	 * Method to ensure number being read in my input is a double.
+	 * Method to ensure number being read in myInput is a double.
 	 * @return a double from input.
 	 */
 	public double readDouble() {
@@ -85,6 +85,10 @@ public abstract class AbstractUI {
 		return input;
 	}
 	
+	/**
+	 * Generates an indexed list of selectable auctions.
+	 * @return a list of selectable auctions.
+	 */
 	public String getIndexedAuctions() {
 		List<Auction> temp = myAuctionCalendar.getListOfAuctions();
 		StringBuilder toReturn = new StringBuilder();
@@ -97,6 +101,11 @@ public abstract class AbstractUI {
 		return toReturn.toString();
 	}
 	
+	/**
+	 * Generates an indexed list of items available in an auction.
+	 * 
+	 * @return the indexed list of items in auction.
+	 */
 	public String getIndexedItems(Auction theAuction) {
 		List<Item> temp = theAuction.getMyItems();
 		StringBuilder toReturn = new StringBuilder();
