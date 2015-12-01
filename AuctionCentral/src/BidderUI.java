@@ -109,29 +109,29 @@ public class BidderUI extends AbstractUI {
 		selection = readInt() - 1;
 		itemName = getBidSelection(selection);
 		
-		if (itemName != "") {
-			System.out.println("Please enter new bid amount:");
-			double newBid = readDouble();
-			if (((Bidder)myUser).changeBid(((Bidder) myUser).getMyBids().get(itemName), newBid)) {
-				System.out.println("Bid changed.");
-			} else {
-				System.out.println("Bid could not be changed to specified amount.");
-			}
-		} else {
-			System.out.println("No bid for selected item to cancel.");
-		}
+//		if (itemName != "") {
+//			System.out.println("Please enter new bid amount:");
+//			double newBid = readDouble();
+//			if (((Bidder)myUser).changeBid(((Bidder) myUser).getMyBids().get(itemName), newBid)) {
+//				System.out.println("Bid changed.");
+//			} else {
+//				System.out.println("Bid could not be changed to specified amount.");
+//			}
+//		} else {
+//			System.out.println("No bid for selected item to cancel.");
+//		}
 	}
 	public void cancelBidMenu() {
-		 System.out.println("You currently have bids on the following items:\n");
-			System.out.println(((Bidder) myUser).getMyBids() + "\n");
-			System.out.println("Which bid would you like to cancel?\n");
-			selectName = readString();
-			selectedItem = getItemFromList(selectName);
-			if (selectedItem != null && ((Bidder)myUser).cancelBid(selectedItem)) {
-				System.out.println("Bid successfully canceled.");
-			} else {
-				System.out.println("No bid for selected item to cancel.");
-			}
+//		 System.out.println("You currently have bids on the following items:\n");
+//			System.out.println(((Bidder) myUser).getMyBids() + "\n");
+//			System.out.println("Which bid would you like to cancel?\n");
+//			selectName = readString();
+//			selectedItem = getItemFromList(selectName);
+//			if (selectedItem != null && ((Bidder)myUser).cancelBid(selectedItem)) {
+//				System.out.println("Bid successfully canceled.");
+//			} else {
+//				System.out.println("No bid for selected item to cancel.");
+//			}
 	}
 /*
  * Helper Methods
