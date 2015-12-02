@@ -243,25 +243,6 @@ public class TestCalendarClass {
 	}
 	
 	@Test
-	public void testGetAllAuctions() {
-		//this is getter
-		assertEquals(emptyCal2.getAllAuctions(), auction.toString()+"\n");
-
-		//this is getter too
-		assertEquals(emptyCal2.getPastAuctions(), "Past Auctions:\n");
-	}
-	@Test
-	public void testListOfAuctions() {
-		fullCal.getListOfAuctions();
-	}
-	
-	@Test
-	public void testGetAuction() {
-		assertEquals(fullCal.getAuction("NotGood"), null);
-		assertEquals(fullCal.getAuction(auction.getMyName()), auction);
-	}
-	
-	@Test
 	public void testGetListOfDays() {
 		//this is getter
 		fullCal.getListOfDays(12);
@@ -287,12 +268,6 @@ public class TestCalendarClass {
 		list.add(auct4);
 		fullCal.insertAuctions(list);
 		emptyCalendar.insertAuctions(list);
-	}
-	
-	@Test
-	public void testViewAuctions() {
-		assertFalse(fullCal.viewAuction("Good").equals(""));
-		assertTrue(fullCal.viewAuction("NotNot").equals("Nothing was found."));
 	}
 	
 	@Test

@@ -7,23 +7,16 @@ import org.junit.Test;
 public class TestNonProfitEmployee {
 
 	private NonProfitEmployee testNPEmp;
-	private CalendarClass testCalendar;
-	private Auction testAuction;
-	private Item testItem;
 	
 	@Before
 	public void setUp() {
 		testNPEmp = new NonProfitEmployee("Jim", "(234)567-8900", "Dunder Mifflin");
-		testCalendar = new CalendarClass();
-		testAuction = new Auction("DM", 12, 23, 2015, 2, 7);
-		testItem = new Item("hat", 2.0);
 	}
 
 	@Test
 	public void testScheduleAuction() {
-		testCalendar.addAuction(testAuction);
-		assertEquals(testCalendar.viewAuction("DM"), "DM-12/23/2015 Start: 2 End: 7\n"
-				+ "List of Items/Starting Bids:\n");
+		testNPEmp.scheduleAuction("Dunder Mifflin", 02, 19, 2016, 12, 14);
+		//assertEquals();
 	}
 	
 	@Test

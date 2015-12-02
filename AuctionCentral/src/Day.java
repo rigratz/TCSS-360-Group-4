@@ -1,6 +1,3 @@
-
-
-
 import java.util.List;
 
 /**
@@ -9,11 +6,8 @@ import java.util.List;
  * @version 2.0
  */
 public class Day {
-	//this is a day number of the month
-	private int day;
-	
 	//this is a list of auctions today.
-	private List<String> todaysAuctions;
+	private List<Auction> todaysAuctions;
 	
 	//this is a start time of the auction
 	private int startTime;
@@ -28,8 +22,7 @@ public class Day {
 	 * @param startTime when auction begins
 	 * @param endTime when auction ends
 	 */
-	public Day(int day, List<String> todaysAuctions) {
-		this.day = day;
+	public Day(List<Auction> todaysAuctions) {
 		this.todaysAuctions = todaysAuctions;
 	}
 	
@@ -53,15 +46,19 @@ public class Day {
 		this.endTime = endTime;
 	}
 	
-	public void setTodaysAuctions(String auction) {
+	public void setTodaysAuctions(Auction auction) {
 		todaysAuctions.add(auction);
 	}
 	
-	public String toString() {
-		String info = new String();
-		for (int i = 0; i < todaysAuctions.size(); i++) {
-			info = info + todaysAuctions.get(i) + "\n";
-		}
-		return info;
+	public List<Auction> getTodaysAuctions() {
+		return todaysAuctions;
 	}
+	
+//	public String toString() {
+//		String info = new String();
+//		for (int i = 0; i < todaysAuctions.size(); i++) {
+//			info = info + todaysAuctions.get(i) + "\n";
+//		}
+//		return info;
+//	}
 }

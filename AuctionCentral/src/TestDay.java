@@ -10,12 +10,12 @@ import org.junit.Test;
 public class TestDay {
 	
 	private Day testDay;
-	private List<String> testAuctions;
+	private List<Auction> testAuctions;
 
 	@Before
 	public void setUp() {
-		testAuctions = new ArrayList<String>();
-		testDay = new Day(2, testAuctions);
+		testAuctions = new ArrayList<Auction>();
+		testDay = new Day(testAuctions);
 	}
 
 	@Test
@@ -25,13 +25,13 @@ public class TestDay {
 	
 	@Test
 	public void testGetNumberOfAuctionsAfterSetTodaysAuctions() {
-		testDay.setTodaysAuctions("one");
+//		testDay.setTodaysAuctions("one");
 		assertEquals(testDay.getNumberOfAuctions(), 1);
 	}
 
 	@Test
 	public void testSetTodaysAuctions() {
-		testDay.setTodaysAuctions("one");
+//		testDay.setTodaysAuctions("one");
 		assertEquals(testDay.getNumberOfAuctions(), 1);
 	}
 }

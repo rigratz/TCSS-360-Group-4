@@ -2,7 +2,6 @@
 /**
  * This is an employee of a non-profit
  * @author tempest
- *
  */
 public class NonProfitEmployee extends User {
 	
@@ -10,7 +9,7 @@ public class NonProfitEmployee extends User {
 	private String myOrganizationName;
 
 	/**
-	 * * Constructs a Non-Profit Employee
+	 * Constructs a Non-Profit Employee
 	 * @param theName
 	 * @param theContact
 	 */
@@ -21,7 +20,7 @@ public class NonProfitEmployee extends User {
 	}
 
 	public Auction scheduleAuction(String theNonProfit, int theMonth, int theDay, int theYear, 
-			int theStartTime, int theEndTime) {
+								   int theStartTime, int theEndTime) {
 		return new Auction(theNonProfit, theMonth, theDay, theYear, theStartTime, theEndTime);
 	}
 
