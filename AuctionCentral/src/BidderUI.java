@@ -1,5 +1,5 @@
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,28 +7,24 @@ import java.util.Map;
 public class BidderUI extends AbstractUI {
 	
 	private Auction myAuction;
+	private Map<String, Double> myBids;
 	
 	public BidderUI(BufferedReader theInput, CalendarClass theCalendar) {
 		super(theInput, theCalendar);
+		myBids = new HashMap<String, Double>();
 	}
 
 /*
  * Menu Methods
  */
 	
+	/**
+	 * Main menu for the BidderUI.
+	 */
 	@Override
 	public void menu(User theUser) {
 		myUser = theUser;
 		int selection = 0;
-//		String selectName = "";
-//		String finder = "";
-//		Auction selectedAuction = null;
-//		List<Auction> auctionList = null;
-//		List<Item> selectedItemList = null;
-//		Item selectedItem = null;
-//		boolean found = false;
-//		boolean previousBid = false;
-//		int index = -1;
 		
 		while (selection != 5) {
 			System.out.println("\nHello, Bidder! What would you like to do?");
@@ -57,6 +53,9 @@ public class BidderUI extends AbstractUI {
 		
 	}
 	
+	/**
+	 * Menu for a user to select from all available auctions.
+	 */
 	public void chooseAuction() {
 		int selection;
 		System.out.println("Please select an auction:\n");
@@ -70,6 +69,9 @@ public class BidderUI extends AbstractUI {
 		}
 	}
 	
+	/**
+	 * Menu for a user to place a new bid on an item.
+	 */
 	public void bidMenu() {
 		int selection = 0;
 		boolean previousBid = false;
@@ -99,40 +101,67 @@ public class BidderUI extends AbstractUI {
 		}
 	}
 	
+	/**
+	 * Menu for a user to change an existing bid.
+	 */
 	public void changeBidMenu() {
 		int selection;
-		String itemName;
+		String itemName, indexedBids;
+		Item theItem;
+		indexedBids = getIndexedBids();
+		if (indexedBids.equals("")) {
+			System.out.println("You currently have no bids placed.");
+			return;
+		}
 		System.out.println("You currently have bids on the following items:\n");
-		System.out.println(getIndexedBids());
+		System.out.println(indexedBids);
 		System.out.println("Which bid would you like to change?\n");
 		
 		selection = readInt() - 1;
 		itemName = getBidSelection(selection);
-		
-//		if (itemName != "") {
-//			System.out.println("Please enter new bid amount:");
-//			double newBid = readDouble();
-//			if (((Bidder)myUser).changeBid(((Bidder) myUser).getMyBids().get(itemName), newBid)) {
-//				System.out.println("Bid changed.");
-//			} else {
-//				System.out.println("Bid could not be changed to specified amount.");
-//			}
-//		} else {
-//			System.out.println("No bid for selected item to cancel.");
-//		}
+		theItem = getSelectedItem(itemName);
+		if (theItem != null) {
+			System.out.println("Please enter new bid amount:");
+			double newBid = readDouble();
+			if (theItem.bid(myUser.getMyName(), newBid)) {
+				System.out.println("Bid changed");
+			} else {
+				System.out.println("Bid could not be changed to specified amount.");
+			}
+		} else {
+			System.out.println("No bid for selected item to change.");
+		}
 	}
+	
+	/**
+	 * Menu for a bidder to cancel an existing bid.
+	 */
 	public void cancelBidMenu() {
-//		 System.out.println("You currently have bids on the following items:\n");
-//			System.out.println(((Bidder) myUser).getMyBids() + "\n");
-//			System.out.println("Which bid would you like to cancel?\n");
-//			selectName = readString();
-//			selectedItem = getItemFromList(selectName);
-//			if (selectedItem != null && ((Bidder)myUser).cancelBid(selectedItem)) {
-//				System.out.println("Bid successfully canceled.");
-//			} else {
-//				System.out.println("No bid for selected item to cancel.");
-//			}
+		int selection;
+		String itemName, indexedBids;
+		Item theItem;
+		indexedBids = getIndexedBids();
+		
+		if (indexedBids.equals("")) {
+			System.out.println("You currently have no bids placed.");
+			return;
+		}
+		System.out.println("You currently have bids on the following items:\n");
+		
+		
+		System.out.println(indexedBids);
+		System.out.println("Which bid would you like to cancel?\n");
+		
+		selection = readInt() - 1;
+		itemName = getBidSelection(selection);
+		theItem = getSelectedItem(itemName);
+		if (theItem != null && ((Bidder)myUser).cancelBid(theItem)) {
+			System.out.println("Bid successfully removed!");
+		} else {
+			System.out.println("Bid could not be removed.");
+		}
 	}
+	
 /*
  * Helper Methods
  */
@@ -156,32 +185,72 @@ public class BidderUI extends AbstractUI {
 		return foundItem;
 	}
 	
+	/**
+	 * Returns an indexed strings of all of the current user's bids.
+	 * @return an indexed string of bids to select.
+	 */
 	public String getIndexedBids() {
-		Map<String, Double> temp = ((Bidder) myUser).getMyBids();
+		myBids = new HashMap<String, Double>();
+		for (Auction auction : myAuctionCalendar.getListOfAuctions()) {
+			for (Item item : auction.getMyItems()) {
+				if (item.getMyBids().containsKey(myUser.getMyName())) {
+					System.out.println(item.getMyName());
+					myBids.put(item.getMyName(), item.getMyBids().get(myUser.getMyName()));
+				}
+			}
+		}
+		if (myBids.isEmpty()) {
+			return "";
+		}
 		int i = 1;
 		StringBuilder toReturn = new StringBuilder();
-		for (String key : temp.keySet()) {
+		for (String key : myBids.keySet()) {
 			toReturn.append(i);
 			toReturn.append(". ");
 			toReturn.append(key);
 			toReturn.append(" - Bid Amount = ");
-			toReturn.append(temp.get(key));
+			toReturn.append(myBids.get(key));
 			toReturn.append("\n");
 			i++;
 		}
 		return toReturn.toString();
 	}
 	
+	/**
+	 * Retrieves the name of an item to be bid on, based on a prior indexed input selection.
+	 * @param theSelection is the index of the bid to be selected.
+	 * @return the name of the item that was selected.
+	 */
 	public String getBidSelection(int theSelection) {
-		Map<String, Double> temp = ((Bidder) myUser).getMyBids();
 		int i = 0;
 		String toReturn = "";
-		for (String key : temp.keySet()) {
+		for (String key : myBids.keySet()) {
 			if (theSelection == i) {
 				toReturn = key;
 				break;
 			}
 			i++;
+		}
+		return toReturn;
+	}
+	
+	/**
+	 * May not be the best way to do this, in case of multiple items of the same name,
+	 * but this is what I'm working with for now...
+	 * 
+	 * @param itemName is the name of the item you want to retrieve.
+	 * @return the selected Item if it exists.
+	 */
+	public Item getSelectedItem(String itemName) {
+		Item toReturn = null;
+		
+		for (Auction auction : myAuctionCalendar.getListOfAuctions()) {
+			for (Item item : auction.getMyItems()) {
+				if (item.getMyName().equals(itemName)) {
+					toReturn = item;
+					break;
+				}
+			}
 		}
 		return toReturn;
 	}

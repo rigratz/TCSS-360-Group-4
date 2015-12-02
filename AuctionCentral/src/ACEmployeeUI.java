@@ -7,6 +7,9 @@ public class ACEmployeeUI extends AbstractUI {
 		super(theInput, theCalendar);
 	}
 
+	/**
+	 * Main menu for an AuctionCentral Employee.
+	 */
 	@Override
 	public void menu(User theUser) {
 		myUser = theUser;
@@ -26,6 +29,9 @@ public class ACEmployeeUI extends AbstractUI {
 		AuctionCentral.saveAndQuit();
 	}
 	
+	/**
+	 * Displays monthly auction information for an AuctionCentral Employee.
+	 */
 	public void viewMonthlyCalendar() {
 		
 		StringBuilder toPrint = new StringBuilder();
@@ -42,6 +48,9 @@ public class ACEmployeeUI extends AbstractUI {
 		System.out.println(toPrint); 
 	}
 	
+	/**
+	 * Menu for AuctionCentral Employee to view the details of a selected auction.
+	 */
 	public void viewAuctionDetails() {
 		int selection;
 		System.out.println("Please select an auction:\n");
