@@ -8,9 +8,10 @@ import java.util.Map;
  */
 
 
-public class Item {
-	
+public class Item implements java.io.Serializable {
+
 	//fields
+	private static final long serialVersionUID = -3149594478824511640L; //Serial version UID
 	private String myName;												//the name of the item
 	private double myStartingBid;										//the starting bid of the item
 	private Map<String, Double> myBids = new HashMap<String, Double>();	//HashMap for mapping users to bids
@@ -81,14 +82,14 @@ public class Item {
 	}
 	
 	//Business rule 6
-	private void oneBidPerbidder(String theBidder) {
+	public void oneBidPerbidder(String theBidder) {
 		if(myBids.containsKey(theBidder)) {
 			myBids.remove(theBidder);
 		}
 	}
 	
 	//business rule 9
-	private boolean bidGreaterThanStartingBid(double theBid) {
+	public boolean bidGreaterThanStartingBid(double theBid) {
 		if(theBid < myStartingBid) {
 			return true;
 		}

@@ -22,6 +22,18 @@ public class TestItem {
 	}
 	
 	@Test
+	public void testBidGreaterThanStartingBid() {
+		assertTrue(testItem.bidGreaterThanStartingBid(3.49));
+	}
+	
+	@Test
+	public void testOneBidPerbidder() {
+		testItem.bid("Tim", 500);
+		testItem.oneBidPerbidder("Tim");
+		assertEquals(testItem.getMyBids().get("Tim"), null);
+	}
+	
+	@Test
 	public void testGetName() {
 		assertEquals(testItem.getMyName(), "testLamp");
 	}
@@ -30,6 +42,7 @@ public class TestItem {
 	public void testSetName() {
 		testItem.setMyName("testChair");
 		assertEquals(testItem.getMyName(), "testChair");
+		System.out.println("Willie likes poop");
 	}
 	
 	@Test
@@ -66,6 +79,7 @@ public class TestItem {
 		HashMap<String, Double> bids = (HashMap<String, Double>) testItem.getMyBids();
 		assertEquals(bids.get("Jim"), new Double(3.5));
 		assertEquals(bids.get("Tim"), new Double(3.56));
+		System.out.println("Poop in willies butt");
 		assertEquals(bids.get("Slim"), new Double(13.5));
 		assertEquals(bids.get("Han Lim"), new Double(43.7));
 	}
