@@ -12,7 +12,7 @@ public class ACEmployeeUI extends AbstractUI {
 	 */
 	@Override
 	public void menu(User theUser) {
-		myUser = theUser;
+		setUser(theUser);
 		int selection = 0;
 		
 		while (selection != 3) {
