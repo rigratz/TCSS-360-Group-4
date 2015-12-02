@@ -265,10 +265,10 @@ public class NonProfitUI  extends AbstractUI {
 	 * statement specifying cause of scheduling conflict.
 	 */
 	public boolean isTimeAvailable(CalendarClass calendar, int month, int day, int year, int start, int end) {
-		if (calendar.isAvailable(month, day, start, end)
+		if (calendar.belowMaxDaysToFuture(month, day, year)
 				&& calendar.belowMaxAuctions()
-				&& calendar.belowMaxDaysToFuture(month, day, year)
 				&& calendar.belowWeekLimit(month, day)
+				&& calendar.isAvailable(month, day, start, end)
 				&& start < end) {
 			
 			return true;
@@ -277,16 +277,16 @@ public class NonProfitUI  extends AbstractUI {
 			if (!calendar.belowMaxDaysToFuture(month, day, year)) {
 				System.out.println("Selected time is too far in advance.\n");
 			}
-			if (!calendar.belowMaxAuctions()) {
+			else if (!calendar.belowMaxAuctions()) {
 				System.out.println("Sorry, we have a full set of auctions right now.\n");
 			}
-			if (!calendar.belowWeekLimit(month, day)) {
+			else if (!calendar.belowWeekLimit(month, day)) {
 				System.out.println("Sorry, we are full for that particular week\n");
 			}
-			if (!calendar.isAvailable(month, day, start, end)) {
+			else if (!calendar.isAvailable(month, day, start, end)) {
 				System.out.println("Selected time is not available.\n");
 			}
-			if (!(start < end)) {
+			else if (!(start < end)) {
 				System.out.println("Start time must be earlier than end time.\n");
 			}
 			return false;

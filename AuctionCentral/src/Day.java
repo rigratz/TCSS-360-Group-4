@@ -53,12 +53,4 @@ public class Day {
 	public List<Auction> getTodaysAuctions() {
 		return todaysAuctions;
 	}
-	
-//	public String toString() {
-//		String info = new String();
-//		for (int i = 0; i < todaysAuctions.size(); i++) {
-//			info = info + todaysAuctions.get(i) + "\n";
-//		}
-//		return info;
-//	}
 }

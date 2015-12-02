@@ -37,13 +37,6 @@ public class Month {
 		}
 	}
 	
-//	public String toStringAuctions() {
-//		String monthInfo = new String();
-//		for(int i = 0; i < days.size(); i++) {
-//			monthInfo += days.get(i);
-//		}
-//		return monthInfo;
-//	}
 	public List<Auction> listOfAuctions() {
 		for(int i = 0; i < days.size(); i++) {
 			if(days.get(i).getNumberOfAuctions() > 0) {

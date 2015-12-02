@@ -148,7 +148,6 @@ public class CalendarClass {
 			int temp = 0;
 			for(int j = 0; j < 7; j++) {
 				int monthIndex = calculateOffset(tempCalendar.get(Calendar.MONTH)+1);
-
 				int currentDay = tempCalendar.get(Calendar.DAY_OF_MONTH);
 				temp += board.getMonth(monthIndex)
 						.getDay(currentDay).getNumberOfAuctions();
