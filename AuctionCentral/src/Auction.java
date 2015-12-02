@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Auction {
-	
+public class Auction implements java.io.Serializable {
+
 	//fields
+	private static final long serialVersionUID = 3026447703100565999L; //Serial version UID
 	private String myNonProfit;							//name of the nonprofit
 	private String myName; 								//name of auction
 	private String myDate; 								//Date of auction
