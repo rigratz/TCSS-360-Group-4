@@ -7,11 +7,16 @@ import java.util.Map;
 public class BidderUI extends AbstractUI {
 	
 	private Auction myAuction;
-	private Map<String, Double> myBids;
+	protected Map<String, Double> myBids;
 	
 	public BidderUI(BufferedReader theInput, CalendarClass theCalendar) {
 		super(theInput, theCalendar);
 		myBids = new HashMap<String, Double>();
+	}
+	
+	public BidderUI(BufferedReader theInput, CalendarClass theCalendar, Map<String, Double> theBids) {
+		super(theInput, theCalendar);
+		myBids = theBids;
 	}
 
 /*
@@ -23,7 +28,7 @@ public class BidderUI extends AbstractUI {
 	 */
 	@Override
 	public void menu(User theUser) {
-		myUser = theUser;
+		setUser(theUser);
 		int selection = 0;
 		
 		while (selection != 5) {

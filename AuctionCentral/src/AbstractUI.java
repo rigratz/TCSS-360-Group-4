@@ -21,6 +21,12 @@ public abstract class AbstractUI {
 	abstract void menu(User theUser);
 	
 	/**
+	 * Setter method for assigning a UI class a specific user.
+	 */
+	public void setUser(User theUser) {
+		myUser = theUser;
+	}
+	/**
 	 * Method to ensure number being read in myInput is an int.
 	 * @return an int from input.
 	 */
