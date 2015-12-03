@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * This is a board private class that keeps 4 months on it
+ * This is a board private class that keeps 4 months on it.
  * @author Artsiom Vainilovich
  * @version 2.0
  */
@@ -24,7 +24,11 @@ public class CalendarBoard {
 			templateCalendar.add(Calendar.MONTH, 1);
 		}
 	}
-	
+	/**
+	 * This method is a getter for the month that returns month object.
+	 * @param monthIndex to get the month from in the board.
+	 * @return the Month Object.
+	 */
 	public Month getMonth(int monthIndex) {
 		return listOfMonths.get(monthIndex);
 	}

@@ -11,11 +11,13 @@ public class TestDay {
 	
 	private Day testDay;
 	private List<Auction> testAuctions;
+	private Auction auction;
 
 	@Before
 	public void setUp() {
 		testAuctions = new ArrayList<Auction>();
 		testDay = new Day(testAuctions);
+		auction = new Auction("Name", 12, 25, 2015, 12, 15);
 	}
 
 	@Test
@@ -25,13 +27,25 @@ public class TestDay {
 	
 	@Test
 	public void testGetNumberOfAuctionsAfterSetTodaysAuctions() {
-//		testDay.setTodaysAuctions("one");
+		testDay.setTodaysAuctions(auction);
 		assertEquals(testDay.getNumberOfAuctions(), 1);
 	}
-
+	
 	@Test
-	public void testSetTodaysAuctions() {
-//		testDay.setTodaysAuctions("one");
-		assertEquals(testDay.getNumberOfAuctions(), 1);
+	public void testSetAndGetStartTime() {
+		testDay.setStartTime(5);
+		assertEquals(testDay.getStartTime(), 5);
+	}
+	
+	@Test
+	public void testSetAndGetEndTime() {
+		testDay.setEndTime(8);;
+		assertEquals(testDay.getEndTime(), 8);
+	}
+	
+	@Test
+	public void testGetTodaysAuctions() {
+		testDay.setTodaysAuctions(auction);
+		assertEquals(testDay.getTodaysAuctions(), testAuctions);
 	}
 }
