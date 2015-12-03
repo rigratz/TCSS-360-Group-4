@@ -264,12 +264,14 @@ public class CalendarClass {
 					}
 					else pastAuctionList.add(auctList.get(i));
 				}
-				else if (isAvailable(auctList.get(i).getMyMonth(), auctList.get(i).getMyDay(), 
+				else {
+					if (isAvailable(auctList.get(i).getMyMonth(), auctList.get(i).getMyDay(), 
 						auctList.get(i).getMyStartTime(), auctList.get(i).getMyEndTime())
 						&& belowMaxAuctions() && belowMaxDaysToFuture(auctList.get(i).getMyMonth(), 
 								auctList.get(i).getMyDay(), auctList.get(i).getMyYear())
 						&& belowWeekLimit(auctList.get(i).getMyMonth(), auctList.get(i).getMyDay())) {
-					addAuction(auctList.get(i));
+						addAuction(auctList.get(i));
+					}
 				}
 			}
 			else pastAuctionList.add(auctList.get(i));
