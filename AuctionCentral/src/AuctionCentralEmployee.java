@@ -4,7 +4,9 @@
  * @author tempest
  *
  */
-public class AuctionCentralEmployee extends User{
+public class AuctionCentralEmployee extends User {
+
+	private static final long serialVersionUID = -5436317392198465095L;
 
 	/**
 	 * * Constructs an AuctionCentral Employee

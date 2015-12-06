@@ -8,6 +8,7 @@ import java.util.Map;
  */
 public class Bidder extends User {
 
+	private static final long serialVersionUID = 601320092448220174L;
 	private Map<String, Double> myBids; // bidder's list of bids
 	
 	/**
@@ -25,7 +26,7 @@ public class Bidder extends User {
 	 * @param theName
 	 * @param theContact
 	 */
-	public Bidder(String theName, String theContact, Map<String, Double>theBids) {
+	public Bidder(String theName, String theContact, Map<String, Double> theBids) {
 		super(theName, theContact);
 		myBids = theBids;
 	}

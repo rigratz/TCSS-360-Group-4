@@ -36,7 +36,7 @@ public class Month {
 	/**
 	 * This method creates all(maximum) days for the month.
 	 */
-	private void createDays() {
+	protected void createDays() {
 		for(int i = 1; i <= maxDays+1; i++) {
 			days.add(new Day(new ArrayList<Auction>()));			
 		}

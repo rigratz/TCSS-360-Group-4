@@ -5,6 +5,7 @@
  */
 public class NonProfitEmployee extends User {
 	
+	private static final long serialVersionUID = -5235035041902337715L;
 	/** Name of the non-profit organization. */
 	private String myOrganizationName;
 
@@ -15,7 +16,6 @@ public class NonProfitEmployee extends User {
 	 */
 	public NonProfitEmployee(String theName, String theContact, String theOrganizationName) {
 		super(theName, theContact);
-		
 		myOrganizationName = theOrganizationName; 
 	}
 

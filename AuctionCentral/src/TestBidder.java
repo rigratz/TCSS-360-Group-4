@@ -1,5 +1,8 @@
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,89 +10,174 @@ import org.junit.Test;
 public class TestBidder {
 	
 	private Bidder testBidder;
-	private Item testItem;
+	private Bidder testBidderWithMap;
+	private Map<String, Double> testBidsMap;
+	private Item testItemPen;
+	private Item testItemBook;
 
 	@Before
 	public void setUp() {
 		testBidder = new Bidder("Pam", "(123)565-7654");
-		testItem = new Item("pen", 3.5);
+		testBidsMap = new HashMap<String, Double>();
+		testBidsMap.put("phone", 444.99);
+		testBidsMap.put("chair", 659.00);
+		testBidderWithMap = new Bidder("Kevin", "(324)332-3333", testBidsMap);
+		testItemPen = new Item("pen", 3.5);
+		testItemBook = new Item("book", 35.99);
 	}
 
 	@Test
-	public void testPlaceBidLessThanStartingBid() {
-		assertFalse(testBidder.placeBid(testItem, 2.0));
+	public void testBidderPlaceBidLessThanStartingBid() {
+		assertFalse(testBidder.placeBid(testItemPen, 2.0));
 	}
 	
 	@Test
-	public void testPlaceBidGreaterThanStartingBid() {
-		assertTrue(testBidder.placeBid(testItem, 4.0));
-	}
-
-	@Test
-	public void testCancelBidOnExistingBid() {
-		testBidder.placeBid(testItem, 5.0);
-		assertTrue(testBidder.cancelBid(testItem));
+	public void testBidderWithMapPlaceBidLessThanStartingBid() {
+		assertFalse(testBidderWithMap.placeBid(testItemBook, 2.0));
 	}
 	
 	@Test
-	public void testCancelBidOnNonExistingBid() {
-		assertFalse(testBidder.cancelBid(testItem));
-	}
-
-	@Test
-	public void testChangeBidToLessThanStartingBid() {
-		assertFalse(testBidder.changeBid(testItem, 1.0));
+	public void testBidderPlaceBidGreaterThanStartingBid() {
+		assertTrue(testBidder.placeBid(testItemPen, 4.0));
 	}
 	
 	@Test
-	public void testChangeBidToGreaterThanStartingBid() {
-		assertTrue(testBidder.changeBid(testItem, 4.55));
+	public void testBidderWithMapPlaceBidGreaterThanStartingBid() {
+		assertTrue(testBidderWithMap.placeBid(testItemBook, 45.0));
 	}
 
 	@Test
-	public void testGetMyBidsContainsKey() {
-		testBidder.placeBid(testItem, 5.2);
+	public void testBidderCancelBidOnExistingBid() {
+		testBidder.placeBid(testItemPen, 5.0);
+		assertTrue(testBidder.cancelBid(testItemPen));
+	}
+	
+	@Test
+	public void testBidderWithMapCancelBidOnExistingBid() {
+		testBidderWithMap.placeBid(testItemBook, 50.0);
+		assertTrue(testBidderWithMap.cancelBid(testItemBook));
+	}
+	
+	@Test
+	public void testBidderCancelBidOnNonExistingBid() {
+		assertFalse(testBidder.cancelBid(testItemPen));
+	}
+	
+	@Test
+	public void testBidderWithMapCancelBidOnNonExistingBid() {
+		assertFalse(testBidderWithMap.cancelBid(testItemBook));
+	}
+
+	@Test
+	public void testBidderChangeBidToLessThanStartingBid() {
+		assertFalse(testBidder.changeBid(testItemPen, 1.0));
+	}
+	
+	@Test
+	public void testBidderWithMapChangeBidToLessThanStartingBid() {
+		assertFalse(testBidderWithMap.changeBid(testItemBook, 1.0));
+	}
+	
+	@Test
+	public void testBidderChangeBidToGreaterThanStartingBid() {
+		assertTrue(testBidder.changeBid(testItemPen, 4.55));
+	}
+	
+	@Test
+	public void testBidderWithMapChangeBidToGreaterThanStartingBid() {
+		assertTrue(testBidderWithMap.changeBid(testItemBook, 40.55));
+	}
+
+	@Test
+	public void testBidderGetMyBidsContainsKey() {
+		testBidder.placeBid(testItemPen, 5.2);
 		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
 		assertTrue(testBidder.getMyBids().containsKey("shoe"));	
 	}
 	
 	@Test
-	public void testGetMyBidsContainsValue() {
-		testBidder.placeBid(testItem, 5.2);
+	public void testBidderWithMapGetMyBidsContainsKey() {
+		testBidderWithMap.placeBid(testItemBook, 5.2);
+		testBidderWithMap.placeBid(new Item("table", 90.0), 115.0);
+		assertTrue(testBidderWithMap.getMyBids().containsKey("table"));	
+	}
+	
+	@Test
+	public void testBidderGetMyBidsContainsValue() {
+		testBidder.placeBid(testItemPen, 5.2);
 		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
 		assertTrue(testBidder.getMyBids().containsValue(35.0));	
 	}
 	
 	@Test
-	public void testGetMyBidsContainsKeyAfterCancelBid() {
-		testBidder.placeBid(testItem, 5.2);
+	public void testBidderWithMapGetMyBidsContainsValue() {
+		testBidderWithMap.placeBid(testItemBook, 5.2);
+		testBidderWithMap.placeBid(new Item("shoe", 30.0), 35.0);
+		assertTrue(testBidderWithMap.getMyBids().containsValue(35.0));	
+	}
+	
+	@Test
+	public void testBidderGetMyBidsContainsKeyAfterCancelBid() {
+		testBidder.placeBid(testItemPen, 5.2);
 		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
-		testBidder.cancelBid(testItem);
+		testBidder.cancelBid(testItemPen);
 		assertTrue(testBidder.getMyBids().containsKey("shoe"));
 	}
 	
 	@Test
-	public void testGetMyBidsContainsValueAfterCancelBid() {
-		testBidder.placeBid(testItem, 5.2);
+	public void testBidderWithMapGetMyBidsContainsKeyAfterCancelBid() {
+		testBidderWithMap.placeBid(testItemBook, 5.2);
+		testBidderWithMap.placeBid(new Item("shoe", 30.0), 35.0);
+		testBidderWithMap.cancelBid(testItemBook);
+		assertTrue(testBidderWithMap.getMyBids().containsKey("shoe"));
+	}
+	
+	@Test
+	public void testBidderGetMyBidsContainsValueAfterCancelBid() {
+		testBidder.placeBid(testItemPen, 5.2);
 		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
-		testBidder.cancelBid(testItem);
+		testBidder.cancelBid(testItemPen);
 		assertTrue(testBidder.getMyBids().containsValue(35.0));
 	}
 	
 	@Test
-	public void testGetMyBidsContainsKeyAfterChangeBid() {
-		testBidder.placeBid(testItem, 5.2);
+	public void testBidderWithMapGetMyBidsContainsValueAfterCancelBid() {
+		testBidderWithMap.placeBid(testItemBook, 5.2);
+		testBidderWithMap.placeBid(new Item("shoe", 30.0), 35.0);
+		testBidderWithMap.cancelBid(testItemBook);
+		assertTrue(testBidderWithMap.getMyBids().containsValue(35.0));
+	}
+	
+	@Test
+	public void testBidderGetMyBidsContainsKeyAfterChangeBid() {
+		testBidder.placeBid(testItemPen, 5.2);
 		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
-		testBidder.changeBid(testItem, 6.5);
+		testBidder.changeBid(testItemPen, 6.5);
 		assertTrue(testBidder.getMyBids().containsKey("shoe"));
 	}
 	
 	@Test
-	public void testGetMyBidsContainsValueAfterChangeBid() {
-		testBidder.placeBid(testItem, 5.2);
+	public void testBidderWithMapGetMyBidsContainsKeyAfterChangeBid() {
+		testBidderWithMap.placeBid(testItemBook, 5.2);
+		testBidderWithMap.placeBid(new Item("shoe", 30.0), 35.0);
+		testBidderWithMap.changeBid(testItemBook, 6.5);
+		assertTrue(testBidderWithMap.getMyBids().containsKey("shoe"));
+	}
+	
+	@Test
+	public void testBidderGetMyBidsContainsValueAfterChangeBid() {
+		testBidder.placeBid(testItemPen, 5.2);
 		testBidder.placeBid(new Item("shoe", 30.0), 35.0);
-		testBidder.changeBid(testItem, 6.5);
+		testBidder.changeBid(testItemPen, 6.5);
 		assertTrue(testBidder.getMyBids().containsValue(35.0));	
+	}
+	
+	@Test
+	public void testBidderWithMapGetMyBidsContainsValueAfterChangeBid() {
+		testBidderWithMap.placeBid(testItemBook, 5.2);
+		testBidderWithMap.placeBid(new Item("shoe", 30.0), 35.0);
+		testBidderWithMap.changeBid(testItemBook, 6.5);
+		assertTrue(testBidderWithMap.getMyBids().containsValue(35.0));	
 	}
 
 }

@@ -4,8 +4,9 @@
  * @author tempest
  * 11/8/2015
  */
-public abstract class User {
+public abstract class User implements java.io.Serializable {
 
+	private static final long serialVersionUID = 3560060436772031618L;
 	private String myName;		// name of user
 	private String myContact;	// contact phone number
 
