@@ -1,7 +1,11 @@
 import java.io.BufferedReader;
 import java.util.List;
 
-
+/**
+ * This is the User Interface for Non Profit Organizations.
+ * 
+ * @author Riley Gratzer
+ */
 public class NonProfitUI  extends AbstractUI {
 
 	public NonProfitUI(BufferedReader theInput, CalendarClass theCalendar) {
@@ -55,7 +59,6 @@ public class NonProfitUI  extends AbstractUI {
 				case 5: System.out.println("Logging out... Good-bye!"); break;
 				default: System.out.println("Invalid selection!"); break;
 			}
-		AuctionCentral.saveAndQuit();
 		}
 	}
 	

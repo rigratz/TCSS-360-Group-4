@@ -3,7 +3,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * This is the User Interface for bidders.
+ * 
+ * @author Riley Gratzer
+ */
 public class BidderUI extends AbstractUI {
 	
 	private Auction myAuction;
@@ -54,7 +58,6 @@ public class BidderUI extends AbstractUI {
 				default: System.out.println("Invalid selection!"); break;
 			}
 		}
-		AuctionCentral.saveAndQuit();
 		
 	}
 	
@@ -199,7 +202,7 @@ public class BidderUI extends AbstractUI {
 		for (Auction auction : myAuctionCalendar.getListOfAuctions()) {
 			for (Item item : auction.getMyItems()) {
 				if (item.getMyBids().containsKey(myUser.getMyName())) {
-					System.out.println(item.getMyName());
+					//System.out.println(item.getMyName());
 					myBids.put(item.getMyName(), item.getMyBids().get(myUser.getMyName()));
 				}
 			}

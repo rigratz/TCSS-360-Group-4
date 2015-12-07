@@ -1,4 +1,4 @@
-*Format- <UserName> <Contact> <UserType> <OrganizationName (if applicable)>*
+null
 riley riley@uw.edu employee
 art art@uw.edu npo EarthCo
 tempest tempest@uw.edu employee
@@ -12,3 +12,4 @@ google google@gmail.com npo Google
 robert robert@gmail.com npo RobertInc
 andy andy@pixar.com npo PizzaPlanet
 jolly jolly@gg.com npo AsparagusTown
+archer duchess@fx.org npo ArcherCo

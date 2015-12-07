@@ -3,27 +3,26 @@
  * AuctionCentral
  */
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 /**
  * This is the main driver class for the AuctionCentral program.
- * 
- * No JUnit testing, as this class relies on almost exclusively on user input 
- * and external classes and methods which have all been individually tested.
  * 
  * @author Riley Gratzer
  */
 public class AuctionCentral {
 
+	private static final int EMPLOYEE_UI = 0;
+	private static final int NPO_UI = 1;
+	private static final int BIDDER_UI = 2;
+	
 	private static BufferedReader myInput;
 	private static CalendarClass myAuctionCalendar;
 	private static List<AbstractUI> userInterfaces;
@@ -31,7 +30,6 @@ public class AuctionCentral {
 	private static List<User> myUsers;
 	private static User myUser;
 	
-	private static String auctionsFormat, usersFormat;
 	/**
 	 * main method.
 	 * @param args
@@ -39,17 +37,16 @@ public class AuctionCentral {
 	 */
 	public static void main(String[] args) throws IOException {
 		myInput = new BufferedReader(new InputStreamReader(System.in));
-		
-		try {
-			initialize();
-			userInterfaces = new ArrayList<AbstractUI>();
-			userInterfaces.add(new ACEmployeeUI(myInput, myAuctionCalendar));
-			userInterfaces.add(new NonProfitUI(myInput, myAuctionCalendar));
-			userInterfaces.add(new BidderUI(myInput, myAuctionCalendar));
-		} catch (FileNotFoundException e) {
-			System.err.println("No such file!");
-			e.printStackTrace();
-		}
+		myAuctionCalendar = new CalendarClass();
+	
+		myAuctionCalendar.insertAuctions(deserializeAuctions());
+		myUsers = deserializeUsers();
+			
+		userInterfaces = new ArrayList<AbstractUI>();
+		userInterfaces.add(new ACEmployeeUI(myInput, myAuctionCalendar));
+		userInterfaces.add(new NonProfitUI(myInput, myAuctionCalendar));
+		userInterfaces.add(new BidderUI(myInput, myAuctionCalendar));
+
 		initialMenu();
 	}
 
@@ -70,7 +67,8 @@ public class AuctionCentral {
 			switch (selection) {
 				case 1: logInMenu(); break;
 				case 2: createAccountMenu(); break;
-				case 3: saveAndQuit(); break;
+				case 3: serializeAuctions();
+						serializeUsers(); break;
 				default: System.out.println("Invalid selection!"); break;
 			}
 		}
@@ -142,7 +140,7 @@ public class AuctionCentral {
 				case 1: newUser = new AuctionCentralEmployee(userName, contact);
 					myUsers.add(newUser);
 					myUser = newUser;
-					userInterfaces.get(0).menu(myUser);
+					userInterfaces.get(EMPLOYEE_UI).menu(myUser);
 					break;
 				case 2:
 					System.out.println("\nPlease type in the name of your organization:\n");
@@ -150,12 +148,12 @@ public class AuctionCentral {
 					newUser = new NonProfitEmployee(userName, contact, organizationName);
 					myUsers.add(newUser);
 					myUser = newUser;
-					userInterfaces.get(1).menu(myUser);
+					userInterfaces.get(NPO_UI).menu(myUser);
 					break;
 				case 3: newUser = new Bidder(userName, contact);
 					myUsers.add(newUser);
 					myUser = newUser;
-					userInterfaces.get(2).menu(myUser);
+					userInterfaces.get(BIDDER_UI).menu(myUser);
 					break;
 				default: 
 					System.out.println("Invalid selection, please try Account creation again");
@@ -168,192 +166,6 @@ public class AuctionCentral {
 		
 		
 	}
-
-//LOAD AND SAVE METHODS
-	
-	/**
-	 * This method initializes the system at start-up.
-	 * @throws FileNotFoundException if the file does not exist.
-	 */
-	private static void initialize() throws FileNotFoundException {
-		
-		Scanner auctionScan = new Scanner(new File("auctions.txt"));
-		auctionsFormat = auctionScan.nextLine();
-		Scanner userScan = new Scanner(new File("users.txt"));
-		usersFormat = userScan.nextLine();
-		
-		Scanner pr;
-		String readLine = "";
-		
-		String auctionName = "";
-		int auctionStart = 0;
-		int auctionEnd = 0;
-		int month, date, year;
-		String itemName = "";
-		double startingBid = 0;
-		String bidder = "";
-		double bid = 0;
-		
-		ArrayList<Auction> auctions = new ArrayList<Auction>();
-		List<Item> items = new ArrayList<Item>();
-		
-		Map<String, Double> tempBids = new HashMap<String, Double>();
-		
-		while (auctionScan.hasNextLine()) {
-			readLine = auctionScan.nextLine();
-			pr = new Scanner(readLine);
-			while (pr.hasNext()) {
-				//Scan name
-				auctionName = pr.next();
-				//Scan month
-				month = pr.nextInt();
-				//Scan date
-				date = pr.nextInt();
-				//Scan year
-				year = pr.nextInt();
-				//Scan start time, end time
-				auctionStart = pr.nextInt();
-				auctionEnd = pr.nextInt();
-				while (pr.hasNext()) {
-					//Scan Item name and starting bid
-					itemName = pr.next();
-					startingBid = pr.nextDouble();
-					while (pr.hasNextDouble()) {
-						//Scan bid and name of bidder
-						bid = pr.nextDouble();
-						bidder = pr.next();
-						tempBids.put(bidder, bid);
-					}
-					items.add(new Item(itemName, startingBid, tempBids));
-					tempBids = new HashMap<String, Double>();
-				}
-				auctions.add(new Auction(auctionName, month, date, year, auctionStart, auctionEnd, items));
-				items = new ArrayList<Item>();
-			}
-			
-		}
-
-		myAuctionCalendar = new CalendarClass();
-		myAuctionCalendar.insertAuctions(auctions);
-		
-		myUsers = new ArrayList<User>();
-		String name = "";
-		String userType = "";
-		String tempContact = "";
-		String tempOrgName = "";
-		User tempUser = null;
-		Map<String, Double> tempUserBids;
-		while (userScan.hasNextLine()) {
-			readLine = userScan.nextLine();
-
-			//Parse username
-			name = readLine.substring(0, readLine.indexOf(' '));
-			readLine = readLine.substring(readLine.indexOf(' ') + 1);
-
-			//Parse contact
-			tempContact = readLine.substring(0, readLine.indexOf(' '));
-			readLine = readLine.substring(readLine.indexOf(' ') + 1);
-			
-			//Parse user type
-			userType = readLine;
-
-			//If user is an NPO, string will need to be parsed further.
-			if (userType.indexOf(' ') > 0) {
-				tempOrgName = userType.substring(userType.indexOf(' ') + 1, userType.length());
-				userType = userType.substring(0, userType.indexOf(' '));
-			} else {
-				userType = readLine;
-			}
-			
-			switch(userType) {
-				case "employee": tempUser = new AuctionCentralEmployee(name, tempContact); 
-								myUsers.add(tempUser);break;
-				case "npo": tempUser = new NonProfitEmployee(name, tempContact, tempOrgName); 
-								myUsers.add(tempUser);break;
-				case "bidder": 
-					tempUserBids = new HashMap<String, Double>();
-					for (Auction a : auctions) {
-						for (Item i : a.getMyItems()) {
-							for (String key : i.getMyBids().keySet()) {
-								if (key.equals(name)) {
-									tempUserBids.put(i.getMyName(), i.getMyBids().get(key));
-								}
-							}
-						}
-					}
-					tempUser = new Bidder(name, tempContact, tempUserBids); 
-					myUsers.add(tempUser); break;
-				default: break;
-			}
-		}
-		auctionScan.close();
-		userScan.close();
-	}
-	
-	/**
-	 * This method saves any changes made to files upon end of program.
-	 */
-	public static void saveAndQuit() {
-		//WRITE AUCTIONS FILE
-		PrintStream output = null;
-		try {
-			output = new PrintStream(new File("auctions.txt"));
-			
-		} catch (FileNotFoundException e) {
-			System.err.println("no file made");
-			e.printStackTrace();
-		}
-		
-		List<Item> tempItems;
-		Map<String, Double> tempBids;
-		List<Auction> auctions = myAuctionCalendar.getListOfAuctions();
-		List<Auction> past = myAuctionCalendar.getListOfPastAuctions();
-		while (!past.isEmpty()) {
-			auctions.add(past.get(0));
-			past.remove(0);
-		}
-		
-		output.println(auctionsFormat);
-		for (int i = 0; i < auctions.size(); i++) {
-			output.print(auctions.get(i).getMyNonProfit() + " " + auctions.get(i).getMyMonth() + 
-					" " + auctions.get(i).getMyDay() + " " + auctions.get(i).getMyYear() + 
-					" " + auctions.get(i).getMyStartTime() + " " + 
-					auctions.get(i).getMyEndTime() + " ");
-			tempItems = auctions.get(i).getMyItems();
-			for (int j = 0; j < tempItems.size(); j++) {
-				output.print(tempItems.get(j).getMyName() + " " + 
-						tempItems.get(j).getMyStartingBid() + " ");
-				tempBids = tempItems.get(j).getMyBids();
-				for (String key : tempBids.keySet()) {
-					output.print(tempBids.get(key) + " " + key + " ");
-				}
-			}
-			output.println();
-		}
-		
-		//WRITE USERS FILE
-		try {
-			output = new PrintStream(new File("users.txt"));
-			
-		} catch (FileNotFoundException e) {
-			System.err.println("no file made");
-			e.printStackTrace();
-		}
-		output.println(usersFormat);
-		for (int i = 0; i < myUsers.size(); i++) {
-			output.print(myUsers.get(i).getMyName() + " " + myUsers.get(i).getMyContact() + " ");
-			User theUser = myUsers.get(i);
-			if (theUser instanceof AuctionCentralEmployee) {
-				output.println("employee");
-			} else if (theUser instanceof NonProfitEmployee) {
-				output.println("npo " + ((NonProfitEmployee) theUser).getMyOrganizationName());
-			} else if (theUser instanceof Bidder) {
-				output.println("bidder");
-			}
-		}
-		
-	}	
-	
 
  //RANDOM HELPER METHODS
 	
@@ -396,6 +208,122 @@ public class AuctionCentral {
 			read = true;
 		}
 		return input;
+	}
+	
+// SERIALIZATION METHODS
+
+	/**
+	 * Writes serialized auction data to external file.
+	 */
+	public static void serializeAuctions() {
+		try
+	      {
+	         FileOutputStream fileOut =
+	         new FileOutputStream("auctions.ser");
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         for (Auction auction : myAuctionCalendar.getListOfAuctions()) {
+	        	 out.writeObject(auction);
+	         }
+	         for (Auction auction : myAuctionCalendar.getListOfPastAuctions()) {
+	        	 out.writeObject(auction);
+	         }
+	         out.close();
+	         fileOut.close();
+	         //System.out.println("Serialized data is saved in auctions.ser");
+	      }catch(IOException i)
+	      {
+	          i.printStackTrace();
+	      }
+	}
+	
+	/**
+	 * Writes serialized user data to external file.
+	 */
+	public static void serializeUsers() {
+		try
+	      {
+	         FileOutputStream fileOut =
+	         new FileOutputStream("users.ser");
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         for (User user : myUsers) {
+	        	 out.writeObject(user);
+	         }
+	         out.close();
+	         fileOut.close();
+	         //System.out.println("Serialized data is saved in users.ser");
+	      }catch(IOException i)
+	      {
+	          i.printStackTrace();
+	      }
+	}
+	
+	/**
+	 * Reads serialized auction data from an external file.
+	 */
+	public static ArrayList<Auction> deserializeAuctions() {
+		ArrayList<Auction> tempList = new ArrayList<Auction>();
+		try
+	      {
+	         FileInputStream fileIn = new FileInputStream("auctions.ser");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         Auction tempAuction = null;
+	         
+
+	         while (fileIn.available() > 0) {
+	        	 tempAuction = (Auction) in.readObject();
+	        	 tempList.add(tempAuction);
+	        	 
+	         }
+	         
+	         in.close();
+	         fileIn.close();
+	      }catch(IOException i)
+	      {
+	         i.printStackTrace();
+	      }catch(ClassNotFoundException c)
+	      {
+	         System.out.println("Employee class not found");
+	         c.printStackTrace();
+	      }
+		//System.out.println(tempList);
+		return tempList;
+	}
+	
+	/**
+	 * Reads serialized user data from an external file.
+	 */
+	public static List<User> deserializeUsers() {
+		List<User> tempList = new ArrayList<User>();
+		try
+	      {
+	         FileInputStream fileIn = new FileInputStream("users.ser");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         User tempUser = null;
+	         
+
+	         while (fileIn.available() > 0) {
+	        	 tempUser = (User) in.readObject();
+	        	 tempList.add(tempUser);
+	        	 
+	         }
+	         
+	         in.close();
+	         fileIn.close();
+//	         for (User a : tempList) {
+//	        	 System.out.println(a.getMyContact());
+//	        	 System.out.println(a.getMyName());
+//	        	 System.out.println(a.getClass());
+//	         }
+	      }catch(IOException i)
+	      {
+	         i.printStackTrace();
+	      }catch(ClassNotFoundException c)
+	      {
+	         System.out.println("Employee class not found");
+	         c.printStackTrace();
+	      }
+		//System.out.println(tempList);
+		return tempList;
 	}
 }
 

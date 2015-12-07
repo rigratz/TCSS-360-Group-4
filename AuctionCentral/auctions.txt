@@ -1,5 +1,6 @@
-*Format- <OrganizationName> <Month> <Date> <Year> <StartTime> <EndTime> {<Item> <StartingBid> {<Bid> <Bidder>...}...}*
+null
 GeneralMills 12 14 2015 8 12 cheerios 3.99 5.0 willie 
 CrystalBlue 12 17 2015 14 16 Green 50.0 Blue 75.01 78.0 willie Red 99.02 
+ArcherCo 2 3 2016 3 5 Phone 45.5 AirBoat 749.99 
 GoodWill 11 28 2015 8 10 Shirt 1.2 10.5 boolean 80.2 willie 7.4 george 
 Google 10 23 2015 17 19 
