@@ -195,7 +195,7 @@ public class CalendarClass {
 		int myMonthIndex = calculateOffset(month);
 		
 		if(year > calendar2.get(Calendar.YEAR) &&
-				(myMonthIndex >= 0 && myMonthIndex < 2)) return false;
+				(myMonthIndex < 0 && myMonthIndex > 3)) return false;
 		if(myMonthIndex < 0 || myMonthIndex > 3) return false;
 		if(myMonthIndex == 3 && day > tempCalendar.get(Calendar.DAY_OF_MONTH)) return false;
 		return true;
