@@ -102,6 +102,13 @@ public class NonProfitUI  extends AbstractUI {
 			System.out.println("What would you like to edit?\n");
 			System.out.println("1. Day\n2: Month\n3. Year\n4. Start Time\n5. End Time\n");
 			innerSelect = readInt();
+			for (int i = 0; i < myAuctionCalendar.getListOfAuctions().size(); i++) {
+				if (myAuctionCalendar.getListOfAuctions().get(i).getMyNonProfit().equals(auct.getMyNonProfit())) {
+					myAuctionCalendar.getListOfAuctions().remove(i);
+					//System.out.println("deleted");
+					break;
+				}
+			}
 			switch (innerSelect) {
 			case 1: System.out.println("Please enter new day:");
 				newArg = readInt();
@@ -150,6 +157,7 @@ public class NonProfitUI  extends AbstractUI {
 
 			default: System.out.println("Incorrect input."); break;
 			}
+			myAuctionCalendar.getListOfAuctions().add(auct);
 		} while (!edited);
 		System.out.println("Edit successful!\n");
 	}
