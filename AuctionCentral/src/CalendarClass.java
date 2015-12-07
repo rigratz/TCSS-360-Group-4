@@ -121,6 +121,7 @@ public class CalendarClass {
 		if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 23 && startTime < 1) return false;
 		if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 24 && startTime < 2) return false;
 		if(board.getMonth(monthIndex).getDay(day).getNumberOfAuctions() == 0) return true;
+		System.out.println("num " + board.getMonth(monthIndex).getDay(day).getNumberOfAuctions());
 		
 		if(startTime > board.getMonth(monthIndex).getDay(day).getStartTime()-2 
 				&& startTime < board.getMonth(monthIndex).getDay(day).getEndTime()+2) return false;
@@ -130,6 +131,24 @@ public class CalendarClass {
 				&& endTime >= board.getMonth(monthIndex).getDay(day).getEndTime()+2) return false;
 		return true;
 	}
+	
+	public void removeAuction(Auction auct) {
+		for (int i = 0; i < auctionList.size(); i++) {
+			if (auctionList.get(i).getMyNonProfit().equals(auct.getMyNonProfit())) {
+				auctionList.remove(i);
+				
+				List<Auction> list = board.getMonth(auct.getMyMonth()).getDay(auct.getMyDay()).getTodaysAuctions();//auctionList.get(i).getMyDay()
+				for (int j = 0; j < list.size(); j++) {
+					if(list.get(j).getMyNonProfit().equals(auct.getMyNonProfit())) {
+						board.getMonth(auct.getMyMonth()).getDay(auct.getMyDay()).getTodaysAuctions().remove(j);
+						break;
+					}
+				}
+				break;
+			}
+		}
+	}
+	
 	/**
 	 * This method checks if we have too many auctions in a seven day period.
 	 * @param month, month of the seven day period to check.
