@@ -201,7 +201,7 @@ public class CalendarClass {
 					.getNumberOfAuctions();
 			tempCalendar.add(Calendar.DAY_OF_MONTH, -1);
 		}
-		if(auctionsNum > 25) return false;
+		if(auctionsNum > 24) return false;
 		else return true;
 	}
 	

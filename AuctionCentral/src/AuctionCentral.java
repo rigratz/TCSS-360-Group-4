@@ -46,8 +46,39 @@ public class AuctionCentral {
 		userInterfaces.add(new ACEmployeeUI(myInput, myAuctionCalendar));
 		userInterfaces.add(new NonProfitUI(myInput, myAuctionCalendar));
 		userInterfaces.add(new BidderUI(myInput, myAuctionCalendar));
+		
+//		myUsers = new ArrayList<User>();
+//		myUsers.add(new AuctionCentralEmployee("riley", "emp@ac.com"));
+//		myUsers.add(new NonProfitEmployee("npo1", "n@npo1.org", "Org1"));
+//		myUsers.add(new NonProfitEmployee("npo2", "n@npo1.org", "Org2"));
+//		myUsers.add(new NonProfitEmployee("npo3", "n@npo1.org", "Org3"));
+//		myUsers.add(new NonProfitEmployee("npo4", "n@npo1.org", "Org4"));
+//		myUsers.add(new NonProfitEmployee("npo5", "n@npo1.org", "Org5"));
+//		myUsers.add(new NonProfitEmployee("npo6", "n@npo1.org", "Org6"));
+//		myUsers.add(new NonProfitEmployee("npo7", "n@npo1.org", "Org7"));
+//		myUsers.add(new NonProfitEmployee("npo8", "n@npo1.org", "Org8"));
+//		myUsers.add(new NonProfitEmployee("npo9", "n@npo1.org", "Org9"));
+//		myUsers.add(new NonProfitEmployee("npo10", "n@npo1.org", "Org10"));
+//		myUsers.add(new NonProfitEmployee("npo11", "n@npo1.org", "Org11"));
+//		myUsers.add(new NonProfitEmployee("npo12", "n@npo1.org", "Org12"));
+//		myUsers.add(new NonProfitEmployee("npo13", "n@npo1.org", "Org13"));
+//		myUsers.add(new NonProfitEmployee("npo14", "n@npo1.org", "Org14"));
+//		myUsers.add(new NonProfitEmployee("npo15", "n@npo1.org", "Org15"));
+//		myUsers.add(new NonProfitEmployee("npo16", "n@npo1.org", "Org16"));
+//		myUsers.add(new NonProfitEmployee("npo17", "n@npo1.org", "Org17"));
+//		myUsers.add(new NonProfitEmployee("npo18", "n@npo1.org", "Org18"));
+//		myUsers.add(new NonProfitEmployee("npo19", "n@npo1.org", "Org19"));
+//		myUsers.add(new NonProfitEmployee("npo20", "n@npo1.org", "Org20"));
+//		myUsers.add(new NonProfitEmployee("npo21", "n@npo1.org", "Org21"));
+//		myUsers.add(new NonProfitEmployee("npo22", "n@npo1.org", "Org22"));
+//		myUsers.add(new NonProfitEmployee("npo23", "n@npo1.org", "Org23"));
+//		myUsers.add(new NonProfitEmployee("npo24", "n@npo1.org", "Org24"));
+//		myUsers.add(new NonProfitEmployee("npo25", "n@npo1.org", "Org25"));
+//		myUsers.add(new NonProfitEmployee("npo26", "n@npo1.org", "Org26"));
 
 		initialMenu();
+//		serializeAuctions();
+//		serializeUsers();
 	}
 
 	/**
@@ -97,11 +128,11 @@ public class AuctionCentral {
 			if (found) {
 				myUser = myUsers.get(index);
 				if (myUser instanceof AuctionCentralEmployee) {
-					userInterfaces.get(0).menu(myUser);
+					userInterfaces.get(EMPLOYEE_UI).menu(myUser);
 				} else if (myUser instanceof NonProfitEmployee) {
-					userInterfaces.get(1).menu(myUser);
+					userInterfaces.get(NPO_UI).menu(myUser);
 				} else if (myUser instanceof Bidder) {
-					userInterfaces.get(2).menu(myUser);
+					userInterfaces.get(BIDDER_UI).menu(myUser);
 				}
 			} else {
 				System.out.println("Name not found, try again:\n");
@@ -219,7 +250,7 @@ public class AuctionCentral {
 		try
 	      {
 	         FileOutputStream fileOut =
-	         new FileOutputStream("auctions.ser");
+	         new FileOutputStream("testFullAuct.ser");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         for (Auction auction : myAuctionCalendar.getListOfAuctions()) {
 	        	 out.writeObject(auction);
@@ -243,7 +274,7 @@ public class AuctionCentral {
 		try
 	      {
 	         FileOutputStream fileOut =
-	         new FileOutputStream("users.ser");
+	         new FileOutputStream("testFullUs.ser");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         for (User user : myUsers) {
 	        	 out.writeObject(user);
@@ -264,7 +295,7 @@ public class AuctionCentral {
 		ArrayList<Auction> tempList = new ArrayList<Auction>();
 		try
 	      {
-	         FileInputStream fileIn = new FileInputStream("auctions.ser");
+	         FileInputStream fileIn = new FileInputStream("testFullAuct.ser");
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
 	         Auction tempAuction = null;
 	         
@@ -296,7 +327,7 @@ public class AuctionCentral {
 		List<User> tempList = new ArrayList<User>();
 		try
 	      {
-	         FileInputStream fileIn = new FileInputStream("users.ser");
+	         FileInputStream fileIn = new FileInputStream("testFullUs.ser");
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
 	         User tempUser = null;
 	         

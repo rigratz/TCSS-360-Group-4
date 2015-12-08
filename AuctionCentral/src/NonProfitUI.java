@@ -68,7 +68,7 @@ public class NonProfitUI  extends AbstractUI {
 	public void scheduleAuctionMenu() {
 		CalendarClass calendar = myAuctionCalendar;
 		boolean scheduled = false;
-		do {
+		//do {
 			int month, day, year, start, end;
 			System.out.println("Enter Month:\n");
 			month = readInt();
@@ -85,7 +85,7 @@ public class NonProfitUI  extends AbstractUI {
 				calendar.addAuction(((NonProfitEmployee)myUser).scheduleAuction(((NonProfitEmployee)myUser).getMyOrganizationName(), month, day, year, start, end));
 				System.out.println("Auction Scheduled");
 			}
-		} while (!scheduled);
+		//} while (!scheduled);
 	}
 	
 	
@@ -97,7 +97,7 @@ public class NonProfitUI  extends AbstractUI {
 		CalendarClass calendar = myAuctionCalendar;
 		int innerSelect, newArg;
 		boolean edited = false;
-		do {
+		//do {
 			System.out.println(getAuctionDetails(auct));
 			System.out.println("What would you like to edit?\n");
 			System.out.println("1. Day\n2: Month\n3. Year\n4. Start Time\n5. End Time\n");
@@ -152,8 +152,8 @@ public class NonProfitUI  extends AbstractUI {
 			default: System.out.println("Incorrect input."); break;
 			}
 			myAuctionCalendar.getListOfAuctions().add(auct);
-		} while (!edited);
-		System.out.println("Edit successful!\n");
+		//} while (!edited);
+		if (edited) System.out.println("Edit successful!\n");
 	}
 	
 	/**
