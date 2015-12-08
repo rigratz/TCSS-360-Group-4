@@ -68,24 +68,24 @@ public class NonProfitUI  extends AbstractUI {
 	public void scheduleAuctionMenu() {
 		CalendarClass calendar = myAuctionCalendar;
 		boolean scheduled = false;
-		//do {
-			int month, day, year, start, end;
-			System.out.println("Enter Month:\n");
-			month = readInt();
-			System.out.println("Enter Day:\n");
-			day = readInt();
-			System.out.println("Enter Year:\n");
-			year = readInt();
-			System.out.println("Enter Start Time:\n");
-			start = readInt();
-			System.out.println("Enter End Time:\n");
-			end = readInt();
-			scheduled = isTimeAvailable(calendar, month, day, year, start, end);
-			if (scheduled) {
-				calendar.addAuction(((NonProfitEmployee)myUser).scheduleAuction(((NonProfitEmployee)myUser).getMyOrganizationName(), month, day, year, start, end));
-				System.out.println("Auction Scheduled");
-			}
-		//} while (!scheduled);
+
+		int month, day, year, start, end;
+		System.out.println("Enter Month:\n");
+		month = readInt();
+		System.out.println("Enter Day:\n");
+		day = readInt();
+		System.out.println("Enter Year:\n");
+		year = readInt();
+		System.out.println("Enter Start Time:\n");
+		start = readInt();
+		System.out.println("Enter End Time:\n");
+		end = readInt();
+		scheduled = isTimeAvailable(calendar, month, day, year, start, end);
+		if (scheduled) {
+			calendar.addAuction(((NonProfitEmployee)myUser).scheduleAuction(((NonProfitEmployee)myUser).getMyOrganizationName(), month, day, year, start, end));
+			System.out.println("Auction Scheduled");
+		}
+
 	}
 	
 	
@@ -97,62 +97,62 @@ public class NonProfitUI  extends AbstractUI {
 		CalendarClass calendar = myAuctionCalendar;
 		int innerSelect, newArg;
 		boolean edited = false;
-		//do {
-			System.out.println(getAuctionDetails(auct));
-			System.out.println("What would you like to edit?\n");
-			System.out.println("1. Day\n2: Month\n3. Year\n4. Start Time\n5. End Time\n");
-			innerSelect = readInt();
-			myAuctionCalendar.removeAuction(auct);
-			switch (innerSelect) {
-			case 1: System.out.println("Please enter new day:");
-				newArg = readInt();
-				edited = isTimeAvailable(calendar, auct.getMyMonth(), newArg, auct.getMyYear(), 
+		
+		System.out.println(getAuctionDetails(auct));
+		System.out.println("What would you like to edit?\n");
+		System.out.println("1. Day\n2: Month\n3. Year\n4. Start Time\n5. End Time\n");
+		innerSelect = readInt();
+		myAuctionCalendar.removeAuction(auct);
+		switch (innerSelect) {
+		case 1: System.out.println("Please enter new day:");
+			newArg = readInt();
+			edited = isTimeAvailable(calendar, auct.getMyMonth(), newArg, auct.getMyYear(), 
 											auct.getMyStartTime(), auct.getMyEndTime());
-				if (edited) {
-					auct.setMyDay(newArg);
-				}
-				break;
-				
-			case 2: System.out.println("Please enter new month:"); 
-				newArg = readInt(); 
-				edited = isTimeAvailable(calendar, newArg, auct.getMyDay(), auct.getMyYear(),
-											auct.getMyStartTime(), auct.getMyEndTime());
-				if (edited) {
-					auct.setMyMonth(newArg);
-				}
-				break;
-
-			case 3: System.out.println("Please enter new year:"); 
-				newArg = readInt();
-				edited = isTimeAvailable(calendar, auct.getMyMonth(), auct.getMyDay(), 
-										newArg, auct.getMyStartTime(), auct.getMyEndTime());
-				if (edited) {
-					auct.setMyYear(newArg);
-				}
-				break;
-
-			case 4: System.out.println("Please enter new start time:"); 
-				newArg = readInt(); 
-				edited = isTimeAvailable(calendar, auct.getMyMonth(), auct.getMyDay(), 
-										auct.getMyYear(), newArg, auct.getMyEndTime());
-				if (edited) {
-					auct.setMyStartTime(newArg);
-				}
-				break;
-
-			case 5: System.out.println("Please enter new end time:"); 
-				newArg = readInt();
-				edited = isTimeAvailable(calendar, auct.getMyMonth(), auct.getMyDay(), 
-										auct.getMyYear(), auct.getMyStartTime(), newArg);
-				if (edited) {
-					auct.setMyEndTime(newArg);
-				}
-				break;
-
-			default: System.out.println("Incorrect input."); break;
+			if (edited) {
+				auct.setMyDay(newArg);
 			}
-			myAuctionCalendar.getListOfAuctions().add(auct);
-		//} while (!edited);
+			break;
+				
+		case 2: System.out.println("Please enter new month:"); 
+			newArg = readInt(); 
+			edited = isTimeAvailable(calendar, newArg, auct.getMyDay(), auct.getMyYear(),
+											auct.getMyStartTime(), auct.getMyEndTime());
+			if (edited) {
+				auct.setMyMonth(newArg);
+			}
+			break;
+
+		case 3: System.out.println("Please enter new year:"); 
+			newArg = readInt();
+			edited = isTimeAvailable(calendar, auct.getMyMonth(), auct.getMyDay(), 
+										newArg, auct.getMyStartTime(), auct.getMyEndTime());
+			if (edited) {
+				auct.setMyYear(newArg);
+			}
+			break;
+
+		case 4: System.out.println("Please enter new start time:"); 
+			newArg = readInt(); 
+			edited = isTimeAvailable(calendar, auct.getMyMonth(), auct.getMyDay(), 
+										auct.getMyYear(), newArg, auct.getMyEndTime());
+			if (edited) {
+				auct.setMyStartTime(newArg);
+			}
+			break;
+
+		case 5: System.out.println("Please enter new end time:"); 
+			newArg = readInt();
+			edited = isTimeAvailable(calendar, auct.getMyMonth(), auct.getMyDay(), 
+										auct.getMyYear(), auct.getMyStartTime(), newArg);
+			if (edited) {
+				auct.setMyEndTime(newArg);
+			}
+			break;
+
+		default: System.out.println("Incorrect input."); break;
+		}
+		myAuctionCalendar.getListOfAuctions().add(auct);
+
 		if (edited) System.out.println("Edit successful!\n");
 	}
 	

@@ -125,7 +125,7 @@ public class TestCalendarClass {
 	public void testIsAvailableIfDayHasMoreThanOneAuction() {
 		cal.addAuction(new Auction("Ebay", 12, 25, 2015, 9, 10));
 		cal.addAuction(new Auction("E-bay", 12, 25, 2015, 15, 16));
-		assertFalse(cal.isAvailable(12, 25, 9, 10));
+		assertFalse(cal.isAvailable(12, 25, 19, 21));
 	}
 	@Test
 	public void testIsAvailableIfDayHasLessThanOneAuction() {

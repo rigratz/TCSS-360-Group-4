@@ -57,7 +57,7 @@ public class BidderUITest {
 	
 	@Test
 	public void testGetIndexedBids() {
-		String expected = "1. Red - Bid Amount = 20.0\n";
+		String expected = "1. Red - Bid Amount = $20.00\n";
 		assertEquals(expected, bidder.getIndexedBids());
 	}
 	@Test

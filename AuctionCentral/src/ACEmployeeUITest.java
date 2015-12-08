@@ -37,7 +37,7 @@ public class ACEmployeeUITest {
 	
 	@Test
 	public void testGetIndexedItems() {
-		String expected = "1. Red - Starting Bid = 5.0\n2. Green - Starting Bid = 10.0\n";
+		String expected = "1. Red - Starting Bid = $5.00\n2. Green - Starting Bid = $10.00\n";
 		assertEquals(expected, employee.getIndexedItems(auctionCalendar.getListOfAuctions().get(0)));
 	}
 
