@@ -83,10 +83,12 @@ public class BidderUI extends AbstractUI {
 	public void bidMenu() {
 		int selection = 0;
 		boolean previousBid = false;
+		if (!myAuction.getMyItems().isEmpty()){
 		System.out.println("Please select one of the following items to bid on:\n");
 		System.out.println(getIndexedItems(myAuction));
 			
 		selection = readInt() - 1;
+		
 		if (selection >= 0 && selection < myAuction.getMyItems().size()) {
 			if (myAuction.getMyItems().get(selection).getMyBids().containsKey(myUser.getMyName())) {
 				previousBid = true;
@@ -106,6 +108,9 @@ public class BidderUI extends AbstractUI {
 			}
 		} else {
 			System.out.println("You already have a pre-existing bid for this item.");
+		}
+		} else {
+			System.out.println("No items to bid on.");
 		}
 	}
 	
