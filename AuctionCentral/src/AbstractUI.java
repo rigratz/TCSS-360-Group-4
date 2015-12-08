@@ -119,8 +119,8 @@ public abstract class AbstractUI {
 			toReturn.append(i + 1);
 			toReturn.append(". ");
 			toReturn.append(temp.get(i).getMyName());
-			toReturn.append(" - Starting Bid = ");
-			toReturn.append(temp.get(i).getMyStartingBid());
+			toReturn.append(" - Starting Bid = $");
+			toReturn.append(String.format("%.2f", temp.get(i).getMyStartingBid()));
 			toReturn.append("\n");
 		}
 		return toReturn.toString();

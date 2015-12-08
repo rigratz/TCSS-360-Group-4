@@ -185,21 +185,25 @@ public class NonProfitUI  extends AbstractUI {
 		System.out.println(getIndexedItems(auct));
 		selection = readInt();
 		
-		editItem = auct.getMyItems().get(selection - 1);
-		if (editItem != null) {
-			System.out.println("What would you like to change?\n");
-			System.out.println("1. Item name\n2. Item starting bid");
-			innerSelect = readInt();
+		if (selection - 1 < auct.getMyItems().size() && selection > 0) {
+			editItem = auct.getMyItems().get(selection - 1);
+			if (editItem != null) {
+				System.out.println("What would you like to change?\n");
+				System.out.println("1. Item name\n2. Item starting bid");
+				innerSelect = readInt();
 		
-			switch (innerSelect) {
-				case 1: System.out.println("Please enter new item name:\n");
-					itemNewName = readString();
-					editItem.setMyName(itemNewName); break;
-				case 2: System.out.println("Please enter new starting bid:\n");
-					itemNewStart = readDouble();
-					editItem.setMyStartingBid(itemNewStart); break;
-				default: System.out.println("Invalid selection");
+				switch (innerSelect) {
+					case 1: System.out.println("Please enter new item name:\n");
+						itemNewName = readString();
+						editItem.setMyName(itemNewName); break;
+					case 2: System.out.println("Please enter new starting bid:\n");
+						itemNewStart = readDouble();
+						editItem.setMyStartingBid(itemNewStart); break;
+					default: System.out.println("Invalid selection");
+				}
 			}
+		} else {
+			System.out.println("Invalid input!");
 		}
 			
 	}

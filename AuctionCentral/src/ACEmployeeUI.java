@@ -60,7 +60,7 @@ public class ACEmployeeUI extends AbstractUI {
 		System.out.println(getIndexedAuctions());
 		selection = readInt() - 1;
 		
-		if (selection < myAuctionCalendar.getListOfAuctions().size()){
+		if (0 <= selection && selection < myAuctionCalendar.getListOfAuctions().size()){
 			Auction auction = myAuctionCalendar.getListOfAuctions().get(selection);
 		
 			StringBuilder details = new StringBuilder();
@@ -75,8 +75,8 @@ public class ACEmployeeUI extends AbstractUI {
 			details.append("\n\nItem List\n---------\n");
 			for (int i = 0; i < auction.getMyItems().size(); i++) {
 				details.append(auction.getMyItems().get(i).getMyName());
-				details.append("\n     Starting Bid = ");
-				details.append(auction.getMyItems().get(i).getMyStartingBid());
+				details.append("\n     Starting Bid = $");
+				details.append(String.format("%.2f", auction.getMyItems().get(i).getMyStartingBid()));
 				details.append("\n\n");
 			}
 			System.out.println(details);

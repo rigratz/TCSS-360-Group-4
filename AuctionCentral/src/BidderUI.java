@@ -83,34 +83,35 @@ public class BidderUI extends AbstractUI {
 	public void bidMenu() {
 		int selection = 0;
 		boolean previousBid = false;
-		if (!myAuction.getMyItems().isEmpty()){
-		System.out.println("Please select one of the following items to bid on:\n");
-		System.out.println(getIndexedItems(myAuction));
-			
-		selection = readInt() - 1;
 		
-		if (selection >= 0 && selection < myAuction.getMyItems().size()) {
-			if (myAuction.getMyItems().get(selection).getMyBids().containsKey(myUser.getMyName())) {
-				previousBid = true;
-			}
-		} else {
-			System.out.println("Selection error.");
-		}	
+		if (!myAuction.getMyItems().isEmpty()){
+			System.out.println("Please select one of the following items to bid on:\n");
+			System.out.println(getIndexedItems(myAuction));
 			
-		if (!previousBid) {
-			System.out.println("Please enter bid amount:");
-			double bid = readDouble();
-			boolean valid = ((Bidder)myUser).placeBid(myAuction.getMyItems().get(selection), bid);
-			if (valid) {
-				System.out.println("Bid placed successfully");
+			selection = readInt() - 1;
+		
+			if (selection >= 0 && selection < myAuction.getMyItems().size()) {
+				if (myAuction.getMyItems().get(selection).getMyBids().containsKey(myUser.getMyName())) {
+					previousBid = true;
+				}
+			
+				if (!previousBid) {
+					System.out.println("Please enter bid amount:");
+					double bid = readDouble();
+					boolean valid = ((Bidder)myUser).placeBid(myAuction.getMyItems().get(selection), bid);
+					if (valid) {
+						System.out.println("Bid placed successfully");
+					} else {
+						System.out.println("Not a valid bid");
+					}
+				} else {
+					System.out.println("You already have a pre-existing bid for this item.");
+				}
 			} else {
-				System.out.println("Not a valid bid");
+				System.out.println("Invalid selection.");
 			}
 		} else {
-			System.out.println("You already have a pre-existing bid for this item.");
-		}
-		} else {
-			System.out.println("No items to bid on.");
+			System.out.println("Selected auction has no items to bid on.");
 		}
 	}
 	
@@ -221,8 +222,8 @@ public class BidderUI extends AbstractUI {
 			toReturn.append(i);
 			toReturn.append(". ");
 			toReturn.append(key);
-			toReturn.append(" - Bid Amount = ");
-			toReturn.append(myBids.get(key));
+			toReturn.append(" - Bid Amount = $");
+			toReturn.append(String.format("%.2f", myBids.get(key)));
 			toReturn.append("\n");
 			i++;
 		}
