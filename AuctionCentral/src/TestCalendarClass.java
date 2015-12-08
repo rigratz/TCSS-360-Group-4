@@ -238,7 +238,7 @@ public class TestCalendarClass {
 	
 	@Test
 	public void testBelowMaxDaysToFutureIfYearIsTooFarAndItsMoreThanTwelveMonthToTheFuture() {
-		assertFalse(cal.belowMaxDaysToFuture(12, 25, 2016));
+		assertTrue(cal.belowMaxDaysToFuture(12, 25, 2016));
 	}
 	@Test
 	public void testBelowMaxDaysToFutureIfYearIsTooFarButItsLessThanTwelveMonthToTheFuture() {
@@ -336,9 +336,9 @@ public class TestCalendarClass {
 		assertEquals(fullCal.getListOfPastAuctions(), emptyList);
 	}
 	@Test
-	public void testInsertAuctionsIfMoreTHanMaximumDaysTOFuture() {
+	public void testInsertAuctionsIfMoreThanMaximumDaysToFuture() {
 		ArrayList<Auction> emptyList = new ArrayList<Auction>();
-		Auction auc = new Auction("-----Ebay", 1, 5, 2017, 15, 16);
+		Auction auc = new Auction("-----Ebay", 5, 5, 2017, 15, 16);
 		emptyList.add(auc);
 		cal.insertAuctions(emptyList);
 		assertEquals(cal.getListOfAuctions(), list);
@@ -365,5 +365,41 @@ public class TestCalendarClass {
 		list.add(auc);
 		cal.insertAuctions(list);
 		assertTrue(cal.checkOrganization("-Ebay-"));
+	}
+	
+	@Test
+	public void testRemoveAuctionFromTheAuctionListIfThereIsAuctionLikeThat() {
+		Auction auc = new Auction("-Ebay", 12, 25, 2015, 9, 12);
+		Auction auc2 = new Auction("--Ebay", 12, 27, 2015, 9, 12);
+		cal.addAuction(auc);
+		cal.addAuction(auc2);
+		cal.removeAuction(auc2);
+		list.add(auc);
+		assertEquals(cal.getListOfAuctions(), list);
+	}
+	@Test
+	public void testRemoveAuctionFromTheAuctionListIfThereIsNoAuctionsLikeThat() {
+		Auction auc = new Auction("-Ebay", 12, 25, 2015, 9, 12);
+		Auction auc2 = new Auction("--Ebay", 12, 27, 2015, 9, 12);
+		list.add(auc);
+		cal.removeAuction(auc2);
+		list.remove(0);
+		assertEquals(cal.getListOfAuctions(), list);
+	}
+	@Test
+	public void testRemoveAuctionFromTheDayAuctionsIfThereIsMoreThanOneAuction() {
+		Auction auc = new Auction("-Ebay", 12, 25, 2015, 9, 12);
+		Auction auc2 = new Auction("--Ebay", 12, 25, 2015, 15, 20);
+		list.add(auc);
+		cal.addAuction(auc);
+		cal.addAuction(auc2);
+		cal.removeAuction(auc2);
+		assertEquals(cal.getDay(12, 25), list);
+	}
+	@Test
+	public void testRemoveAuctionFromTheDayAuctionsIfThereIsNoAuctions() {
+		Auction auc = new Auction("-Ebay", 12, 25, 2015, 9, 12);
+		cal.removeAuction(auc);
+		assertEquals(cal.getDay(12, 25), list);
 	}
 }

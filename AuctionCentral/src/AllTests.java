@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @SuiteClasses({ TestAuction.class, TestBidder.class, TestCalendarClass.class, TestDay.class, TestItem.class,
 		TestNonProfitEmployee.class, TestUser.class, TestAuction.class, ACEmployeeUITest.class,
-		BidderUITest.class, NonProfitUITest.class })
+		BidderUITest.class, NonProfitUITest.class, TestMonth.class })
 
 public class AllTests {
 

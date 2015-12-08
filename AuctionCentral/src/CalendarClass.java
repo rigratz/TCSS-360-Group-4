@@ -121,7 +121,6 @@ public class CalendarClass {
 		if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 23 && startTime < 1) return false;
 		if(board.getMonth(monthIndex).getDay(day-1).getEndTime() == 24 && startTime < 2) return false;
 		if(board.getMonth(monthIndex).getDay(day).getNumberOfAuctions() == 0) return true;
-		System.out.println("num " + board.getMonth(monthIndex).getDay(day).getNumberOfAuctions());
 		
 		if(startTime > board.getMonth(monthIndex).getDay(day).getStartTime()-2 
 				&& startTime < board.getMonth(monthIndex).getDay(day).getEndTime()+2) return false;
@@ -132,15 +131,20 @@ public class CalendarClass {
 		return true;
 	}
 	
+	/**
+	 * This method removes auction from the auction list and from the auction list in a day.
+	 * @param auct, auciton to be removed from the system
+	 */
 	public void removeAuction(Auction auct) {
+		int monthIndex = calculateOffset(auct.getMyMonth());
 		for (int i = 0; i < auctionList.size(); i++) {
 			if (auctionList.get(i).getMyNonProfit().equals(auct.getMyNonProfit())) {
 				auctionList.remove(i);
 				
-				List<Auction> list = board.getMonth(auct.getMyMonth()).getDay(auct.getMyDay()).getTodaysAuctions();//auctionList.get(i).getMyDay()
+				List<Auction> list = board.getMonth(monthIndex).getDay(auct.getMyDay()).getTodaysAuctions();
 				for (int j = 0; j < list.size(); j++) {
 					if(list.get(j).getMyNonProfit().equals(auct.getMyNonProfit())) {
-						board.getMonth(auct.getMyMonth()).getDay(auct.getMyDay()).getTodaysAuctions().remove(j);
+						board.getMonth(monthIndex).getDay(auct.getMyDay()).getTodaysAuctions().remove(j);
 						break;
 					}
 				}
