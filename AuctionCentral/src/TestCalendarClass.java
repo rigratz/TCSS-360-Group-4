@@ -238,7 +238,7 @@ public class TestCalendarClass {
 	
 	@Test
 	public void testBelowMaxDaysToFutureIfYearIsTooFarAndItsMoreThanTwelveMonthToTheFuture() {
-		assertTrue(cal.belowMaxDaysToFuture(12, 25, 2016));
+		assertFalse(cal.belowMaxDaysToFuture(12, 25, 2016));
 	}
 	@Test
 	public void testBelowMaxDaysToFutureIfYearIsTooFarButItsLessThanTwelveMonthToTheFuture() {
@@ -304,6 +304,7 @@ public class TestCalendarClass {
 		Auction auc = new Auction("Ebay", 1, 25, 2015, 9, 12);
 		list.add(auc);
 		cal.insertAuctions(list);
+		list.remove(auc);
 		assertEquals(cal.getListOfAuctions(), list);
 	}
 	@Test

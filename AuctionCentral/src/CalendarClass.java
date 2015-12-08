@@ -214,14 +214,13 @@ public class CalendarClass {
 	 */
 	public boolean belowMaxDaysToFuture(int month, int day, int year) {
 		Calendar tempCalendar = Calendar.getInstance();
-		tempCalendar.add(Calendar.DAY_OF_MONTH, 90);
-		int myMonthIndex = calculateOffset(month);
+		Calendar furthestDayCal = Calendar.getInstance();
 		
-		if(year > calendar2.get(Calendar.YEAR) &&
-				(myMonthIndex < 0 && myMonthIndex > 3)) return false;
-		if(myMonthIndex < 0 || myMonthIndex > 3) return false;
-		if(myMonthIndex == 3 && day > tempCalendar.get(Calendar.DAY_OF_MONTH)) return false;
-		return true;
+		tempCalendar.set(year, month-1, day);
+		furthestDayCal.add(Calendar.DAY_OF_MONTH, 90);
+		if(tempCalendar.getTime().after(furthestDayCal.getTime())) return false;
+		if(tempCalendar.getTime().before(calendar2.getTime())) return false;
+		else return true;
 	}
 	
 	/**
